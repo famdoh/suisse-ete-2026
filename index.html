@@ -688,6 +688,64 @@
             }
         }
 
+        /* Print styling for clean grocery checklist */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            header,
+            .theme-selector,
+            .config-card,
+            .tabs,
+            .shopping-controls,
+            .progress-section,
+            .info-bar,
+            #tab-menus,
+            #tab-activities,
+            #tab-tips {
+                display: none !important;
+            }
+            #tab-shopping {
+                display: block !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .shopping-grid {
+                display: block !important;
+                column-count: 2 !important;
+                column-gap: 20px !important;
+            }
+            .category-card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+                background: white !important;
+                border: 1px solid #ccc !important;
+                box-shadow: none !important;
+                margin-bottom: 15px !important;
+                padding: 15px !important;
+            }
+            .category-card h3 {
+                color: black !important;
+                border-bottom: 2px solid black !important;
+                padding-bottom: 5px !important;
+                margin-top: 0 !important;
+                font-size: 1.1rem !important;
+            }
+            .shopping-item {
+                border-bottom: 1px dashed #eee !important;
+                padding: 6px 0 !important;
+            }
+            .shopping-item input[type="checkbox"] {
+                border: 1px solid black !important;
+            }
+            .item-text-wrapper, .item-qty {
+                color: black !important;
+            }
+        }
+
         /* Vegetarian features styling */
         .vege-note {
             display: none;
@@ -1300,7 +1358,8 @@
                 <span class="search-icon">🔍</span>
                 <input type="text" id="shopping-search" class="search-input" placeholder="Rechercher des ingrédients..." oninput="filterShoppingList()">
             </div>
-            <div class="shopping-actions">
+            <div class="shopping-actions" style="display: flex; gap: 8px;">
+                <button onclick="window.print()" class="action-btn">🖨️ Imprimer la liste</button>
                 <button onclick="resetCheckboxes()" class="action-btn">🗑️ Réinitialiser</button>
             </div>
         </div>
