@@ -74,6 +74,11 @@ Any request to evolve/update and regenerate an existing app must:
    consistent with the shared data.
 3. Update `description.md` if the evolution changes the app's
    description or its datasource dependencies.
+4. Once the change is pushed to `main`, re-share the app's GitHub Pages
+   link with the user for review:
+   `https://famdoh.github.io/suisse-ete-2026/apps/<app-name>/`, and
+   mention that deployment takes about 1 minute, so they should wait
+   ~1mn before opening the link.
 
 ## Claude Artifacts
 
