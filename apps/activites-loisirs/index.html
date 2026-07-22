@@ -31,6 +31,12 @@
     --badge-duration-border: rgba(217, 93, 57, 0.18);
     --badge-budget-bg: rgba(0, 0, 0, 0.04);
     --badge-budget-border: rgba(0, 0, 0, 0.08);
+    --badge-distance-bg: rgba(72, 92, 82, 0.08);
+    --badge-distance-text: #485c52;
+    --badge-distance-border: rgba(72, 92, 82, 0.16);
+    --mustsee-bg: rgba(201, 143, 15, 0.12);
+    --mustsee-text: #8a5f0a;
+    --mustsee-border: rgba(201, 143, 15, 0.3);
     --points-bg: rgba(0, 0, 0, 0.025);
     --points-border: rgba(0, 0, 0, 0.04);
     --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -55,6 +61,12 @@
       --badge-duration-border: rgba(226, 133, 92, 0.28);
       --badge-budget-bg: rgba(255, 255, 255, 0.05);
       --badge-budget-border: rgba(255, 255, 255, 0.1);
+      --badge-distance-bg: rgba(174, 189, 180, 0.1);
+      --badge-distance-text: #aebdb4;
+      --badge-distance-border: rgba(174, 189, 180, 0.2);
+      --mustsee-bg: rgba(240, 181, 51, 0.16);
+      --mustsee-text: #f0b533;
+      --mustsee-border: rgba(240, 181, 51, 0.35);
       --points-bg: rgba(255, 255, 255, 0.03);
       --points-border: rgba(255, 255, 255, 0.06);
     }
@@ -141,6 +153,7 @@
     font-family: inherit;
     cursor: pointer;
   }
+  .sort-note { font-size: 0.8rem; color: var(--text-body); opacity: 0.75; font-style: italic; }
   #activities-map {
     height: 380px;
     width: 100%;
@@ -200,6 +213,19 @@
   .badge-culture { background: var(--badge-culture-bg); color: var(--badge-culture-text); border: 1px solid var(--badge-culture-border); }
   .badge-duration { background: var(--badge-duration-bg); color: var(--badge-duration-text); border: 1px solid var(--badge-duration-border); }
   .badge-budget { background: var(--badge-budget-bg); color: var(--text-body); border: 1px solid var(--badge-budget-border); }
+  .badge-distance { background: var(--badge-distance-bg); color: var(--badge-distance-text); border: 1px solid var(--badge-distance-border); }
+  .badge-mustsee {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 3px 9px;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: var(--mustsee-bg);
+    color: var(--mustsee-text);
+    border: 1px solid var(--mustsee-border);
+  }
   .activity-description { font-size: 0.9rem; color: var(--text-body); line-height: 1.5; margin-bottom: 10px; }
   .activity-link {
     display: inline-block;
@@ -344,37 +370,40 @@
   </header>
 
   <section class="map-section">
-    <button type="button" class="map-toggle" id="mapToggle" aria-expanded="true" aria-controls="mapPanel">
+    <button type="button" class="map-toggle" id="mapToggle" aria-expanded="false" aria-controls="mapPanel">
       <h2>🗺️ Où se trouvent ces activités ?</h2>
       <span class="map-toggle-chevron" aria-hidden="true">▾</span>
     </button>
-    <div class="map-panel" id="mapPanel">
+    <div class="map-panel collapsed" id="mapPanel">
       <p class="map-caption">Vue d'ensemble depuis le Camping Bella-Tola. Cliquez un marqueur pour le nom de l'activité, ou utilisez le lien « Itinéraire » de chaque carte ci-dessous pour un trajet précis.</p>
       <div id="activities-map"></div>
     </div>
   </section>
 
   <div class="sort-bar">
-    <label for="sortSelect">Trier par :</label>
-    <select id="sortSelect">
+    <select id="sortSelect" aria-label="Trier les activités">
       <option value="default">Ordre par défaut</option>
-      <option value="distance">📍 Distance (plus proche → plus loin)</option>
+      <option value="distance" selected>📍 Distance (plus proche → plus loin)</option>
       <option value="rating">⭐ Note moyenne (plus → moins d'étoiles)</option>
+      <option value="mustsee">🌟 Incontournables d'abord</option>
     </select>
+    <span class="sort-note" id="sortNote"></span>
   </div>
 
   <div class="activities-grid">
     <!-- Activité 1 -->
-    <div class="activity-card" data-activity-id="bains-leukerbad" data-distance-km="15">
+    <div class="activity-card mustsee" data-activity-id="bains-leukerbad" data-distance-km="15">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🌊</span>
           <h3 class="activity-title">Bains thermaux de Leukerbad</h3>
         </div>
+        <span class="badge-mustsee">🌟 Incontournable</span>
         <div class="activity-meta">
           <span class="badge-type badge-nature">🌲 Détente & Fun</span>
           <span class="badge-type badge-duration">⏱️ 1/2 Journée</span>
           <span class="badge-type badge-budget">💰 Payant</span>
+          <span class="badge-type badge-distance" data-distance-badge></span>
         </div>
         <p class="activity-description">Les plus célèbres et grands thermes des Alpes. Bassins chauds extérieurs au pied de vertigineuses falaises et espace aquatique moderne.</p>
         <a class="activity-link" href="https://alpentherme.ch/" target="_blank" rel="noopener">🔗 alpentherme.ch ↗</a>
@@ -399,6 +428,7 @@
           <span class="badge-type badge-nature">🌲 Nature & Rando</span>
           <span class="badge-type badge-duration">⏱️ 1/2 Journée</span>
           <span class="badge-type badge-budget">🎁 Gratuit</span>
+          <span class="badge-type badge-distance" data-distance-badge></span>
         </div>
         <p class="activity-description">Une randonnée spectaculaire traversant un pont suspendu de 134m de long qui relie le Haut et le Bas-Valais au-dessus du grand canyon de l'Illgraben.</p>
         <a class="activity-link" href="https://www.sierretourisme.ch/fr/V4366/a-faire/sport-et-loisirs/randonnees-balades/sierre-illgraben-pont-bouthanais-leuk-susten" target="_blank" rel="noopener">🔗 Sierre Tourisme ↗</a>
@@ -423,6 +453,7 @@
           <span class="badge-type badge-culture">🏛️ Grotte & Culture</span>
           <span class="badge-type badge-duration">⏱️ 1/2 Journée</span>
           <span class="badge-type badge-budget">💰 Payant</span>
+          <span class="badge-type badge-distance" data-distance-badge></span>
         </div>
         <p class="activity-description">Une traversée magique de 30 minutes sur le plus grand lac souterrain navigable d'Europe, logé dans une grotte de gypse éclairée.</p>
         <a class="activity-link" href="https://lac-souterrain.com/en/" target="_blank" rel="noopener">🔗 lac-souterrain.com ↗</a>
@@ -447,6 +478,7 @@
           <span class="badge-type badge-nature">🌲 Aventure / Sensations</span>
           <span class="badge-type badge-duration">⏱️ 1/2 Journée</span>
           <span class="badge-type badge-budget">💰 Moyen</span>
+          <span class="badge-type badge-distance" data-distance-badge></span>
         </div>
         <p class="activity-description">Un pont suspendu piéton historique surnommé le « Pont Araignée » perché à 190m de hauteur dans le Val d'Anniviers.</p>
         <a class="activity-link" href="https://pontsuspendu.ch/la-region/" target="_blank" rel="noopener">🔗 pontsuspendu.ch ↗</a>
@@ -471,6 +503,7 @@
           <span class="badge-type badge-culture">🏛️ Culture & Art</span>
           <span class="badge-type badge-duration">⏱️ 2h</span>
           <span class="badge-type badge-budget">🎁 Gratuit</span>
+          <span class="badge-type badge-distance" data-distance-badge></span>
         </div>
         <p class="activity-description">Visite du bourg médiéval pavé de Loèche et de son château fort abritant une magnifique coupole en verre dessinée par le célèbre architecte Mario Botta.</p>
         <a class="activity-link" href="https://www.pfyn-finges.ch/fr/experience/carte-du-parc/offer-detail/chateau-loeche-2151" target="_blank" rel="noopener">🔗 pfyn-finges.ch ↗</a>
@@ -495,6 +528,7 @@
           <span class="badge-type badge-nature">🌲 Nature Sauvage</span>
           <span class="badge-type badge-duration">⏱️ 1/2 Journée</span>
           <span class="badge-type badge-budget">🎁 Gratuit</span>
+          <span class="badge-type badge-distance" data-distance-badge></span>
         </div>
         <p class="activity-description">L'une des plus grandes forêts de pins des Alpes et une réserve naturelle protégée où le fleuve Rhône coule encore de façon totalement sauvage.</p>
         <a class="activity-link" href="https://www.pfyn-finges.ch/fr/decouvrir-le-parc/decouvrir-par-soi-meme/exceptionelle/reserve-naturelle-du-bois-de-finges-3" target="_blank" rel="noopener">🔗 pfyn-finges.ch ↗</a>
@@ -519,6 +553,7 @@
           <span class="badge-type badge-nature">🌲 Randonnée Montagne</span>
           <span class="badge-type badge-duration">⏱️ Journée</span>
           <span class="badge-type badge-budget">💰 Pas Cher</span>
+          <span class="badge-type badge-distance" data-distance-badge></span>
         </div>
         <p class="activity-description">Une traversée légendaire de haute montagne à 2300m d'altitude reliant Leukerbad à Kandersteg, longeant le lac glaciaire Daubensee au milieu de paysages lunaires.</p>
         <a class="activity-link" href="https://leukerbad.ch/fr/tour/chemin-du-col-de-la-gemmi-57718545" target="_blank" rel="noopener">🔗 leukerbad.ch ↗</a>
@@ -543,6 +578,7 @@
           <span class="badge-type badge-nature">🌲 Randonnée Crête</span>
           <span class="badge-type badge-duration">⏱️ 1/2 Journée</span>
           <span class="badge-type badge-budget">🎁 Gratuit</span>
+          <span class="badge-type badge-distance" data-distance-badge></span>
         </div>
         <p class="activity-description">Une boucle à couper le souffle au-dessus de Leukerbad / Albinen avec un panorama à 360° permanent sur la chaîne des 4000m du Valais (Mont Rose, Cervin, Dent Blanche).</p>
         <a class="activity-link" href="https://www.leukerbad.ch/fr/tour/chemin-panoramique-du-torrent-57523502" target="_blank" rel="noopener">🔗 leukerbad.ch ↗</a>
@@ -567,6 +603,7 @@
           <span class="badge-type badge-nature">🌲 Haute Montagne</span>
           <span class="badge-type badge-duration">⏱️ Journée</span>
           <span class="badge-type badge-budget">🎁 Gratuit</span>
+          <span class="badge-type badge-distance" data-distance-badge></span>
         </div>
         <p class="activity-description">Une incursion sauvage dans la vallée voisine de Tourtemagne. Randonnée en boucle montant du barrage jusqu'à la cabane CAS (2519m) au pied immédiat du glacier et de ses séracs.</p>
         <a class="activity-link" href="https://www.cas-prevotoise.ch/cabanes/cabane-de-tourtemagne.php" target="_blank" rel="noopener">🔗 CAS Prévôtoise ↗</a>
@@ -581,16 +618,18 @@
     </div>
 
     <!-- Activité 10 -->
-    <div class="activity-card" data-activity-id="zermatt-cervin" data-distance-km="48">
+    <div class="activity-card mustsee" data-activity-id="zermatt-cervin" data-distance-km="48">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🚠</span>
           <h3 class="activity-title">Zermatt & Cervin (Gornergrat)</h3>
         </div>
+        <span class="badge-mustsee">🌟 Incontournable</span>
         <div class="activity-meta">
           <span class="badge-type badge-nature">🌲 Panorama Alpin</span>
           <span class="badge-type badge-duration">⏱️ Journée</span>
           <span class="badge-type badge-budget">💰 Payant</span>
+          <span class="badge-type badge-distance" data-distance-badge></span>
         </div>
         <p class="activity-description">Village sans voitures au pied du Cervin. Montée en train à crémaillère au Gornergrat ou en téléphérique au Matterhorn Glacier Paradise, le plus haut téléphérique d'Europe.</p>
         <a class="activity-link" href="https://www.gornergrat.ch/en/" target="_blank" rel="noopener">🔗 gornergrat.ch ↗</a>
@@ -605,16 +644,18 @@
     </div>
 
     <!-- Activité 11 -->
-    <div class="activity-card" data-activity-id="aletsch-arena" data-distance-km="55">
+    <div class="activity-card mustsee" data-activity-id="aletsch-arena" data-distance-km="55">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🏔️</span>
           <h3 class="activity-title">Aletsch Arena - Glacier d'Aletsch</h3>
         </div>
+        <span class="badge-mustsee">🌟 Incontournable</span>
         <div class="activity-meta">
           <span class="badge-type badge-nature">🌲 Nature Sauvage</span>
           <span class="badge-type badge-duration">⏱️ Journée</span>
           <span class="badge-type badge-budget">💰 Payant</span>
+          <span class="badge-type badge-distance" data-distance-badge></span>
         </div>
         <p class="activity-description">Le plus long glacier des Alpes (23 km), site classé à l'UNESCO, visible depuis les balcons panoramiques de Bettmerhorn ou Eggishorn au-dessus de la vallée de Conches.</p>
         <a class="activity-link" href="https://www.aletscharena.ch/en/about-the-region/destination" target="_blank" rel="noopener">🔗 aletscharena.ch ↗</a>
@@ -639,6 +680,7 @@
           <span class="badge-type badge-nature">🌲 Détente & Fun</span>
           <span class="badge-type badge-duration">⏱️ Journée</span>
           <span class="badge-type badge-budget">💰 Payant</span>
+          <span class="badge-type badge-distance" data-distance-badge></span>
         </div>
         <p class="activity-description">Le plus grand parc aquatique couvert et extérieur de Suisse, au bord du lac Léman, avec toboggans géants, rivière à bouées et espace bien-être.</p>
         <a class="activity-link" href="https://www.aquaparc.ch/en" target="_blank" rel="noopener">🔗 aquaparc.ch ↗</a>
@@ -653,16 +695,18 @@
     </div>
 
     <!-- Activité 13 -->
-    <div class="activity-card" data-activity-id="lac-oeschinen" data-distance-km="35">
+    <div class="activity-card mustsee" data-activity-id="lac-oeschinen" data-distance-km="35">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🏞️</span>
           <h3 class="activity-title">Lac d'Oeschinen (Oeschinensee)</h3>
         </div>
+        <span class="badge-mustsee">🌟 Incontournable</span>
         <div class="activity-meta">
           <span class="badge-type badge-nature">🌲 Nature & Rando</span>
           <span class="badge-type badge-duration">⏱️ 1/2 Journée</span>
           <span class="badge-type badge-budget">💰 Payant</span>
+          <span class="badge-type badge-distance" data-distance-badge></span>
         </div>
         <p class="activity-description">Lac de montagne turquoise à 1580m d'altitude, encerclé de parois rocheuses et de glaciers, considéré comme l'un des plus beaux lacs alpins de Suisse.</p>
         <a class="activity-link" href="https://www.oeschinensee.ch/en/" target="_blank" rel="noopener">🔗 oeschinensee.ch ↗</a>
@@ -677,16 +721,18 @@
     </div>
 
     <!-- Activité 14 -->
-    <div class="activity-card" data-activity-id="chateau-chillon" data-distance-km="95">
+    <div class="activity-card mustsee" data-activity-id="chateau-chillon" data-distance-km="95">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🏰</span>
           <h3 class="activity-title">Château de Chillon (Montreux)</h3>
         </div>
+        <span class="badge-mustsee">🌟 Incontournable</span>
         <div class="activity-meta">
           <span class="badge-type badge-culture">🏛️ Culture & Art</span>
           <span class="badge-type badge-duration">⏱️ 1/2 Journée</span>
           <span class="badge-type badge-budget">💰 Payant</span>
+          <span class="badge-type badge-distance" data-distance-badge></span>
         </div>
         <p class="activity-description">Le monument historique le plus visité de Suisse, forteresse médiévale posée sur un îlot rocheux au bord du lac Léman, immortalisée par Lord Byron.</p>
         <a class="activity-link" href="https://www.chillon.ch/en/" target="_blank" rel="noopener">🔗 chillon.ch ↗</a>
@@ -711,6 +757,7 @@
           <span class="badge-type badge-nature">🌲 Aventure / Sensations</span>
           <span class="badge-type badge-duration">⏱️ 2h</span>
           <span class="badge-type badge-budget">💰 Payant</span>
+          <span class="badge-type badge-distance" data-distance-badge></span>
         </div>
         <p class="activity-description">L'une des plus longues pistes de luge sur rail de Suisse (3,5 km), qui dévale la montagne avec virages relevés et sauts.</p>
         <a class="activity-link" href="https://nendaz.ch/fr/fppoi-piste-de-luge-siviez-39727.html" target="_blank" rel="noopener">🔗 nendaz.ch ↗</a>
@@ -735,6 +782,7 @@
           <span class="badge-type badge-nature">🌲 Détente & Fun</span>
           <span class="badge-type badge-duration">⏱️ 1/2 Journée</span>
           <span class="badge-type badge-budget">💰 Moyen</span>
+          <span class="badge-type badge-distance" data-distance-badge></span>
         </div>
         <p class="activity-description">Station panoramique perchée à 1500m au-dessus de la plaine du Rhône, avec un plan d'eau familial, plages et jeux au bord du lac Grenon.</p>
         <a class="activity-link" href="https://www.crans-montana.ch/en/beach" target="_blank" rel="noopener">🔗 crans-montana.ch ↗</a>
@@ -759,6 +807,7 @@
           <span class="badge-type badge-culture">🏛️ Culture & Art</span>
           <span class="badge-type badge-duration">⏱️ 1/2 Journée</span>
           <span class="badge-type badge-budget">🎁 Gratuit</span>
+          <span class="badge-type badge-distance" data-distance-badge></span>
         </div>
         <p class="activity-description">La capitale du Valais est dominée par deux collines jumelles fortifiées : la basilique de Valère, plus vieil orgue jouable au monde, et les ruines du château de Tourbillon.</p>
         <a class="activity-link" href="https://siontourisme.ch/fr/les-chateaux" target="_blank" rel="noopener">🔗 siontourisme.ch ↗</a>
@@ -773,16 +822,18 @@
     </div>
 
     <!-- Activité 18 -->
-    <div class="activity-card" data-activity-id="glacier-3000-diablerets" data-distance-km="75">
+    <div class="activity-card mustsee" data-activity-id="glacier-3000-diablerets" data-distance-km="75">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🌉</span>
           <h3 class="activity-title">Glacier 3000 & Peak Walk</h3>
         </div>
+        <span class="badge-mustsee">🌟 Incontournable</span>
         <div class="activity-meta">
           <span class="badge-type badge-nature">🌲 Aventure / Sensations</span>
           <span class="badge-type badge-duration">⏱️ Journée</span>
           <span class="badge-type badge-budget">💰 Payant</span>
+          <span class="badge-type badge-distance" data-distance-badge></span>
         </div>
         <p class="activity-description">Le premier pont suspendu au monde reliant deux sommets, à 3000m d'altitude, avec vue sur les Alpes bernoises, valaisannes et le Mont-Blanc.</p>
         <a class="activity-link" href="https://www.glacier3000.ch/en" target="_blank" rel="noopener">🔗 glacier3000.ch ↗</a>
@@ -807,6 +858,7 @@
           <span class="badge-type badge-nature">🌲 Nature & Rando</span>
           <span class="badge-type badge-duration">⏱️ 1/2 Journée</span>
           <span class="badge-type badge-budget">🎁 Gratuit</span>
+          <span class="badge-type badge-distance" data-distance-badge></span>
         </div>
         <p class="activity-description">Randonnée familiale le long d'un bisse historique (canal d'irrigation valaisan), en partie creusé à flanc de falaise, surplombant les gorges de la Morge.</p>
         <a class="activity-link" href="https://torrent-neuf.ch/" target="_blank" rel="noopener">🔗 torrent-neuf.ch ↗</a>
@@ -1064,11 +1116,14 @@
   var mapToggle = document.getElementById('mapToggle');
   var mapPanel = document.getElementById('mapPanel');
   mapToggle.addEventListener('click', function () {
-    var expanded = mapToggle.getAttribute('aria-expanded') === 'true';
-    mapToggle.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-    mapPanel.classList.toggle('collapsed', expanded);
-    if (expanded === false && mapInstance) {
-      setTimeout(function () { mapInstance.invalidateSize(); }, 50);
+    var wasExpanded = mapToggle.getAttribute('aria-expanded') === 'true';
+    var nowExpanded = !wasExpanded;
+    mapToggle.setAttribute('aria-expanded', nowExpanded ? 'true' : 'false');
+    mapPanel.classList.toggle('collapsed', !nowExpanded);
+    if (nowExpanded) {
+      setTimeout(function () {
+        if (!mapInstance) { initMap(); } else { mapInstance.invalidateSize(); }
+      }, 50);
     }
   });
 
@@ -1082,12 +1137,16 @@
     return (r && r.count) ? (r.sum / r.count) : null;
   }
 
+  function distanceOf(card) {
+    return parseFloat(card.getAttribute('data-distance-km'));
+  }
+
   function applySort() {
     var mode = sortSelect.value;
     var ordered;
     if (mode === 'distance') {
       ordered = activityCards.slice().sort(function (a, b) {
-        return parseFloat(a.getAttribute('data-distance-km')) - parseFloat(b.getAttribute('data-distance-km'));
+        return distanceOf(a) - distanceOf(b);
       });
     } else if (mode === 'rating') {
       ordered = activityCards.slice().sort(function (a, b) {
@@ -1098,17 +1157,40 @@
         if (avgB === null) return -1;
         return avgB - avgA;
       });
+    } else if (mode === 'mustsee') {
+      ordered = activityCards.slice().sort(function (a, b) {
+        var mustSeeA = a.classList.contains('mustsee') ? 0 : 1;
+        var mustSeeB = b.classList.contains('mustsee') ? 0 : 1;
+        if (mustSeeA !== mustSeeB) return mustSeeA - mustSeeB;
+        return distanceOf(a) - distanceOf(b);
+      });
     } else {
       ordered = defaultCardOrder;
     }
     ordered.forEach(function (card) { activitiesGrid.appendChild(card); });
+
+    var sortNote = document.getElementById('sortNote');
+    sortNote.textContent = (mode === 'mustsee')
+      ? '(sélection éditoriale maison, pas une note communautaire chiffrée)'
+      : '';
+  }
+
+  function renderDistanceBadges() {
+    activityCards.forEach(function (card) {
+      var badge = card.querySelector('[data-distance-badge]');
+      if (!badge) return;
+      var km = distanceOf(card);
+      var label = (km < 10) ? String(km).replace('.', ',') : String(Math.round(km));
+      badge.textContent = '📍 ' + label + ' km du camping';
+    });
   }
 
   sortSelect.addEventListener('change', applySort);
 
+  renderDistanceBadges();
   renderVoterBanner();
   loadRatings();
-  initMap();
+  applySort();
 })();
 </script>
 </body>
