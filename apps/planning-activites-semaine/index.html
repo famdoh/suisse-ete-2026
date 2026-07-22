@@ -157,6 +157,11 @@
     font-size: 0.72rem;
     color: var(--muted);
   }
+  .weather-line {
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 0.15rem;
+  }
   .activity-chip .chip-actions {
     display: flex;
     gap: 0.15rem;
@@ -460,7 +465,8 @@
       budget: 'Payant',
       distance: '15 km',
       desc: 'Les plus célèbres et grands thermes des Alpes. Bassins chauds extérieurs au pied de vertigineuses falaises et espace aquatique moderne.',
-      link: 'https://alpentherme.ch/'
+      link: 'https://alpentherme.ch/',
+      secteur: 'leukerbad'
     },
     {
       id: 'pont-bhoutan-illgraben',
@@ -471,7 +477,8 @@
       budget: 'Gratuit',
       distance: '~1,5 km',
       desc: 'Randonnée spectaculaire traversant un pont suspendu de 134 m qui relie le Haut et le Bas-Valais au-dessus du grand canyon de l’Illgraben.',
-      link: 'https://www.sierretourisme.ch/fr/V4366/a-faire/sport-et-loisirs/randonnees-balades/sierre-illgraben-pont-bouthanais-leuk-susten'
+      link: 'https://www.sierretourisme.ch/fr/V4366/a-faire/sport-et-loisirs/randonnees-balades/sierre-illgraben-pont-bouthanais-leuk-susten',
+      secteur: 'susten-finges'
     },
     {
       id: 'lac-souterrain-st-leonard',
@@ -482,7 +489,8 @@
       budget: 'Payant',
       distance: '28 km',
       desc: 'Traversée magique de 30 minutes sur le plus grand lac souterrain navigable d’Europe, logé dans une grotte de gypse éclairée. Réservation obligatoire.',
-      link: 'https://lac-souterrain.com/en/'
+      link: 'https://lac-souterrain.com/en/',
+      secteur: 'sierre-st-leonard'
     },
     {
       id: 'pont-spinelle-niouc',
@@ -493,7 +501,8 @@
       budget: 'Moyen',
       distance: '~20 km',
       desc: 'Pont suspendu piéton historique surnommé le « Pont Araignée » perché à 190 m de hauteur dans le Val d’Anniviers. Tyrolienne géante et saut à l’élastique.',
-      link: 'https://pontsuspendu.ch/la-region/'
+      link: 'https://pontsuspendu.ch/la-region/',
+      secteur: 'anniviers'
     },
     {
       id: 'chateau-loeche',
@@ -504,7 +513,8 @@
       budget: 'Gratuit',
       distance: '~3 km',
       desc: 'Visite du bourg médiéval pavé de Loèche et de son château fort abritant une coupole en verre dessinée par Mario Botta.',
-      link: 'https://www.pfyn-finges.ch/fr/experience/carte-du-parc/offer-detail/chateau-loeche-2151'
+      link: 'https://www.pfyn-finges.ch/fr/experience/carte-du-parc/offer-detail/chateau-loeche-2151',
+      secteur: 'susten-finges'
     },
     {
       id: 'pfynwald-finges',
@@ -515,7 +525,8 @@
       budget: 'Gratuit',
       distance: '~1 km',
       desc: 'L’une des plus grandes forêts de pins des Alpes, réserve naturelle protégée où le Rhône coule encore de façon totalement sauvage. Accès direct à pied/vélo depuis le camping.',
-      link: 'https://www.pfyn-finges.ch/fr/decouvrir-le-parc/decouvrir-par-soi-meme/exceptionelle/reserve-naturelle-du-bois-de-finges-3'
+      link: 'https://www.pfyn-finges.ch/fr/decouvrir-le-parc/decouvrir-par-soi-meme/exceptionelle/reserve-naturelle-du-bois-de-finges-3',
+      secteur: 'susten-finges'
     },
     {
       id: 'rando-col-gemmi',
@@ -526,7 +537,8 @@
       budget: 'Pas cher',
       distance: '15 km',
       desc: 'Traversée légendaire à 2300 m reliant Leukerbad à Kandersteg, le long du lac glaciaire Daubensee. 10 km (3h30), +350 m / -550 m. Retour en train depuis Kandersteg.',
-      link: 'https://leukerbad.ch/fr/tour/chemin-du-col-de-la-gemmi-57718545'
+      link: 'https://leukerbad.ch/fr/tour/chemin-du-col-de-la-gemmi-57718545',
+      secteur: 'leukerbad'
     },
     {
       id: 'sentier-torrent',
@@ -537,7 +549,8 @@
       budget: 'Gratuit',
       distance: '~16 km',
       desc: 'Boucle au-dessus de Leukerbad / Albinen avec panorama à 360° sur la chaîne des 4000 m. 11 km, +480 m / -480 m. Départ de Torrentalp.',
-      link: 'https://www.leukerbad.ch/fr/tour/chemin-panoramique-du-torrent-57523502'
+      link: 'https://www.leukerbad.ch/fr/tour/chemin-panoramique-du-torrent-57523502',
+      secteur: 'leukerbad'
     },
     {
       id: 'cabane-turtmann',
@@ -548,7 +561,8 @@
       budget: 'Gratuit',
       distance: '~20 km',
       desc: 'Incursion dans la vallée de Tourtemagne, boucle du barrage jusqu’à la cabane CAS (2519 m) au pied du glacier. 12 km, +650 m / -650 m. Chaussures robustes indispensables.',
-      link: 'https://www.cas-prevotoise.ch/cabanes/cabane-de-tourtemagne.php'
+      link: 'https://www.cas-prevotoise.ch/cabanes/cabane-de-tourtemagne.php',
+      secteur: 'tourtemagne'
     },
     {
       id: 'zermatt-cervin',
@@ -559,7 +573,8 @@
       budget: 'Payant',
       distance: '~48 km',
       desc: 'Village sans voitures au pied du Cervin. Montée en train à crémaillère au Gornergrat ou en téléphérique au Matterhorn Glacier Paradise, le plus haut téléphérique d’Europe.',
-      link: 'https://www.gornergrat.ch/en/'
+      link: 'https://www.gornergrat.ch/en/',
+      secteur: 'zermatt'
     },
     {
       id: 'aletsch-arena',
@@ -570,7 +585,8 @@
       budget: 'Payant',
       distance: '~55 km',
       desc: 'Le plus long glacier des Alpes (23 km), site UNESCO, visible depuis les balcons panoramiques de Bettmerhorn ou Eggishorn au-dessus de la vallée de Conches.',
-      link: 'https://www.aletscharena.ch/en/about-the-region/destination'
+      link: 'https://www.aletscharena.ch/en/about-the-region/destination',
+      secteur: 'aletsch'
     },
     {
       id: 'aquaparc-bouveret',
@@ -581,7 +597,8 @@
       budget: 'Payant',
       distance: '~85 km',
       desc: 'Le plus grand parc aquatique de Suisse, au bord du lac Léman, avec toboggans géants, rivière à bouées et espace bien-être.',
-      link: 'https://www.aquaparc.ch/en'
+      link: 'https://www.aquaparc.ch/en',
+      secteur: 'leman'
     },
     {
       id: 'lac-oeschinen',
@@ -592,7 +609,8 @@
       budget: 'Payant',
       distance: '~35 km',
       desc: 'Lac de montagne turquoise à 1580 m, encerclé de parois rocheuses et de glaciers. Accès via le train-auto du tunnel du Lötschberg à Kandersteg.',
-      link: 'https://www.oeschinensee.ch/en/'
+      link: 'https://www.oeschinensee.ch/en/',
+      secteur: 'kandersteg'
     },
     {
       id: 'chateau-chillon',
@@ -603,7 +621,8 @@
       budget: 'Payant',
       distance: '~95 km',
       desc: 'Le monument historique le plus visité de Suisse, forteresse médiévale sur un îlot rocheux du lac Léman, immortalisée par Lord Byron.',
-      link: 'https://www.chillon.ch/en/'
+      link: 'https://www.chillon.ch/en/',
+      secteur: 'leman'
     },
     {
       id: 'luge-ete-nendaz',
@@ -614,7 +633,8 @@
       budget: 'Payant',
       distance: '~50 km',
       desc: 'L’une des plus longues pistes de luge sur rail de Suisse (3,5 km), qui dévale la montagne avec virages relevés et sauts.',
-      link: 'https://nendaz.ch/fr/fppoi-piste-de-luge-siviez-39727.html'
+      link: 'https://nendaz.ch/fr/fppoi-piste-de-luge-siviez-39727.html',
+      secteur: 'nendaz'
     },
     {
       id: 'crans-montana',
@@ -625,7 +645,8 @@
       budget: 'Moyen',
       distance: '~35 km',
       desc: 'Station panoramique à 1500 m au-dessus de la plaine du Rhône, avec un plan d’eau familial, plages et jeux au bord du lac Grenon.',
-      link: 'https://www.crans-montana.ch/en/beach'
+      link: 'https://www.crans-montana.ch/en/beach',
+      secteur: 'crans-montana'
     },
     {
       id: 'sion-valere-tourbillon',
@@ -636,7 +657,8 @@
       budget: 'Gratuit',
       distance: '~30 km',
       desc: 'Deux collines fortifiées dominent la capitale valaisanne : la basilique de Valère (plus vieil orgue jouable au monde) et les ruines du château de Tourbillon.',
-      link: 'https://siontourisme.ch/fr/les-chateaux'
+      link: 'https://siontourisme.ch/fr/les-chateaux',
+      secteur: 'sion'
     },
     {
       id: 'glacier-3000-diablerets',
@@ -647,7 +669,8 @@
       budget: 'Payant',
       distance: '~75 km',
       desc: 'Le premier pont suspendu au monde reliant deux sommets, à 3000 m d’altitude, avec vue sur les Alpes bernoises, valaisannes et le Mont-Blanc.',
-      link: 'https://www.glacier3000.ch/en'
+      link: 'https://www.glacier3000.ch/en',
+      secteur: 'diablerets'
     },
     {
       id: 'bisse-du-ro-saviese',
@@ -658,9 +681,65 @@
       budget: 'Gratuit',
       distance: '~35 km',
       desc: 'Randonnée familiale le long d’un bisse historique creusé à flanc de falaise, surplombant les gorges de la Morge.',
-      link: 'https://torrent-neuf.ch/'
+      link: 'https://torrent-neuf.ch/',
+      secteur: 'saviese'
     }
   ];
+
+  var SECTEURS = {
+    'susten-finges': 'Susten / Bois de Finges',
+    'leukerbad': 'Leukerbad',
+    'sierre-st-leonard': 'Sierre / St-Léonard',
+    'anniviers': 'Val d’Anniviers',
+    'tourtemagne': 'Vallée de Tourtemagne',
+    'zermatt': 'Zermatt',
+    'aletsch': 'Aletsch Arena',
+    'leman': 'Lac Léman',
+    'kandersteg': 'Kandersteg',
+    'nendaz': 'Nendaz',
+    'crans-montana': 'Crans-Montana',
+    'sion': 'Sion',
+    'diablerets': 'Diablerets / Glacier 3000',
+    'saviese': 'Savièse'
+  };
+
+  /* METEO_DATA_START - généré par .claude/skills/meteo-update, ne pas éditer à la main */
+  var METEO_GENERATED_AT = "2026-07-22T18:21:07+00:00";
+  var METEO = {"susten-finges":{"2026-07-22":{"matin":{"t":17,"c":0},"soir":{"t":27,"c":1}},"2026-07-23":{"matin":{"t":18,"c":3},"soir":{"t":26,"c":1}},"2026-07-24":{"matin":{"t":18,"c":0},"soir":{"t":26,"c":2}},"2026-07-25":{"matin":{"t":20,"c":3},"soir":{"t":21,"c":3}},"2026-07-26":{"matin":{"t":15,"c":61},"soir":{"t":18,"c":3}},"2026-07-27":{"matin":{"t":15,"c":2},"soir":{"t":22,"c":2}},"2026-07-28":{"matin":{"t":18,"c":0},"soir":{"t":28,"c":0}},"2026-07-29":{"matin":{"t":22,"c":0},"soir":{"t":29,"c":2}},"2026-07-30":{"matin":{"t":24,"c":0},"soir":{"t":30,"c":3}},"2026-07-31":{"matin":{"t":24,"c":0},"soir":{"t":31,"c":0}},"2026-08-01":{"matin":{"t":25,"c":0},"soir":{"t":32,"c":1}}},"leukerbad":{"2026-07-22":{"matin":{"t":13,"c":0},"soir":{"t":20,"c":1}},"2026-07-23":{"matin":{"t":14,"c":3},"soir":{"t":19,"c":1}},"2026-07-24":{"matin":{"t":13,"c":0},"soir":{"t":22,"c":2}},"2026-07-25":{"matin":{"t":15,"c":3},"soir":{"t":16,"c":3}},"2026-07-26":{"matin":{"t":10,"c":61},"soir":{"t":13,"c":3}},"2026-07-27":{"matin":{"t":11,"c":2},"soir":{"t":14,"c":3}},"2026-07-28":{"matin":{"t":13,"c":0},"soir":{"t":20,"c":0}},"2026-07-29":{"matin":{"t":19,"c":0},"soir":{"t":23,"c":0}},"2026-07-30":{"matin":{"t":20,"c":0},"soir":{"t":26,"c":3}},"2026-07-31":{"matin":{"t":20,"c":0},"soir":{"t":27,"c":0}},"2026-08-01":{"matin":{"t":20,"c":0},"soir":{"t":28,"c":1}}},"sierre-st-leonard":{"2026-07-22":{"matin":{"t":19,"c":0},"soir":{"t":29,"c":0}},"2026-07-23":{"matin":{"t":20,"c":3},"soir":{"t":29,"c":1}},"2026-07-24":{"matin":{"t":21,"c":0},"soir":{"t":30,"c":1}},"2026-07-25":{"matin":{"t":22,"c":3},"soir":{"t":26,"c":3}},"2026-07-26":{"matin":{"t":18,"c":61},"soir":{"t":22,"c":3}},"2026-07-27":{"matin":{"t":18,"c":2},"soir":{"t":24,"c":2}},"2026-07-28":{"matin":{"t":20,"c":0},"soir":{"t":30,"c":0}},"2026-07-29":{"matin":{"t":24,"c":0},"soir":{"t":31,"c":2}},"2026-07-30":{"matin":{"t":24,"c":0},"soir":{"t":32,"c":2}},"2026-07-31":{"matin":{"t":24,"c":0},"soir":{"t":33,"c":0}},"2026-08-01":{"matin":{"t":25,"c":0},"soir":{"t":34,"c":51}}},"anniviers":{"2026-07-22":{"matin":{"t":13,"c":0},"soir":{"t":20,"c":0}},"2026-07-23":{"matin":{"t":15,"c":3},"soir":{"t":18,"c":2}},"2026-07-24":{"matin":{"t":14,"c":0},"soir":{"t":24,"c":2}},"2026-07-25":{"matin":{"t":17,"c":3},"soir":{"t":18,"c":3}},"2026-07-26":{"matin":{"t":12,"c":80},"soir":{"t":15,"c":3}},"2026-07-27":{"matin":{"t":13,"c":2},"soir":{"t":16,"c":2}},"2026-07-28":{"matin":{"t":13,"c":0},"soir":{"t":22,"c":0}},"2026-07-29":{"matin":{"t":17,"c":0},"soir":{"t":24,"c":2}},"2026-07-30":{"matin":{"t":19,"c":0},"soir":{"t":25,"c":3}},"2026-07-31":{"matin":{"t":19,"c":0},"soir":{"t":26,"c":0}},"2026-08-01":{"matin":{"t":20,"c":0},"soir":{"t":27,"c":1}}},"tourtemagne":{"2026-07-22":{"matin":{"t":6,"c":0},"soir":{"t":10,"c":0}},"2026-07-23":{"matin":{"t":6,"c":2},"soir":{"t":9,"c":2}},"2026-07-24":{"matin":{"t":9,"c":0},"soir":{"t":15,"c":1}},"2026-07-25":{"matin":{"t":11,"c":3},"soir":{"t":9,"c":80}},"2026-07-26":{"matin":{"t":5,"c":61},"soir":{"t":7,"c":3}},"2026-07-27":{"matin":{"t":6,"c":2},"soir":{"t":8,"c":2}},"2026-07-28":{"matin":{"t":9,"c":0},"soir":{"t":14,"c":1}},"2026-07-29":{"matin":{"t":10,"c":0},"soir":{"t":14,"c":2}},"2026-07-30":{"matin":{"t":10,"c":0},"soir":{"t":14,"c":51}},"2026-07-31":{"matin":{"t":11,"c":51},"soir":{"t":16,"c":0}},"2026-08-01":{"matin":{"t":12,"c":0},"soir":{"t":16,"c":1}}},"zermatt":{"2026-07-22":{"matin":{"t":13,"c":0},"soir":{"t":20,"c":0}},"2026-07-23":{"matin":{"t":15,"c":3},"soir":{"t":18,"c":1}},"2026-07-24":{"matin":{"t":12,"c":0},"soir":{"t":19,"c":2}},"2026-07-25":{"matin":{"t":15,"c":3},"soir":{"t":15,"c":3}},"2026-07-26":{"matin":{"t":10,"c":3},"soir":{"t":13,"c":3}},"2026-07-27":{"matin":{"t":10,"c":2},"soir":{"t":15,"c":2}},"2026-07-28":{"matin":{"t":17,"c":0},"soir":{"t":21,"c":1}},"2026-07-29":{"matin":{"t":18,"c":0},"soir":{"t":21,"c":2}},"2026-07-30":{"matin":{"t":15,"c":51},"soir":{"t":19,"c":51}},"2026-07-31":{"matin":{"t":15,"c":0},"soir":{"t":19,"c":1}},"2026-08-01":{"matin":{"t":16,"c":0},"soir":{"t":20,"c":51}}},"aletsch":{"2026-07-22":{"matin":{"t":15,"c":1},"soir":{"t":24,"c":1}},"2026-07-23":{"matin":{"t":16,"c":3},"soir":{"t":23,"c":1}},"2026-07-24":{"matin":{"t":16,"c":0},"soir":{"t":23,"c":2}},"2026-07-25":{"matin":{"t":16,"c":3},"soir":{"t":16,"c":3}},"2026-07-26":{"matin":{"t":13,"c":61},"soir":{"t":16,"c":3}},"2026-07-27":{"matin":{"t":13,"c":2},"soir":{"t":20,"c":2}},"2026-07-28":{"matin":{"t":20,"c":0},"soir":{"t":27,"c":0}},"2026-07-29":{"matin":{"t":20,"c":2},"soir":{"t":26,"c":2}},"2026-07-30":{"matin":{"t":22,"c":0},"soir":{"t":27,"c":51}},"2026-07-31":{"matin":{"t":22,"c":0},"soir":{"t":27,"c":51}},"2026-08-01":{"matin":{"t":22,"c":0},"soir":{"t":28,"c":51}}},"leman":{"2026-07-22":{"matin":{"t":18,"c":0},"soir":{"t":27,"c":0}},"2026-07-23":{"matin":{"t":18,"c":3},"soir":{"t":27,"c":1}},"2026-07-24":{"matin":{"t":18,"c":0},"soir":{"t":27,"c":1}},"2026-07-25":{"matin":{"t":23,"c":3},"soir":{"t":20,"c":95}},"2026-07-26":{"matin":{"t":17,"c":2},"soir":{"t":20,"c":3}},"2026-07-27":{"matin":{"t":18,"c":2},"soir":{"t":24,"c":2}},"2026-07-28":{"matin":{"t":20,"c":0},"soir":{"t":28,"c":0}},"2026-07-29":{"matin":{"t":23,"c":0},"soir":{"t":31,"c":1}},"2026-07-30":{"matin":{"t":24,"c":1},"soir":{"t":32,"c":2}},"2026-07-31":{"matin":{"t":25,"c":0},"soir":{"t":32,"c":0}},"2026-08-01":{"matin":{"t":25,"c":0},"soir":{"t":32,"c":0}}},"kandersteg":{"2026-07-22":{"matin":{"t":14,"c":0},"soir":{"t":20,"c":1}},"2026-07-23":{"matin":{"t":16,"c":3},"soir":{"t":19,"c":1}},"2026-07-24":{"matin":{"t":15,"c":0},"soir":{"t":22,"c":3}},"2026-07-25":{"matin":{"t":20,"c":3},"soir":{"t":20,"c":3}},"2026-07-26":{"matin":{"t":12,"c":61},"soir":{"t":15,"c":3}},"2026-07-27":{"matin":{"t":14,"c":2},"soir":{"t":16,"c":3}},"2026-07-28":{"matin":{"t":15,"c":0},"soir":{"t":21,"c":0}},"2026-07-29":{"matin":{"t":20,"c":0},"soir":{"t":24,"c":0}},"2026-07-30":{"matin":{"t":23,"c":51},"soir":{"t":26,"c":51}},"2026-07-31":{"matin":{"t":22,"c":51},"soir":{"t":26,"c":51}},"2026-08-01":{"matin":{"t":24,"c":0},"soir":{"t":27,"c":51}}},"nendaz":{"2026-07-22":{"matin":{"t":14,"c":0},"soir":{"t":20,"c":0}},"2026-07-23":{"matin":{"t":15,"c":3},"soir":{"t":21,"c":0}},"2026-07-24":{"matin":{"t":14,"c":0},"soir":{"t":26,"c":0}},"2026-07-25":{"matin":{"t":18,"c":3},"soir":{"t":20,"c":3}},"2026-07-26":{"matin":{"t":14,"c":61},"soir":{"t":18,"c":3}},"2026-07-27":{"matin":{"t":14,"c":2},"soir":{"t":18,"c":2}},"2026-07-28":{"matin":{"t":15,"c":0},"soir":{"t":23,"c":0}},"2026-07-29":{"matin":{"t":19,"c":0},"soir":{"t":25,"c":2}},"2026-07-30":{"matin":{"t":20,"c":0},"soir":{"t":27,"c":2}},"2026-07-31":{"matin":{"t":20,"c":0},"soir":{"t":28,"c":0}},"2026-08-01":{"matin":{"t":21,"c":0},"soir":{"t":29,"c":51}}},"crans-montana":{"2026-07-22":{"matin":{"t":14,"c":0},"soir":{"t":20,"c":1}},"2026-07-23":{"matin":{"t":15,"c":3},"soir":{"t":19,"c":0}},"2026-07-24":{"matin":{"t":15,"c":0},"soir":{"t":23,"c":1}},"2026-07-25":{"matin":{"t":17,"c":3},"soir":{"t":19,"c":3}},"2026-07-26":{"matin":{"t":12,"c":61},"soir":{"t":15,"c":3}},"2026-07-27":{"matin":{"t":12,"c":2},"soir":{"t":17,"c":2}},"2026-07-28":{"matin":{"t":14,"c":0},"soir":{"t":23,"c":0}},"2026-07-29":{"matin":{"t":18,"c":0},"soir":{"t":24,"c":1}},"2026-07-30":{"matin":{"t":17,"c":0},"soir":{"t":25,"c":2}},"2026-07-31":{"matin":{"t":18,"c":0},"soir":{"t":26,"c":0}},"2026-08-01":{"matin":{"t":18,"c":0},"soir":{"t":27,"c":51}}},"sion":{"2026-07-22":{"matin":{"t":19,"c":0},"soir":{"t":28,"c":0}},"2026-07-23":{"matin":{"t":19,"c":3},"soir":{"t":28,"c":0}},"2026-07-24":{"matin":{"t":20,"c":0},"soir":{"t":30,"c":1}},"2026-07-25":{"matin":{"t":22,"c":3},"soir":{"t":26,"c":3}},"2026-07-26":{"matin":{"t":17,"c":61},"soir":{"t":22,"c":3}},"2026-07-27":{"matin":{"t":18,"c":2},"soir":{"t":24,"c":2}},"2026-07-28":{"matin":{"t":20,"c":0},"soir":{"t":30,"c":0}},"2026-07-29":{"matin":{"t":24,"c":0},"soir":{"t":31,"c":2}},"2026-07-30":{"matin":{"t":25,"c":0},"soir":{"t":32,"c":2}},"2026-07-31":{"matin":{"t":25,"c":0},"soir":{"t":33,"c":0}},"2026-08-01":{"matin":{"t":26,"c":0},"soir":{"t":34,"c":51}}},"diablerets":{"2026-07-22":{"matin":{"t":13,"c":0},"soir":{"t":18,"c":2}},"2026-07-23":{"matin":{"t":14,"c":3},"soir":{"t":18,"c":2}},"2026-07-24":{"matin":{"t":14,"c":0},"soir":{"t":21,"c":1}},"2026-07-25":{"matin":{"t":19,"c":2},"soir":{"t":16,"c":80}},"2026-07-26":{"matin":{"t":12,"c":61},"soir":{"t":14,"c":3}},"2026-07-27":{"matin":{"t":13,"c":3},"soir":{"t":15,"c":2}},"2026-07-28":{"matin":{"t":12,"c":0},"soir":{"t":21,"c":0}},"2026-07-29":{"matin":{"t":18,"c":0},"soir":{"t":23,"c":1}},"2026-07-30":{"matin":{"t":18,"c":0},"soir":{"t":22,"c":2}},"2026-07-31":{"matin":{"t":18,"c":0},"soir":{"t":24,"c":0}},"2026-08-01":{"matin":{"t":19,"c":0},"soir":{"t":24,"c":0}}},"saviese":{"2026-07-22":{"matin":{"t":18,"c":0},"soir":{"t":27,"c":0}},"2026-07-23":{"matin":{"t":20,"c":3},"soir":{"t":27,"c":0}},"2026-07-24":{"matin":{"t":19,"c":0},"soir":{"t":28,"c":1}},"2026-07-25":{"matin":{"t":20,"c":3},"soir":{"t":24,"c":3}},"2026-07-26":{"matin":{"t":16,"c":61},"soir":{"t":21,"c":3}},"2026-07-27":{"matin":{"t":16,"c":2},"soir":{"t":22,"c":2}},"2026-07-28":{"matin":{"t":18,"c":0},"soir":{"t":28,"c":0}},"2026-07-29":{"matin":{"t":22,"c":0},"soir":{"t":30,"c":2}},"2026-07-30":{"matin":{"t":23,"c":0},"soir":{"t":31,"c":2}},"2026-07-31":{"matin":{"t":24,"c":0},"soir":{"t":32,"c":0}},"2026-08-01":{"matin":{"t":24,"c":0},"soir":{"t":32,"c":51}}}};
+  /* METEO_DATA_END */
+
+  var WEATHER_EMOJI = {
+    0: '☀️', 1: '🌤️', 2: '⛅', 3: '☁️',
+    45: '🌫️', 48: '🌫️',
+    51: '🌦️', 53: '🌦️', 55: '🌦️',
+    56: '🌧️', 57: '🌧️',
+    61: '🌧️', 63: '🌧️', 65: '🌧️',
+    66: '🌧️', 67: '🌧️',
+    71: '🌨️', 73: '🌨️', 75: '🌨️', 77: '🌨️',
+    80: '🌧️', 81: '🌧️', 82: '⛈️',
+    85: '🌨️', 86: '🌨️',
+    95: '⛈️', 96: '⛈️', 99: '⛈️'
+  };
+
+  function weatherIcon(code) {
+    return WEATHER_EMOJI[code] || '🌡️';
+  }
+
+  function sectorWeather(act, dayKey) {
+    if (!act || !act.secteur) return null;
+    var byDate = METEO[act.secteur];
+    if (!byDate) return null;
+    return byDate[dayKey] || null;
+  }
+
+  function weatherLineText(act, dayKey) {
+    var w = sectorWeather(act, dayKey);
+    if (!w || (!w.matin && !w.soir)) return null;
+    var parts = [];
+    if (w.matin) parts.push('🌅 ' + weatherIcon(w.matin.c) + ' ' + w.matin.t + '°');
+    if (w.soir) parts.push('🌇 ' + weatherIcon(w.soir.c) + ' ' + w.soir.t + '°');
+    return SECTEURS[act.secteur] + ' · ' + parts.join('  ·  ');
+  }
 
   var TRIP_START = new Date(2026, 6, 22);
   var TRIP_END = new Date(2026, 7, 1);
@@ -700,6 +779,38 @@
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(plan));
     } catch (e) { /* stockage indisponible, planning non persisté */ }
+  }
+
+  // Le planning est partagé entre tous les voyageurs via Supabase (table
+  // activity_plan) : chaque ligne = une activité affectée à un jour, avec sa
+  // position dans la liste du jour. localStorage ne sert que de cache pour un
+  // premier affichage instantané / un usage hors-ligne.
+  function loadPlanFromSupabase() {
+    if (!sb) return;
+    sb.from('activity_plan').select('day_date, activity_id, position').order('day_date').order('position').then(function (res) {
+      if (res.error) { console.warn('Erreur en chargeant le planning :', res.error.message); return; }
+      var next = {};
+      res.data.forEach(function (row) {
+        if (!next[row.day_date]) next[row.day_date] = [];
+        next[row.day_date].push(row.activity_id);
+      });
+      plan = next;
+      savePlan();
+      render();
+    });
+  }
+
+  function syncDayToSupabase(key) {
+    if (!sb) return;
+    var ids = (plan[key] || []).slice();
+    sb.from('activity_plan').delete().eq('day_date', key).then(function (res) {
+      if (res.error) { console.warn('Erreur en synchronisant le planning :', res.error.message); return; }
+      if (ids.length === 0) return;
+      var rows = ids.map(function (id, idx) { return { day_date: key, activity_id: id, position: idx }; });
+      sb.from('activity_plan').insert(rows).then(function (res2) {
+        if (res2.error) console.warn('Erreur en synchronisant le planning :', res2.error.message);
+      });
+    });
   }
 
   function getDayList(key) {
@@ -939,6 +1050,13 @@
           meta.textContent = act.type + ' · ' + act.duration + ' · ' + act.budget + ' · ' + act.distance;
           info.appendChild(name);
           info.appendChild(meta);
+          var chipWeatherText = weatherLineText(act, key);
+          if (chipWeatherText) {
+            var chipWeather = document.createElement('div');
+            chipWeather.className = 'weather-line';
+            chipWeather.textContent = chipWeatherText;
+            info.appendChild(chipWeather);
+          }
           chipTop.appendChild(info);
 
           var actions = document.createElement('div');
@@ -994,6 +1112,7 @@
     var item = list.splice(from, 1)[0];
     list.splice(to, 0, item);
     savePlan();
+    syncDayToSupabase(key);
     render();
   }
 
@@ -1002,6 +1121,7 @@
     var idx = list.indexOf(id);
     if (idx !== -1) list.splice(idx, 1);
     savePlan();
+    syncDayToSupabase(key);
     render();
   }
 
@@ -1009,6 +1129,7 @@
     var list = getDayList(key);
     var idx = list.indexOf(id);
     if (idx === -1) list.push(id); else list.splice(idx, 1);
+    syncDayToSupabase(key);
     savePlan();
     render();
     renderPickerList();
@@ -1078,6 +1199,14 @@
       });
       card.appendChild(metaRow);
 
+      var pickerWeatherText = activeDayKey ? weatherLineText(a, activeDayKey) : null;
+      if (pickerWeatherText) {
+        var pickerWeather = document.createElement('div');
+        pickerWeather.className = 'weather-line';
+        pickerWeather.textContent = pickerWeatherText;
+        card.appendChild(pickerWeather);
+      }
+
       var desc = document.createElement('div');
       desc.className = 'desc';
       desc.textContent = a.desc;
@@ -1124,6 +1253,11 @@
       plan = {};
       savePlan();
       render();
+      if (sb) {
+        sb.from('activity_plan').delete().neq('day_date', '').then(function (res) {
+          if (res.error) console.warn('Erreur en réinitialisant le planning partagé :', res.error.message);
+        });
+      }
     }
   });
 
@@ -1147,6 +1281,10 @@
 
   render();
   loadRatings();
+  loadPlanFromSupabase();
+  // Le planning est partagé : on repolle régulièrement pour voir les
+  // changements faits par les autres voyageurs sans recharger la page.
+  setInterval(loadPlanFromSupabase, 10000);
 })();
 </script>
 </body>

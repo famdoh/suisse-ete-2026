@@ -45,6 +45,10 @@ ses choix de conception, ses dépendances) doit être documenté dans le
     proximité du camping que les mini-apps peuvent proposer au
     voyageur. Toute app proposant des activités touristiques doit les
     puiser dans ce fichier.
+  - `datasource/meteo.json` — prévisions météo (matin/soir) par secteur
+    géographique pour la durée du séjour, régénérées par le skill
+    `.claude/skills/meteo-update` (voir son `SKILL.md`). Toute app
+    affichant la météo d'une activité doit s'appuyer sur ce fichier.
 - `.github/workflows/pages.yml` — workflow GitHub Actions qui déploie
   l'ensemble du dépôt comme site Pages à chaque push sur `main`.
 - `.nojekyll` — désactive le traitement Jekyll pour que les
