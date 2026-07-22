@@ -152,3 +152,168 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Rando & Logistique :** Départ de Senntum (Turtmanntal - 25 min de
   route). 12 km en boucle, dénivelé +650 m / -650 m. Chaussures robustes
   indispensables.
+
+## 10. Zermatt & Cervin (Gornergrat)
+
+- **Type :** 🌲 Panorama Alpin
+- **Durée :** Journée
+- **Budget :** Payant
+- **Distance :** ~48 km du camping jusqu'à Täsch (~45 min en voiture),
+  puis train
+- **Description :** Voyage jusqu'au village sans voitures de Zermatt, au
+  pied du Cervin. Montée en train à crémaillère au Gornergrat ou en
+  téléphérique au Matterhorn Glacier Paradise, le plus haut téléphérique
+  d'Europe.
+- **Pour les ados :** Le pont suspendu le plus haut du monde ou le
+  glacier du Matterhorn Glacier Paradise, avec neige toute l'année.
+- **Pour les adultes :** Le panorama à 360° sur 29 sommets de plus de
+  4000 m depuis le Gornergrat.
+- **Logistique :** Stationnement obligatoire à Täsch (Zermatt fermé aux
+  voitures), puis navette/train (12 min) jusqu'à Zermatt.
+
+## 11. Aletsch Arena - Glacier d'Aletsch
+
+- **Type :** 🌲 Nature Sauvage
+- **Durée :** Journée
+- **Budget :** Payant
+- **Distance :** ~55 km du camping jusqu'à Betten/Fiesch (~50 min en
+  voiture), puis télécabine
+- **Description :** Le plus long glacier des Alpes (23 km), site classé
+  à l'UNESCO, visible depuis les balcons panoramiques de Bettmerhorn ou
+  Eggishorn au-dessus de la vallée de Conches.
+- **Pour les ados :** Le sentier suspendu et les via ferrata légères sur
+  les crêtes autour du glacier.
+- **Pour les adultes :** Le point de vue mythique de l'Eggishorn, l'un
+  des plus beaux panoramas des Alpes suisses.
+- **Logistique :** Village sans voitures de Bettmeralp accessible en
+  funiculaire depuis Betten. ~50 min de route + montée en télécabine.
+
+## 12. Aquaparc Le Bouveret
+
+- **Type :** 🌲 Détente & Fun
+- **Durée :** Journée
+- **Budget :** Payant
+- **Distance :** ~85 km du camping (~1h05 en voiture)
+- **Description :** Le plus grand parc aquatique couvert et extérieur de
+  Suisse, au bord du lac Léman, avec toboggans géants, rivière à bouées
+  et espace bien-être.
+- **Pour les ados :** Les toboggans à sensations (Space Boarding,
+  Kamikaze) et le simulateur de surf.
+- **Pour les adultes :** Le spa extérieur avec vue sur le lac Léman et
+  les Alpes.
+- **Logistique :** Autoroute A9 direction Lausanne/Bouveret. Trajet le
+  plus long de la liste, mais journée complète possible sur place.
+
+## 13. Lac d'Oeschinen (Oeschinensee)
+
+- **Type :** 🌲 Nature & Rando
+- **Durée :** 1/2 journée
+- **Budget :** Payant
+- **Distance :** ~35 km du camping jusqu'à Kandersteg (~50 min, via le
+  train-auto du tunnel du Lötschberg)
+- **Description :** Lac de montagne turquoise à 1580 m d'altitude,
+  encerclé de parois rocheuses et de glaciers, considéré comme l'un des
+  plus beaux lacs alpins de Suisse.
+- **Pour les ados :** La luge d'été et les bouées à pédales sur le lac.
+- **Pour les adultes :** La randonnée facile autour du lac avec vue sur
+  le massif du Blüemlisalp.
+- **Logistique :** Accès à Kandersteg via le train-auto BLS au départ de
+  Goppenstein (~15 min de trajet), puis télécabine ou 45 min de marche
+  jusqu'au lac.
+
+## 14. Château de Chillon (Montreux)
+
+- **Type :** 🏛️ Culture & Art
+- **Durée :** 1/2 journée
+- **Budget :** Payant
+- **Distance :** ~95 km du camping (~1h10 en voiture)
+- **Description :** Le monument historique le plus visité de Suisse,
+  forteresse médiévale posée sur un îlot rocheux au bord du lac Léman,
+  immortalisée par Lord Byron.
+- **Pour les ados :** Les cachots, oubliettes et passages secrets du
+  château.
+- **Pour les adultes :** Les salles d'apparat meublées et la vue sur les
+  Alpes vaudoises depuis les tours.
+- **Logistique :** Autoroute A9 direction Lausanne. Parking à proximité
+  immédiate du château, combinable avec une balade sur les quais de
+  Montreux.
+
+## 15. Luge d'été de Nendaz
+
+- **Type :** 🌲 Aventure / Sensations
+- **Durée :** 2h
+- **Budget :** Payant
+- **Distance :** ~50 km du camping jusqu'à Siviez (~50 min en voiture)
+- **Description :** L'une des plus longues pistes de luge sur rail de
+  Suisse (3,5 km), qui dévale la montagne avec virages relevés et sauts.
+- **Pour les ados :** La vitesse et les virages en banking de la piste,
+  avec plusieurs descentes possibles.
+- **Pour les adultes :** Le parc de loisirs de montagne alentour
+  (trottinettes, tyrolienne) pour prolonger la sortie.
+- **Logistique :** Accès en télécabine depuis Siviez/Nendaz-Station.
+  Billets à la journée avantageux pour une famille.
+
+## 16. Crans-Montana & Lac Grenon
+
+- **Type :** 🌲 Détente & Fun
+- **Durée :** 1/2 journée
+- **Budget :** Moyen
+- **Distance :** ~35 km du camping (~40 min en voiture)
+- **Description :** Station panoramique perchée à 1500 m au-dessus de la
+  plaine du Rhône, avec un plan d'eau familial, plages et jeux au bord du
+  lac Grenon.
+- **Pour les ados :** La baignade et le stand-up paddle sur le lac
+  Grenon, ou le bike park.
+- **Pour les adultes :** La promenade sur les greens du golf historique
+  et la vue dégagée sur la vallée du Rhône.
+- **Logistique :** Route de montagne sinueuse depuis Sierre (~25 min).
+  Parking payant au centre de la station.
+
+## 17. Sion - Basilique de Valère & Château de Tourbillon
+
+- **Type :** 🏛️ Culture & Art
+- **Durée :** 1/2 journée
+- **Budget :** Gratuit
+- **Distance :** ~30 km du camping (~25 min en voiture)
+- **Description :** La capitale du Valais est dominée par deux collines
+  jumelles fortifiées : la basilique de Valère, qui abrite le plus vieil
+  orgue jouable au monde, et les ruines du château de Tourbillon.
+- **Pour les ados :** Grimper jusqu'aux ruines de Tourbillon et explorer
+  les remparts.
+- **Pour les adultes :** Le musée d'histoire de Valère et le panorama
+  sur la vieille ville et les vignobles.
+- **Logistique :** Parking en ville puis montée à pied (15-20 min)
+  jusqu'aux collines. Château de Tourbillon fermé le lundi.
+
+## 18. Glacier 3000 & Peak Walk (Les Diablerets)
+
+- **Type :** 🌲 Aventure / Sensations
+- **Durée :** Journée
+- **Budget :** Payant
+- **Distance :** ~75 km du camping jusqu'au Col du Pillon (~1h15 en
+  voiture), puis téléphérique
+- **Description :** Le premier pont suspendu au monde reliant deux
+  sommets, à 3000 m d'altitude, avec vue sur les Alpes bernoises,
+  valaisannes et le Mont-Blanc.
+- **Pour les ados :** Traverser le Peak Walk by Tissot au-dessus du vide
+  et la luge sur neige toute l'année.
+- **Pour les adultes :** Le panorama à 360° sur plus de 24 glaciers et
+  le télésiège suspendu au-dessus des chamois.
+- **Logistique :** Téléphérique depuis Col du Pillon (3 tronçons,
+  ~15 min). Prévoir des vêtements chauds même en été.
+
+## 19. Bisse du Ro (Savièse)
+
+- **Type :** 🌲 Nature & Rando
+- **Durée :** 1/2 journée
+- **Budget :** Gratuit
+- **Distance :** ~35 km du camping (~35 min en voiture)
+- **Description :** Randonnée familiale le long d'un bisse historique
+  (canal d'irrigation valaisan), en partie creusé à flanc de falaise,
+  surplombant les gorges de la Morge.
+- **Pour les ados :** Longer le canal au bord du vide sur les passerelles
+  en bois accrochées à la paroi.
+- **Pour les adultes :** L'ingéniosité de ces canaux séculaires et les
+  points de vue sur la vallée du Rhône.
+- **Logistique :** Départ du parking de Roumaz (Savièse). Boucle
+  familiale de 2-3h, chaussures de marche recommandées.
