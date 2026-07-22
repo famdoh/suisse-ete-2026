@@ -25,11 +25,28 @@ La section carte est repliée par défaut (bouton avec chevron ; la carte
 Leaflet n'est initialisée qu'au premier dépli, pour ne pas charger
 Leaflet inutilement si l'utilisateur ne l'ouvre pas).
 
+Chaque carte affiche aussi sa distance au camping sous forme de badge
+(📍 X km du camping, calculé depuis la même valeur que celle utilisée
+pour le tri).
+
 Un sélecteur (sans libellé, juste au-dessus des cartes) permet de
 trier les activités par distance croissante (plus proche → plus loin,
-tri actif par défaut) ou par note moyenne décroissante (plus étoilée
+tri actif par défaut), par note moyenne décroissante (plus étoilée
 → moins étoilée, les activités non notées étant reléguées en fin de
-liste).
+liste), ou en mettant en avant les incontournables (voir ci-dessous).
+
+### Incontournable vs secondaire
+6 des 19 activités (Bains thermaux de Leukerbad, Zermatt & Cervin,
+Aletsch Arena, Lac d'Oeschinen, Château de Chillon, Glacier 3000)
+portent un badge « 🌟 Incontournable ». Il s'agit d'un choix éditorial
+assumé (notoriété réelle et incontestée : site UNESCO, monument le
+plus visité de Suisse, image la plus iconique du pays, etc.), et non
+d'une note communautaire chiffrée — une tentative de récupérer de
+vraies notes Google/TripAdvisor par recherche web s'est révélée
+peu fiable (données non indexées de façon exploitable, chiffres
+parfois rattachés au mauvais établissement). Si des notes réelles
+sont un jour fournies (relevées manuellement sur Google Maps), elles
+pourront remplacer ou compléter ce badge éditorial.
 
 ## Dépendances datasource
 - datasource/activites.md
