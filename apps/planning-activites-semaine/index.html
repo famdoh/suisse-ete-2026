@@ -126,11 +126,16 @@
   }
   .activity-chip {
     display: flex;
-    align-items: center;
-    gap: 0.6rem;
+    flex-direction: column;
+    gap: 0.4rem;
     background: var(--chip-bg);
     border-radius: 10px;
     padding: 0.55rem 0.65rem;
+  }
+  .chip-top {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
   }
   .activity-chip .emoji { font-size: 1.1rem; line-height: 1; }
   .activity-chip .info { flex: 1; min-width: 0; }
@@ -192,6 +197,47 @@
     cursor: pointer;
     padding: 0.5rem;
   }
+
+  .voter-banner {
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin: -0.5rem 0 1.25rem;
+  }
+  .voter-banner strong { color: var(--text); }
+  .voter-banner button {
+    border: none;
+    background: transparent;
+    color: var(--accent);
+    font-size: 0.78rem;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 0.3rem;
+  }
+
+  .rating-widget {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .rating-widget .stars-row { display: flex; gap: 0.05rem; }
+  .star-btn {
+    border: none;
+    background: transparent;
+    color: #d8a916;
+    font-size: 1.05rem;
+    line-height: 1;
+    padding: 0.1rem;
+    cursor: pointer;
+  }
+  .star-btn:disabled { cursor: default; opacity: 0.5; }
+  .rating-summary {
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+  .rating-widget.compact .star-btn { font-size: 0.85rem; }
+  .rating-widget.compact .rating-summary { font-size: 0.68rem; }
 
   /* Modal / bottom sheet */
   .modal-overlay {
@@ -333,6 +379,8 @@
     <p class="subtitle">Camping Bella-Tola · 22 juillet - 1er août 2026</p>
   </header>
 
+  <div class="voter-banner" id="voterBanner"></div>
+
   <div class="progress-bar-wrap">
     <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
     <div class="progress-label" id="progressLabel">0 activité planifiée</div>
@@ -357,9 +405,29 @@
   </div>
 </div>
 
+<div class="modal-overlay" id="nameModalOverlay">
+  <div class="modal-sheet">
+    <div class="modal-head">
+      <h2>Qui note ?</h2>
+      <button class="modal-close" id="nameModalCloseBtn" type="button" aria-label="Fermer">✕</button>
+    </div>
+    <input type="text" class="search-input" id="voterNameInput" placeholder="Ton prénom">
+    <button class="modal-done" id="voterNameSaveBtn" type="button">Valider</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function () {
   var STORAGE_KEY = 'planning_activites_suisse_2026';
+  var VOTER_KEY = 'planning_activites_voter_suisse_2026';
+  var SUPABASE_URL = 'https://hmpiluotdcympkihvnlt.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_osU_bo7QNJVg3yjxJObUSg_Y7So1lZZ';
+  var sb = (window.supabase && window.supabase.createClient)
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+    : null;
+  var ratingsCache = {};
+  var pendingRating = null;
 
   var ACTIVITIES = [
     {
@@ -490,6 +558,103 @@
     return plan[key];
   }
 
+  function getVoterName() {
+    try { return localStorage.getItem(VOTER_KEY) || ''; } catch (e) { return ''; }
+  }
+
+  function setVoterName(name) {
+    try { localStorage.setItem(VOTER_KEY, name); } catch (e) { /* stockage indisponible */ }
+  }
+
+  function ratingStats(activityId) {
+    var r = ratingsCache[activityId];
+    if (!r || !r.count) return { avg: null, count: 0, mine: null };
+    var name = getVoterName();
+    return {
+      avg: r.sum / r.count,
+      count: r.count,
+      mine: (name && r.byVoter[name]) ? r.byVoter[name] : null
+    };
+  }
+
+  function loadRatings() {
+    if (!sb) return;
+    sb.from('activity_ratings').select('activity_id, voter_name, rating').then(function (res) {
+      if (res.error) { return; }
+      var map = {};
+      res.data.forEach(function (row) {
+        if (!map[row.activity_id]) map[row.activity_id] = { sum: 0, count: 0, byVoter: {} };
+        map[row.activity_id].sum += row.rating;
+        map[row.activity_id].count += 1;
+        map[row.activity_id].byVoter[row.voter_name] = row.rating;
+      });
+      ratingsCache = map;
+      render();
+    });
+  }
+
+  function submitRating(activityId, name, value) {
+    if (!ratingsCache[activityId]) ratingsCache[activityId] = { sum: 0, count: 0, byVoter: {} };
+    var r = ratingsCache[activityId];
+    var prev = r.byVoter[name];
+    r.sum += prev ? (value - prev) : value;
+    if (!prev) r.count += 1;
+    r.byVoter[name] = value;
+    render();
+
+    sb.from('activity_ratings').upsert({
+      activity_id: activityId,
+      voter_name: name,
+      rating: value,
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'activity_id,voter_name' }).then(function (res) {
+      if (res.error) { console.warn('Erreur en enregistrant la note :', res.error.message); }
+    });
+  }
+
+  function rateActivity(activityId, value) {
+    if (!sb) return;
+    var name = getVoterName();
+    if (!name) {
+      pendingRating = { activityId: activityId, value: value };
+      openNameModal();
+      return;
+    }
+    submitRating(activityId, name, value);
+  }
+
+  function buildRatingWidget(activityId, compact) {
+    var stats = ratingStats(activityId);
+    var wrap = document.createElement('div');
+    wrap.className = 'rating-widget' + (compact ? ' compact' : '');
+
+    var starsRow = document.createElement('div');
+    starsRow.className = 'stars-row';
+    [1, 2, 3].forEach(function (v) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'star-btn';
+      btn.textContent = (stats.mine && v <= stats.mine) ? '★' : '☆';
+      btn.setAttribute('aria-label', 'Noter ' + v + ' étoile' + (v > 1 ? 's' : ''));
+      if (!sb) btn.disabled = true;
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        rateActivity(activityId, v);
+      });
+      starsRow.appendChild(btn);
+    });
+    wrap.appendChild(starsRow);
+
+    var summary = document.createElement('span');
+    summary.className = 'rating-summary';
+    summary.textContent = !sb
+      ? 'Notation hors ligne'
+      : (stats.count > 0 ? '★ ' + stats.avg.toFixed(1) + ' (' + stats.count + ')' : 'Pas encore noté');
+    wrap.appendChild(summary);
+
+    return wrap;
+  }
+
   function activityDaysLabel(activityId) {
     var found = [];
     DAYS.forEach(function (d) {
@@ -511,12 +676,50 @@
   var modalCloseBtn = document.getElementById('modalCloseBtn');
   var modalDoneBtn = document.getElementById('modalDoneBtn');
   var resetBtn = document.getElementById('resetBtn');
+  var voterBanner = document.getElementById('voterBanner');
+  var nameModalOverlay = document.getElementById('nameModalOverlay');
+  var voterNameInput = document.getElementById('voterNameInput');
+  var nameModalCloseBtn = document.getElementById('nameModalCloseBtn');
+  var voterNameSaveBtn = document.getElementById('voterNameSaveBtn');
 
   var activeDayKey = null;
 
   function render() {
     renderDays();
     renderProgress();
+    renderVoterBanner();
+    if (modalOverlay.classList.contains('open')) renderPickerList();
+  }
+
+  function renderVoterBanner() {
+    var name = getVoterName();
+    voterBanner.innerHTML = '';
+    var span = document.createElement('span');
+    if (name) {
+      span.appendChild(document.createTextNode('Tu notes en tant que '));
+      var strong = document.createElement('strong');
+      strong.textContent = name;
+      span.appendChild(strong);
+    } else {
+      span.textContent = 'Choisis un prénom pour noter les activités';
+    }
+    voterBanner.appendChild(span);
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = name ? 'changer' : 'choisir';
+    btn.addEventListener('click', openNameModal);
+    voterBanner.appendChild(btn);
+  }
+
+  function openNameModal() {
+    voterNameInput.value = getVoterName() || '';
+    nameModalOverlay.classList.add('open');
+    setTimeout(function () { voterNameInput.focus(); }, 50);
+  }
+
+  function closeNameModal() {
+    nameModalOverlay.classList.remove('open');
+    pendingRating = null;
   }
 
   function renderProgress() {
@@ -569,10 +772,13 @@
           var chip = document.createElement('div');
           chip.className = 'activity-chip';
 
+          var chipTop = document.createElement('div');
+          chipTop.className = 'chip-top';
+
           var emoji = document.createElement('div');
           emoji.className = 'emoji';
           emoji.textContent = act.emoji;
-          chip.appendChild(emoji);
+          chipTop.appendChild(emoji);
 
           var info = document.createElement('div');
           info.className = 'info';
@@ -584,7 +790,7 @@
           meta.textContent = act.type + ' · ' + act.duration + ' · ' + act.budget;
           info.appendChild(name);
           info.appendChild(meta);
-          chip.appendChild(info);
+          chipTop.appendChild(info);
 
           var actions = document.createElement('div');
           actions.className = 'chip-actions';
@@ -615,7 +821,9 @@
           removeBtn.addEventListener('click', function () { removeActivity(key, id); });
           actions.appendChild(removeBtn);
 
-          chip.appendChild(actions);
+          chipTop.appendChild(actions);
+          chip.appendChild(chipTop);
+          chip.appendChild(buildRatingWidget(id, true));
           list.appendChild(chip);
         });
       }
@@ -663,6 +871,7 @@
     searchInput.value = '';
     modalOverlay.classList.add('open');
     renderPickerList();
+    loadRatings();
     setTimeout(function () { searchInput.focus(); }, 50);
   }
 
@@ -725,6 +934,8 @@
       desc.textContent = a.desc;
       card.appendChild(desc);
 
+      card.appendChild(buildRatingWidget(a.id, false));
+
       var daysUsed = activityDaysLabel(a.id);
       if (daysUsed.length > 0) {
         var note = document.createElement('div');
@@ -756,7 +967,26 @@
     }
   });
 
+  nameModalCloseBtn.addEventListener('click', closeNameModal);
+  nameModalOverlay.addEventListener('click', function (e) {
+    if (e.target === nameModalOverlay) closeNameModal();
+  });
+  voterNameSaveBtn.addEventListener('click', function () {
+    var name = voterNameInput.value.trim();
+    if (!name) { voterNameInput.focus(); return; }
+    setVoterName(name);
+    nameModalOverlay.classList.remove('open');
+    var pr = pendingRating;
+    pendingRating = null;
+    if (pr) {
+      submitRating(pr.activityId, name, pr.value);
+    } else {
+      render();
+    }
+  });
+
   render();
+  loadRatings();
 })();
 </script>
 </body>
