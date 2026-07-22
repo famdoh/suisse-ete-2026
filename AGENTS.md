@@ -4,6 +4,8 @@
 
 This repository hosts a collection of standalone HTML mini-apps for the
 "Suisse Été 2026" trip, published as a static site via GitHub Pages.
+Every app built in this project exists to help organize the Switzerland
+trip taking place from July 22 to August 1, 2026.
 
 ## Architecture
 
@@ -19,6 +21,10 @@ This repository hosts a collection of standalone HTML mini-apps for the
   - `apps/<app-name>/description.md` — required metadata file for the
     app, containing at least its name and a short description (see
     below).
+- `datasource/` — shared data sources common to all apps.
+  - `datasource/activites.md` — list of tourist activities near the
+    campsite that mini-apps can propose to the traveler. Any app
+    proposing tourist activities must source them from this file.
 - `.github/workflows/pages.yml` — GitHub Actions workflow that deploys the
   whole repo root as the Pages site on every push to `main`.
 - `.nojekyll` — disables Jekyll processing so files/folders are served
@@ -30,12 +36,17 @@ This repository hosts a collection of standalone HTML mini-apps for the
    `index.html` inside it. Never put a mini-app's HTML directly at the
    repo root or loose inside `apps/`.
 2. Add a `description.md` file in the same folder with the app's
-   metadata: at minimum its name and a short description, e.g.:
+   metadata: at minimum its name and a short description, and — if the
+   app consumes a shared datasource (e.g. `datasource/activites.md`) —
+   an explicit mention of that dependency, e.g.:
 
    ```markdown
    # <App Name>
 
    <One or two sentence description of what the app does.>
+
+   ## Datasource dependencies
+   - datasource/activites.md
    ```
 
 3. Add a card/link for it in the root `index.html` hub page.
@@ -44,6 +55,18 @@ This repository hosts a collection of standalone HTML mini-apps for the
 5. No build step, bundler, or framework — these are self-contained static
    HTML files (inline CSS/JS). Keep it that way unless an app genuinely
    needs otherwise.
+
+## Evolving an existing mini-app
+
+Any request to evolve/update and regenerate an existing app must:
+
+1. Read `apps/<app-name>/description.md` first, to know that app's
+   constraints and dependencies (including any datasource it consumes).
+2. Take the relevant files in `datasource/` (e.g. `activites.md`) into
+   account when the app relates to tourist activities, so the app stays
+   consistent with the shared data.
+3. Update `description.md` if the evolution changes the app's
+   description or its datasource dependencies.
 
 ## Claude Artifacts
 
