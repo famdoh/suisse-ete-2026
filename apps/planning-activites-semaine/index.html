@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Planning des activités - Suisse Été 2026</title>
+<meta name="description" content="Planifiez et répartissez les activités touristiques sur chaque journée du séjour en Suisse (22 juillet - 1er août 2026).">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f7f5f0;
+    --card-bg: #ffffff;
+    --text: #1f2a24;
+    --muted: #5b6b62;
+    --accent: #2f7a4f;
+    --accent-hover: #256240;
+    --border: #e2ddd0;
+    --chip-bg: #eef4ef;
+    --danger: #b3453a;
+    --overlay: rgba(20, 24, 20, 0.55);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12160f;
+      --card-bg: #1b2119;
+      --text: #eef1ea;
+      --muted: #a8b3a4;
+      --accent: #6fbf8f;
+      --accent-hover: #8ad1a8;
+      --border: #2b332a;
+      --chip-bg: #232b21;
+      --danger: #e08277;
+      --overlay: rgba(0, 0, 0, 0.65);
+    }
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    padding-bottom: 3rem;
+  }
+  main {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 1.25rem 1rem 2rem;
+  }
+  header.top {
+    text-align: center;
+    margin-bottom: 1.25rem;
+  }
+  header.top h1 {
+    font-size: 1.5rem;
+    margin: 0 0 0.2rem;
+  }
+  header.top p.subtitle {
+    color: var(--muted);
+    margin: 0;
+    font-size: 0.9rem;
+  }
+  .progress-bar-wrap {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .progress-track {
+    flex: 1;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--chip-bg);
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 4px;
+    transition: width 0.25s ease;
+  }
+  .progress-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .day-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1rem;
+    margin-bottom: 0.9rem;
+  }
+  .day-card.is-today {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+  .day-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 0.6rem;
+  }
+  .day-head .day-name {
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: capitalize;
+  }
+  .day-head .day-tag {
+    font-size: 0.72rem;
+    color: var(--accent);
+    background: var(--chip-bg);
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+  }
+  .day-activities {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+  }
+  .activity-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--chip-bg);
+    border-radius: 10px;
+    padding: 0.55rem 0.65rem;
+  }
+  .activity-chip .emoji { font-size: 1.1rem; line-height: 1; }
+  .activity-chip .info { flex: 1; min-width: 0; }
+  .activity-chip .name {
+    font-size: 0.88rem;
+    font-weight: 600;
+    display: block;
+  }
+  .activity-chip .meta {
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+  .activity-chip .chip-actions {
+    display: flex;
+    gap: 0.15rem;
+  }
+  .icon-btn {
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1;
+    padding: 0.3rem 0.4rem;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .icon-btn:hover { background: rgba(0,0,0,0.06); }
+  .icon-btn.remove:hover { color: var(--danger); }
+  .empty-day {
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-style: italic;
+    padding: 0.3rem 0.1rem 0.5rem;
+  }
+  .add-btn {
+    width: 100%;
+    border: 1px dashed var(--accent);
+    background: transparent;
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0.55rem;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .add-btn:active { background: var(--chip-bg); }
+
+  .toolbar {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+  .reset-btn {
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-size: 0.8rem;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+
+  /* Modal / bottom sheet */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--overlay);
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 50;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-sheet {
+    background: var(--bg);
+    width: 100%;
+    max-width: 560px;
+    max-height: 85vh;
+    border-radius: 18px 18px 0 0;
+    padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom, 0px));
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.2s ease;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0.5; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .modal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+  .modal-head h2 {
+    font-size: 1rem;
+    margin: 0;
+  }
+  .modal-close {
+    border: none;
+    background: var(--chip-bg);
+    color: var(--text);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .search-input {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--card-bg);
+    color: var(--text);
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+  .picker-list {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .picker-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0.7rem 0.8rem;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .picker-card.selected {
+    border-color: var(--accent);
+    background: var(--chip-bg);
+  }
+  .picker-card .row1 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .picker-card .row1 .emoji { font-size: 1.15rem; }
+  .picker-card .row1 .name { font-weight: 700; font-size: 0.92rem; flex: 1; }
+  .picker-card .row1 .check {
+    font-size: 0.85rem;
+    color: var(--accent);
+    font-weight: 700;
+    min-width: 1.2rem;
+    text-align: right;
+  }
+  .picker-card .meta-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+  .picker-card .meta-row span {
+    background: var(--chip-bg);
+    padding: 0.1rem 0.45rem;
+    border-radius: 999px;
+  }
+  .picker-card .desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.35;
+  }
+  .picker-card .used-note {
+    font-size: 0.72rem;
+    color: var(--accent);
+  }
+  .picker-empty {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+    padding: 1.5rem 0.5rem;
+  }
+  .modal-done {
+    margin-top: 0.75rem;
+    width: 100%;
+    padding: 0.7rem;
+    border: none;
+    border-radius: 10px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  .modal-done:active { background: var(--accent-hover); }
+</style>
+</head>
+<body>
+<main>
+  <header class="top">
+    <h1>🗓️ Planning des activités</h1>
+    <p class="subtitle">Camping Bella-Tola · 22 juillet - 1er août 2026</p>
+  </header>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="progress-label" id="progressLabel">0 activité planifiée</div>
+  </div>
+
+  <div id="daysContainer"></div>
+
+  <div class="toolbar">
+    <button class="reset-btn" id="resetBtn" type="button">Réinitialiser le planning</button>
+  </div>
+</main>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-sheet">
+    <div class="modal-head">
+      <h2 id="modalTitle">Ajouter une activité</h2>
+      <button class="modal-close" id="modalCloseBtn" type="button" aria-label="Fermer">✕</button>
+    </div>
+    <input type="text" class="search-input" id="searchInput" placeholder="Rechercher une activité...">
+    <div class="picker-list" id="pickerList"></div>
+    <button class="modal-done" id="modalDoneBtn" type="button">Valider</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var STORAGE_KEY = 'planning_activites_suisse_2026';
+
+  var ACTIVITIES = [
+    {
+      id: 'bains-leukerbad',
+      emoji: '🌲',
+      name: 'Bains thermaux de Leukerbad',
+      type: 'Détente & Fun',
+      duration: '1/2 journée',
+      budget: 'Payant',
+      desc: 'Les plus célèbres et grands thermes des Alpes. Bassins chauds extérieurs au pied de vertigineuses falaises et espace aquatique moderne.'
+    },
+    {
+      id: 'pont-bhoutan-illgraben',
+      emoji: '🌲',
+      name: 'Pont du Bhoutan & Illgraben',
+      type: 'Nature & Rando',
+      duration: '1/2 journée',
+      budget: 'Gratuit',
+      desc: 'Randonnée spectaculaire traversant un pont suspendu de 134 m qui relie le Haut et le Bas-Valais au-dessus du grand canyon de l’Illgraben.'
+    },
+    {
+      id: 'lac-souterrain-st-leonard',
+      emoji: '🏛️',
+      name: 'Lac Souterrain de St-Léonard',
+      type: 'Grotte & Culture',
+      duration: '1/2 journée',
+      budget: 'Payant',
+      desc: 'Traversée magique de 30 minutes sur le plus grand lac souterrain navigable d’Europe, logé dans une grotte de gypse éclairée. Réservation obligatoire.'
+    },
+    {
+      id: 'pont-spinelle-niouc',
+      emoji: '🌲',
+      name: 'Pont Spinelle de Niouc',
+      type: 'Aventure / Sensations',
+      duration: '1/2 journée',
+      budget: 'Moyen',
+      desc: 'Pont suspendu piéton historique surnommé le « Pont Araignée » perché à 190 m de hauteur dans le Val d’Anniviers. Tyrolienne géante et saut à l’élastique.'
+    },
+    {
+      id: 'chateau-loeche',
+      emoji: '🏛️',
+      name: 'Château de Loèche (Leuk-Stadt)',
+      type: 'Culture & Art',
+      duration: '2h',
+      budget: 'Gratuit',
+      desc: 'Visite du bourg médiéval pavé de Loèche et de son château fort abritant une coupole en verre dessinée par Mario Botta.'
+    },
+    {
+      id: 'pfynwald-finges',
+      emoji: '🌲',
+      name: 'Pfynwald - Bois de Finges',
+      type: 'Nature Sauvage',
+      duration: '1/2 journée',
+      budget: 'Gratuit',
+      desc: 'L’une des plus grandes forêts de pins des Alpes, réserve naturelle protégée où le Rhône coule encore de façon totalement sauvage. Accès direct à pied/vélo depuis le camping.'
+    },
+    {
+      id: 'rando-col-gemmi',
+      emoji: '🌲',
+      name: 'Rando Col de la Gemmi (10 km)',
+      type: 'Randonnée Montagne',
+      duration: 'Journée',
+      budget: 'Pas cher',
+      desc: 'Traversée légendaire à 2300 m reliant Leukerbad à Kandersteg, le long du lac glaciaire Daubensee. 10 km (3h30), +350 m / -550 m. Retour en train depuis Kandersteg.'
+    },
+    {
+      id: 'sentier-torrent',
+      emoji: '🌲',
+      name: 'Sentier Panoramique de Torrent (11 km)',
+      type: 'Randonnée Crête',
+      duration: '1/2 journée',
+      budget: 'Gratuit',
+      desc: 'Boucle au-dessus de Leukerbad / Albinen avec panorama à 360° sur la chaîne des 4000 m. 11 km, +480 m / -480 m. Départ de Torrentalp.'
+    },
+    {
+      id: 'cabane-turtmann',
+      emoji: '🌲',
+      name: 'Rando de la cabane de Turtmann (12 km)',
+      type: 'Haute Montagne',
+      duration: 'Journée',
+      budget: 'Gratuit',
+      desc: 'Incursion dans la vallée de Tourtemagne, boucle du barrage jusqu’à la cabane CAS (2519 m) au pied du glacier. 12 km, +650 m / -650 m. Chaussures robustes indispensables.'
+    }
+  ];
+
+  var TRIP_START = new Date(2026, 6, 22);
+  var TRIP_END = new Date(2026, 7, 1);
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function dateKey(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+  function sameDay(a, b) { return dateKey(a) === dateKey(b); }
+
+  function buildDays() {
+    var days = [];
+    var cur = new Date(TRIP_START);
+    while (cur <= TRIP_END) {
+      days.push(new Date(cur));
+      cur.setDate(cur.getDate() + 1);
+    }
+    return days;
+  }
+  var DAYS = buildDays();
+
+  var activityById = {};
+  ACTIVITIES.forEach(function (a) { activityById[a.id] = a; });
+
+  var plan = loadPlan();
+
+  function loadPlan() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return {};
+      var parsed = JSON.parse(raw);
+      return (parsed && typeof parsed === 'object') ? parsed : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function savePlan() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(plan));
+    } catch (e) { /* stockage indisponible, planning non persisté */ }
+  }
+
+  function getDayList(key) {
+    if (!plan[key]) plan[key] = [];
+    return plan[key];
+  }
+
+  function activityDaysLabel(activityId) {
+    var found = [];
+    DAYS.forEach(function (d) {
+      var key = dateKey(d);
+      if (plan[key] && plan[key].indexOf(activityId) !== -1) {
+        found.push(d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }));
+      }
+    });
+    return found;
+  }
+
+  var daysContainer = document.getElementById('daysContainer');
+  var progressFill = document.getElementById('progressFill');
+  var progressLabel = document.getElementById('progressLabel');
+  var modalOverlay = document.getElementById('modalOverlay');
+  var modalTitle = document.getElementById('modalTitle');
+  var pickerList = document.getElementById('pickerList');
+  var searchInput = document.getElementById('searchInput');
+  var modalCloseBtn = document.getElementById('modalCloseBtn');
+  var modalDoneBtn = document.getElementById('modalDoneBtn');
+  var resetBtn = document.getElementById('resetBtn');
+
+  var activeDayKey = null;
+
+  function render() {
+    renderDays();
+    renderProgress();
+  }
+
+  function renderProgress() {
+    var totalPlanned = 0;
+    Object.keys(plan).forEach(function (k) { totalPlanned += plan[k].length; });
+    var plannedActivities = {};
+    Object.keys(plan).forEach(function (k) {
+      plan[k].forEach(function (id) { plannedActivities[id] = true; });
+    });
+    var distinctCount = Object.keys(plannedActivities).length;
+    var pct = ACTIVITIES.length ? Math.min(100, Math.round((distinctCount / ACTIVITIES.length) * 100)) : 0;
+    progressFill.style.width = pct + '%';
+    progressLabel.textContent = distinctCount + ' / ' + ACTIVITIES.length + ' activité' + (ACTIVITIES.length > 1 ? 's' : '') + ' au programme';
+  }
+
+  function renderDays() {
+    daysContainer.innerHTML = '';
+    var today = new Date();
+    DAYS.forEach(function (d) {
+      var key = dateKey(d);
+      var card = document.createElement('div');
+      card.className = 'day-card' + (sameDay(d, today) ? ' is-today' : '');
+
+      var head = document.createElement('div');
+      head.className = 'day-head';
+      var dayName = document.createElement('div');
+      dayName.className = 'day-name';
+      dayName.textContent = d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+      head.appendChild(dayName);
+      if (sameDay(d, TRIP_START) || sameDay(d, TRIP_END)) {
+        var tag = document.createElement('div');
+        tag.className = 'day-tag';
+        tag.textContent = sameDay(d, TRIP_START) ? 'Arrivée' : 'Départ';
+        head.appendChild(tag);
+      }
+      card.appendChild(head);
+
+      var list = document.createElement('div');
+      list.className = 'day-activities';
+      var ids = plan[key] || [];
+      if (ids.length === 0) {
+        var empty = document.createElement('div');
+        empty.className = 'empty-day';
+        empty.textContent = 'Aucune activité prévue.';
+        list.appendChild(empty);
+      } else {
+        ids.forEach(function (id, idx) {
+          var act = activityById[id];
+          if (!act) return;
+          var chip = document.createElement('div');
+          chip.className = 'activity-chip';
+
+          var emoji = document.createElement('div');
+          emoji.className = 'emoji';
+          emoji.textContent = act.emoji;
+          chip.appendChild(emoji);
+
+          var info = document.createElement('div');
+          info.className = 'info';
+          var name = document.createElement('span');
+          name.className = 'name';
+          name.textContent = act.name;
+          var meta = document.createElement('div');
+          meta.className = 'meta';
+          meta.textContent = act.type + ' · ' + act.duration + ' · ' + act.budget;
+          info.appendChild(name);
+          info.appendChild(meta);
+          chip.appendChild(info);
+
+          var actions = document.createElement('div');
+          actions.className = 'chip-actions';
+
+          if (idx > 0) {
+            var upBtn = document.createElement('button');
+            upBtn.className = 'icon-btn';
+            upBtn.type = 'button';
+            upBtn.setAttribute('aria-label', 'Monter');
+            upBtn.textContent = '↑';
+            upBtn.addEventListener('click', function () { moveActivity(key, idx, idx - 1); });
+            actions.appendChild(upBtn);
+          }
+          if (idx < ids.length - 1) {
+            var downBtn = document.createElement('button');
+            downBtn.className = 'icon-btn';
+            downBtn.type = 'button';
+            downBtn.setAttribute('aria-label', 'Descendre');
+            downBtn.textContent = '↓';
+            downBtn.addEventListener('click', function () { moveActivity(key, idx, idx + 1); });
+            actions.appendChild(downBtn);
+          }
+          var removeBtn = document.createElement('button');
+          removeBtn.className = 'icon-btn remove';
+          removeBtn.type = 'button';
+          removeBtn.setAttribute('aria-label', 'Retirer');
+          removeBtn.textContent = '✕';
+          removeBtn.addEventListener('click', function () { removeActivity(key, id); });
+          actions.appendChild(removeBtn);
+
+          chip.appendChild(actions);
+          list.appendChild(chip);
+        });
+      }
+      card.appendChild(list);
+
+      var addBtn = document.createElement('button');
+      addBtn.className = 'add-btn';
+      addBtn.type = 'button';
+      addBtn.textContent = '+ Ajouter une activité';
+      addBtn.addEventListener('click', function () { openPicker(key, d); });
+      card.appendChild(addBtn);
+
+      daysContainer.appendChild(card);
+    });
+  }
+
+  function moveActivity(key, from, to) {
+    var list = getDayList(key);
+    var item = list.splice(from, 1)[0];
+    list.splice(to, 0, item);
+    savePlan();
+    render();
+  }
+
+  function removeActivity(key, id) {
+    var list = getDayList(key);
+    var idx = list.indexOf(id);
+    if (idx !== -1) list.splice(idx, 1);
+    savePlan();
+    render();
+  }
+
+  function toggleActivity(key, id) {
+    var list = getDayList(key);
+    var idx = list.indexOf(id);
+    if (idx === -1) list.push(id); else list.splice(idx, 1);
+    savePlan();
+    render();
+    renderPickerList();
+  }
+
+  function openPicker(key, dateObj) {
+    activeDayKey = key;
+    modalTitle.textContent = 'Ajouter le ' + dateObj.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+    searchInput.value = '';
+    modalOverlay.classList.add('open');
+    renderPickerList();
+    setTimeout(function () { searchInput.focus(); }, 50);
+  }
+
+  function closePicker() {
+    modalOverlay.classList.remove('open');
+    activeDayKey = null;
+  }
+
+  function renderPickerList() {
+    var query = searchInput.value.trim().toLowerCase();
+    var current = activeDayKey ? getDayList(activeDayKey) : [];
+    pickerList.innerHTML = '';
+
+    var filtered = ACTIVITIES.filter(function (a) {
+      if (!query) return true;
+      var haystack = (a.name + ' ' + a.type).toLowerCase();
+      return haystack.indexOf(query) !== -1;
+    });
+
+    if (filtered.length === 0) {
+      var empty = document.createElement('div');
+      empty.className = 'picker-empty';
+      empty.textContent = 'Aucune activité ne correspond à votre recherche.';
+      pickerList.appendChild(empty);
+      return;
+    }
+
+    filtered.forEach(function (a) {
+      var selected = current.indexOf(a.id) !== -1;
+      var card = document.createElement('div');
+      card.className = 'picker-card' + (selected ? ' selected' : '');
+
+      var row1 = document.createElement('div');
+      row1.className = 'row1';
+      var emoji = document.createElement('span');
+      emoji.className = 'emoji';
+      emoji.textContent = a.emoji;
+      var name = document.createElement('span');
+      name.className = 'name';
+      name.textContent = a.name;
+      var check = document.createElement('span');
+      check.className = 'check';
+      check.textContent = selected ? '✓' : '';
+      row1.appendChild(emoji);
+      row1.appendChild(name);
+      row1.appendChild(check);
+      card.appendChild(row1);
+
+      var metaRow = document.createElement('div');
+      metaRow.className = 'meta-row';
+      [a.type, a.duration, a.budget].forEach(function (m) {
+        var span = document.createElement('span');
+        span.textContent = m;
+        metaRow.appendChild(span);
+      });
+      card.appendChild(metaRow);
+
+      var desc = document.createElement('div');
+      desc.className = 'desc';
+      desc.textContent = a.desc;
+      card.appendChild(desc);
+
+      var daysUsed = activityDaysLabel(a.id);
+      if (daysUsed.length > 0) {
+        var note = document.createElement('div');
+        note.className = 'used-note';
+        note.textContent = 'Déjà planifiée le ' + daysUsed.join(', ');
+        card.appendChild(note);
+      }
+
+      card.addEventListener('click', function () {
+        toggleActivity(activeDayKey, a.id);
+      });
+
+      pickerList.appendChild(card);
+    });
+  }
+
+  searchInput.addEventListener('input', renderPickerList);
+  modalCloseBtn.addEventListener('click', closePicker);
+  modalDoneBtn.addEventListener('click', closePicker);
+  modalOverlay.addEventListener('click', function (e) {
+    if (e.target === modalOverlay) closePicker();
+  });
+
+  resetBtn.addEventListener('click', function () {
+    if (window.confirm('Réinitialiser tout le planning de la semaine ?')) {
+      plan = {};
+      savePlan();
+      render();
+    }
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
