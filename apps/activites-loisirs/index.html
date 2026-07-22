@@ -344,21 +344,20 @@
   </header>
 
   <section class="map-section">
-    <button type="button" class="map-toggle" id="mapToggle" aria-expanded="true" aria-controls="mapPanel">
+    <button type="button" class="map-toggle" id="mapToggle" aria-expanded="false" aria-controls="mapPanel">
       <h2>🗺️ Où se trouvent ces activités ?</h2>
       <span class="map-toggle-chevron" aria-hidden="true">▾</span>
     </button>
-    <div class="map-panel" id="mapPanel">
+    <div class="map-panel collapsed" id="mapPanel">
       <p class="map-caption">Vue d'ensemble depuis le Camping Bella-Tola. Cliquez un marqueur pour le nom de l'activité, ou utilisez le lien « Itinéraire » de chaque carte ci-dessous pour un trajet précis.</p>
       <div id="activities-map"></div>
     </div>
   </section>
 
   <div class="sort-bar">
-    <label for="sortSelect">Trier par :</label>
-    <select id="sortSelect">
+    <select id="sortSelect" aria-label="Trier les activités">
       <option value="default">Ordre par défaut</option>
-      <option value="distance">📍 Distance (plus proche → plus loin)</option>
+      <option value="distance" selected>📍 Distance (plus proche → plus loin)</option>
       <option value="rating">⭐ Note moyenne (plus → moins d'étoiles)</option>
     </select>
   </div>
@@ -1064,11 +1063,14 @@
   var mapToggle = document.getElementById('mapToggle');
   var mapPanel = document.getElementById('mapPanel');
   mapToggle.addEventListener('click', function () {
-    var expanded = mapToggle.getAttribute('aria-expanded') === 'true';
-    mapToggle.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-    mapPanel.classList.toggle('collapsed', expanded);
-    if (expanded === false && mapInstance) {
-      setTimeout(function () { mapInstance.invalidateSize(); }, 50);
+    var wasExpanded = mapToggle.getAttribute('aria-expanded') === 'true';
+    var nowExpanded = !wasExpanded;
+    mapToggle.setAttribute('aria-expanded', nowExpanded ? 'true' : 'false');
+    mapPanel.classList.toggle('collapsed', !nowExpanded);
+    if (nowExpanded) {
+      setTimeout(function () {
+        if (!mapInstance) { initMap(); } else { mapInstance.invalidateSize(); }
+      }, 50);
     }
   });
 
@@ -1108,7 +1110,7 @@
 
   renderVoterBanner();
   loadRatings();
-  initMap();
+  applySort();
 })();
 </script>
 </body>

@@ -21,13 +21,15 @@ activités ; chaque marqueur et chaque carte d'activité ont un lien
 « 🗺️ Itinéraire depuis le camping » (Google Maps, calculé à partir du
 nom du lieu — pas besoin de coordonnées précises pour la navigation
 réelle, seul l'aperçu sur la carte utilise des coordonnées approximatives).
-La section carte est repliable (bouton avec chevron, état mémorisé
-uniquement pour la session en cours).
+La section carte est repliée par défaut (bouton avec chevron ; la carte
+Leaflet n'est initialisée qu'au premier dépli, pour ne pas charger
+Leaflet inutilement si l'utilisateur ne l'ouvre pas).
 
-Un sélecteur au-dessus des cartes d'activité permet de les trier par
-distance croissante (plus proche → plus loin) ou par note moyenne
-décroissante (plus étoilée → moins étoilée, les activités non notées
-étant reléguées en fin de liste).
+Un sélecteur (sans libellé, juste au-dessus des cartes) permet de
+trier les activités par distance croissante (plus proche → plus loin,
+tri actif par défaut) ou par note moyenne décroissante (plus étoilée
+→ moins étoilée, les activités non notées étant reléguées en fin de
+liste).
 
 ## Dépendances datasource
 - datasource/activites.md
