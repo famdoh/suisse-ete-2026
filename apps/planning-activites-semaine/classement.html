@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Classement des activités - Suisse Été 2026</title>
+<meta name="description" content="Classement des activités touristiques selon la moyenne des notes de chaque voyageur (1 à 3 étoiles).">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f7f5f0;
+    --card-bg: #ffffff;
+    --text: #1f2a24;
+    --muted: #5b6b62;
+    --accent: #2f7a4f;
+    --border: #e2ddd0;
+    --chip-bg: #eef4ef;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12160f;
+      --card-bg: #1b2119;
+      --text: #eef1ea;
+      --muted: #a8b3a4;
+      --accent: #6fbf8f;
+      --border: #2b332a;
+      --chip-bg: #232b21;
+    }
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    padding-bottom: 3rem;
+  }
+  main {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 1.25rem 1rem 2rem;
+  }
+  header.top {
+    text-align: center;
+    margin-bottom: 1.25rem;
+  }
+  header.top h1 {
+    font-size: 1.4rem;
+    margin: 0 0 0.2rem;
+  }
+  header.top p.subtitle {
+    color: var(--muted);
+    margin: 0;
+    font-size: 0.9rem;
+  }
+  .back-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .back-link:hover { text-decoration: underline; }
+
+  .status-note {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+    padding: 1.5rem 0.5rem;
+  }
+
+  .rank-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1rem;
+    margin-bottom: 0.9rem;
+  }
+  .rank-head {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
+  }
+  .rank-num {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--accent);
+    min-width: 1.8rem;
+  }
+  .rank-head .emoji { font-size: 1.15rem; }
+  .rank-head .rank-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    flex: 1;
+  }
+  .rank-summary {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+  .voter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    border-top: 1px solid var(--border);
+    padding-top: 0.5rem;
+  }
+  .voter-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.82rem;
+  }
+  .voter-row .voter-name { color: var(--text); }
+  .voter-row .voter-stars { color: #d8a916; letter-spacing: 0.1rem; }
+  .no-votes {
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+<main>
+  <header class="top">
+    <h1>🏆 Classement des activités</h1>
+    <p class="subtitle">Moyenne des notes données par chaque voyageur</p>
+    <a class="back-link" href="index.html">← Retour au planning</a>
+  </header>
+
+  <div id="content">
+    <div class="status-note" id="statusNote">Chargement des notes…</div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function () {
+  var SUPABASE_URL = 'https://hmpiluotdcympkihvnlt.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_osU_bo7QNJVg3yjxJObUSg_Y7So1lZZ';
+  var sb = (window.supabase && window.supabase.createClient)
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+    : null;
+
+  var ACTIVITIES = [
+    { id: 'bains-leukerbad', emoji: '🌲', name: 'Bains thermaux de Leukerbad' },
+    { id: 'pont-bhoutan-illgraben', emoji: '🌲', name: 'Pont du Bhoutan & Illgraben' },
+    { id: 'lac-souterrain-st-leonard', emoji: '🏛️', name: 'Lac Souterrain de St-Léonard' },
+    { id: 'pont-spinelle-niouc', emoji: '🌲', name: 'Pont Spinelle de Niouc' },
+    { id: 'chateau-loeche', emoji: '🏛️', name: 'Château de Loèche (Leuk-Stadt)' },
+    { id: 'pfynwald-finges', emoji: '🌲', name: 'Pfynwald - Bois de Finges' },
+    { id: 'rando-col-gemmi', emoji: '🌲', name: 'Rando Col de la Gemmi (10 km)' },
+    { id: 'sentier-torrent', emoji: '🌲', name: 'Sentier Panoramique de Torrent (11 km)' },
+    { id: 'cabane-turtmann', emoji: '🌲', name: 'Rando de la cabane de Turtmann (12 km)' }
+  ];
+
+  var content = document.getElementById('content');
+  var statusNote = document.getElementById('statusNote');
+
+  function starStr(value) {
+    var s = '';
+    for (var i = 1; i <= 3; i++) s += (i <= value ? '★' : '☆');
+    return s;
+  }
+
+  function render(ratingsByActivity) {
+    var ranked = ACTIVITIES.map(function (a) {
+      var r = ratingsByActivity[a.id];
+      var count = r ? r.count : 0;
+      var avg = count ? (r.sum / count) : null;
+      var voters = r ? Object.keys(r.byVoter).sort(function (x, y) { return x.localeCompare(y); }) : [];
+      return { activity: a, avg: avg, count: count, voters: voters, byVoter: r ? r.byVoter : {} };
+    });
+
+    ranked.sort(function (x, y) {
+      if (x.count === 0 && y.count === 0) return x.activity.name.localeCompare(y.activity.name);
+      if (x.count === 0) return 1;
+      if (y.count === 0) return -1;
+      if (y.avg !== x.avg) return y.avg - x.avg;
+      return y.count - x.count;
+    });
+
+    content.innerHTML = '';
+    ranked.forEach(function (entry, idx) {
+      var card = document.createElement('div');
+      card.className = 'rank-card';
+
+      var head = document.createElement('div');
+      head.className = 'rank-head';
+      var num = document.createElement('span');
+      num.className = 'rank-num';
+      num.textContent = '#' + (idx + 1);
+      var emoji = document.createElement('span');
+      emoji.className = 'emoji';
+      emoji.textContent = entry.activity.emoji;
+      var name = document.createElement('span');
+      name.className = 'rank-name';
+      name.textContent = entry.activity.name;
+      head.appendChild(num);
+      head.appendChild(emoji);
+      head.appendChild(name);
+      card.appendChild(head);
+
+      var summary = document.createElement('div');
+      summary.className = 'rank-summary';
+      summary.textContent = entry.count > 0
+        ? '★ ' + entry.avg.toFixed(1) + ' de moyenne · ' + entry.count + ' vote' + (entry.count > 1 ? 's' : '')
+        : 'Pas encore noté';
+      card.appendChild(summary);
+
+      if (entry.voters.length > 0) {
+        var list = document.createElement('div');
+        list.className = 'voter-list';
+        entry.voters.forEach(function (voterName) {
+          var row = document.createElement('div');
+          row.className = 'voter-row';
+          var vn = document.createElement('span');
+          vn.className = 'voter-name';
+          vn.textContent = voterName;
+          var vs = document.createElement('span');
+          vs.className = 'voter-stars';
+          vs.textContent = starStr(entry.byVoter[voterName]);
+          row.appendChild(vn);
+          row.appendChild(vs);
+          list.appendChild(row);
+        });
+        card.appendChild(list);
+      }
+
+      content.appendChild(card);
+    });
+  }
+
+  if (!sb) {
+    statusNote.textContent = 'Connexion à Supabase indisponible : impossible de charger le classement.';
+    return;
+  }
+
+  sb.from('activity_ratings').select('activity_id, voter_name, rating').then(function (res) {
+    if (res.error) {
+      statusNote.textContent = 'Erreur lors du chargement des notes.';
+      return;
+    }
+    var map = {};
+    res.data.forEach(function (row) {
+      if (!map[row.activity_id]) map[row.activity_id] = { sum: 0, count: 0, byVoter: {} };
+      map[row.activity_id].sum += row.rating;
+      map[row.activity_id].count += 1;
+      map[row.activity_id].byVoter[row.voter_name] = row.rating;
+    });
+    render(map);
+  });
+})();
+</script>
+</body>
+</html>
