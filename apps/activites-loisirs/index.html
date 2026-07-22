@@ -153,7 +153,6 @@
     font-family: inherit;
     cursor: pointer;
   }
-  .sort-note { font-size: 0.8rem; color: var(--text-body); opacity: 0.75; font-style: italic; }
   #activities-map {
     height: 380px;
     width: 100%;
@@ -387,7 +386,6 @@
       <option value="rating">⭐ Note moyenne (plus → moins d'étoiles)</option>
       <option value="mustsee">🌟 Incontournables d'abord</option>
     </select>
-    <span class="sort-note" id="sortNote"></span>
   </div>
 
   <div class="activities-grid">
@@ -1168,11 +1166,6 @@
       ordered = defaultCardOrder;
     }
     ordered.forEach(function (card) { activitiesGrid.appendChild(card); });
-
-    var sortNote = document.getElementById('sortNote');
-    sortNote.textContent = (mode === 'mustsee')
-      ? '(sélection éditoriale maison, pas une note communautaire chiffrée)'
-      : '';
   }
 
   function renderDistanceBadges() {
