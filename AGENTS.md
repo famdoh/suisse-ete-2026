@@ -7,6 +7,13 @@ This repository hosts a collection of standalone HTML mini-apps for the
 Every app built in this project exists to help organize the Switzerland
 trip taking place from July 22 to August 1, 2026.
 
+Every mini-app must take the following trip context into account:
+
+- **Location**: the stay takes place at Camping Bella-Tola, Waldstrasse
+  57, 3952 Susten, Valais, Switzerland — near Leuk/Loèche, in the Pfyn
+  ("Finges") forest / Rhône valley area.
+- **Travelers**: 4 adults and 4 children (aged 8 to 13).
+
 ## Architecture
 
 - `index.html` (repo root) — the hub page. It lists every mini-app in
