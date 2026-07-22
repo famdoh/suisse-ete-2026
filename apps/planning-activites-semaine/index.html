@@ -437,6 +437,7 @@
       type: 'Détente & Fun',
       duration: '1/2 journée',
       budget: 'Payant',
+      distance: '15 km',
       desc: 'Les plus célèbres et grands thermes des Alpes. Bassins chauds extérieurs au pied de vertigineuses falaises et espace aquatique moderne.'
     },
     {
@@ -446,6 +447,7 @@
       type: 'Nature & Rando',
       duration: '1/2 journée',
       budget: 'Gratuit',
+      distance: '~1,5 km',
       desc: 'Randonnée spectaculaire traversant un pont suspendu de 134 m qui relie le Haut et le Bas-Valais au-dessus du grand canyon de l’Illgraben.'
     },
     {
@@ -455,6 +457,7 @@
       type: 'Grotte & Culture',
       duration: '1/2 journée',
       budget: 'Payant',
+      distance: '28 km',
       desc: 'Traversée magique de 30 minutes sur le plus grand lac souterrain navigable d’Europe, logé dans une grotte de gypse éclairée. Réservation obligatoire.'
     },
     {
@@ -464,6 +467,7 @@
       type: 'Aventure / Sensations',
       duration: '1/2 journée',
       budget: 'Moyen',
+      distance: '~20 km',
       desc: 'Pont suspendu piéton historique surnommé le « Pont Araignée » perché à 190 m de hauteur dans le Val d’Anniviers. Tyrolienne géante et saut à l’élastique.'
     },
     {
@@ -473,6 +477,7 @@
       type: 'Culture & Art',
       duration: '2h',
       budget: 'Gratuit',
+      distance: '~3 km',
       desc: 'Visite du bourg médiéval pavé de Loèche et de son château fort abritant une coupole en verre dessinée par Mario Botta.'
     },
     {
@@ -482,6 +487,7 @@
       type: 'Nature Sauvage',
       duration: '1/2 journée',
       budget: 'Gratuit',
+      distance: '~1 km',
       desc: 'L’une des plus grandes forêts de pins des Alpes, réserve naturelle protégée où le Rhône coule encore de façon totalement sauvage. Accès direct à pied/vélo depuis le camping.'
     },
     {
@@ -491,6 +497,7 @@
       type: 'Randonnée Montagne',
       duration: 'Journée',
       budget: 'Pas cher',
+      distance: '15 km',
       desc: 'Traversée légendaire à 2300 m reliant Leukerbad à Kandersteg, le long du lac glaciaire Daubensee. 10 km (3h30), +350 m / -550 m. Retour en train depuis Kandersteg.'
     },
     {
@@ -500,6 +507,7 @@
       type: 'Randonnée Crête',
       duration: '1/2 journée',
       budget: 'Gratuit',
+      distance: '~16 km',
       desc: 'Boucle au-dessus de Leukerbad / Albinen avec panorama à 360° sur la chaîne des 4000 m. 11 km, +480 m / -480 m. Départ de Torrentalp.'
     },
     {
@@ -509,6 +517,7 @@
       type: 'Haute Montagne',
       duration: 'Journée',
       budget: 'Gratuit',
+      distance: '~20 km',
       desc: 'Incursion dans la vallée de Tourtemagne, boucle du barrage jusqu’à la cabane CAS (2519 m) au pied du glacier. 12 km, +650 m / -650 m. Chaussures robustes indispensables.'
     }
   ];
@@ -787,7 +796,7 @@
           name.textContent = act.name;
           var meta = document.createElement('div');
           meta.className = 'meta';
-          meta.textContent = act.type + ' · ' + act.duration + ' · ' + act.budget;
+          meta.textContent = act.type + ' · ' + act.duration + ' · ' + act.budget + ' · ' + act.distance;
           info.appendChild(name);
           info.appendChild(meta);
           chipTop.appendChild(info);
@@ -922,7 +931,7 @@
 
       var metaRow = document.createElement('div');
       metaRow.className = 'meta-row';
-      [a.type, a.duration, a.budget].forEach(function (m) {
+      [a.type, a.duration, a.budget, a.distance + ' du camping'].forEach(function (m) {
         var span = document.createElement('span');
         span.textContent = m;
         metaRow.appendChild(span);

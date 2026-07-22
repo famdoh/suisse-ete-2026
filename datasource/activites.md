@@ -14,6 +14,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Type :** 🌲 Détente & Fun
 - **Durée :** 1/2 journée
 - **Budget :** Payant
+- **Distance :** 15 km du camping (~20 min en voiture)
 - **Description :** Les plus célèbres et grands thermes des Alpes.
   Bassins chauds extérieurs au pied de vertigineuses falaises et espace
   aquatique moderne.
@@ -29,6 +30,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Type :** 🌲 Nature & Rando
 - **Durée :** 1/2 journée
 - **Budget :** Gratuit
+- **Distance :** ~1,5 km du camping (à pied)
 - **Description :** Une randonnée spectaculaire traversant un pont
   suspendu de 134 m de long qui relie le Haut et le Bas-Valais
   au-dessus du grand canyon de l'Illgraben.
@@ -43,6 +45,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Type :** 🏛️ Grotte & Culture
 - **Durée :** 1/2 journée
 - **Budget :** Payant
+- **Distance :** 28 km du camping (~20 min en voiture)
 - **Description :** Une traversée magique de 30 minutes sur le plus
   grand lac souterrain navigable d'Europe, logé dans une grotte de
   gypse éclairée.
@@ -58,6 +61,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Type :** 🌲 Aventure / Sensations
 - **Durée :** 1/2 journée
 - **Budget :** Moyen
+- **Distance :** ~20 km du camping (~25 min en voiture)
 - **Description :** Un pont suspendu piéton historique surnommé le
   « Pont Araignée » perché à 190 m de hauteur dans le Val d'Anniviers.
 - **Pour les ados :** Les sensations fortes : tyrolienne géante de
@@ -72,6 +76,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Type :** 🏛️ Culture & Art
 - **Durée :** 2h
 - **Budget :** Gratuit
+- **Distance :** ~3 km du camping (~5 min en voiture)
 - **Description :** Visite du bourg médiéval pavé de Loèche et de son
   château fort abritant une magnifique coupole en verre dessinée par le
   célèbre architecte Mario Botta.
@@ -87,6 +92,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Type :** 🌲 Nature Sauvage
 - **Durée :** 1/2 journée
 - **Budget :** Gratuit
+- **Distance :** ~1 km du camping (à pied/vélo)
 - **Description :** L'une des plus grandes forêts de pins des Alpes et
   une réserve naturelle protégée où le fleuve Rhône coule encore de
   façon totalement sauvage.
@@ -102,6 +108,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Type :** 🌲 Randonnée Montagne
 - **Durée :** Journée
 - **Budget :** Pas cher
+- **Distance :** 15 km du camping jusqu'au départ à Leukerbad (~20 min en voiture)
 - **Description :** Une traversée légendaire de haute montagne à 2300 m
   d'altitude reliant Leukerbad à Kandersteg, longeant le lac glaciaire
   Daubensee au milieu de paysages lunaires.
@@ -117,6 +124,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Type :** 🌲 Randonnée Crête
 - **Durée :** 1/2 journée
 - **Budget :** Gratuit
+- **Distance :** ~16 km du camping jusqu'au départ à Torrentalp (~20 min en voiture)
 - **Description :** Une boucle à couper le souffle au-dessus de
   Leukerbad / Albinen avec un panorama à 360° permanent sur la chaîne
   des 4000 m du Valais (Mont Rose, Cervin, Dent Blanche).
@@ -133,6 +141,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Type :** 🌲 Haute Montagne
 - **Durée :** Journée
 - **Budget :** Gratuit
+- **Distance :** ~20 km du camping jusqu'au départ à Senntum (~25 min en voiture)
 - **Description :** Une incursion sauvage dans la vallée voisine de
   Tourtemagne. Randonnée en boucle montant du barrage jusqu'à la cabane
   CAS (2519 m) au pied immédiat du glacier et de ses séracs.
