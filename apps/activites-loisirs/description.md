@@ -21,6 +21,13 @@ activités ; chaque marqueur et chaque carte d'activité ont un lien
 « 🗺️ Itinéraire depuis le camping » (Google Maps, calculé à partir du
 nom du lieu — pas besoin de coordonnées précises pour la navigation
 réelle, seul l'aperçu sur la carte utilise des coordonnées approximatives).
+La section carte est repliable (bouton avec chevron, état mémorisé
+uniquement pour la session en cours).
+
+Un sélecteur au-dessus des cartes d'activité permet de les trier par
+distance croissante (plus proche → plus loin) ou par note moyenne
+décroissante (plus étoilée → moins étoilée, les activités non notées
+étant reléguées en fin de liste).
 
 ## Dépendances datasource
 - datasource/activites.md
