@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
   :root {
     color-scheme: light dark;
@@ -88,6 +89,30 @@
   }
   header h1 { font-size: 2.6rem; letter-spacing: -0.5px; margin-bottom: 12px; text-wrap: balance; }
   header p { font-size: 1.05rem; max-width: 680px; margin: 0 auto; opacity: 0.9; }
+  .ranking-link {
+    display: inline-block;
+    margin-top: 16px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-decoration: none;
+  }
+  .ranking-link:hover { text-decoration: underline; }
+  .map-section { margin-bottom: 32px; }
+  .map-section h2 { font-size: 1.25rem; margin-bottom: 4px; }
+  .map-caption { font-size: 0.85rem; color: var(--text-body); opacity: 0.85; margin-bottom: 14px; max-width: 680px; }
+  #activities-map {
+    height: 380px;
+    width: 100%;
+    border-radius: 20px;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+  }
+  .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: var(--card-bg); color: var(--text-heading); }
+  .map-popup { font-family: 'Plus Jakarta Sans', sans-serif; }
+  .map-popup strong { display: block; margin-bottom: 4px; color: var(--text-heading); }
+  .map-popup a { color: var(--primary); font-size: 0.82rem; text-decoration: none; font-weight: 600; }
+  .map-popup a:hover { text-decoration: underline; }
   .activities-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
@@ -138,13 +163,22 @@
   .activity-description { font-size: 0.9rem; color: var(--text-body); line-height: 1.5; margin-bottom: 10px; }
   .activity-link {
     display: inline-block;
-    margin-bottom: 16px;
     font-size: 0.82rem;
     font-weight: 600;
     color: var(--primary);
     text-decoration: none;
   }
   .activity-link:hover { text-decoration: underline; color: var(--primary-hover); }
+  .itinerary-link {
+    display: inline-block;
+    margin-top: 4px;
+    margin-bottom: 16px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-body);
+    text-decoration: none;
+  }
+  .itinerary-link:hover { text-decoration: underline; color: var(--primary); }
   .activity-points {
     list-style: none;
     display: flex;
@@ -160,6 +194,103 @@
   .activity-points li::before { content: "✓"; position: absolute; left: 0; color: var(--primary); font-weight: bold; }
   footer { text-align: center; margin-top: 50px; font-size: 0.85rem; color: var(--text-body); opacity: 0.75; }
   footer a { color: var(--primary); }
+
+  /* Voter banner */
+  .voter-banner {
+    margin-top: 18px;
+    font-size: 0.82rem;
+    color: var(--text-body);
+  }
+  .voter-banner strong { color: var(--text-heading); }
+  .voter-banner button {
+    border: none;
+    background: transparent;
+    color: var(--primary);
+    font-size: 0.82rem;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 0.35rem;
+  }
+
+  /* Rating widget */
+  .rating-slot { margin: 6px 0 2px; }
+  .rating-widget { display: flex; align-items: center; gap: 0.5rem; }
+  .stars-row { display: flex; gap: 0.05rem; }
+  .star-btn {
+    border: none;
+    background: transparent;
+    color: #d8a916;
+    font-size: 1.1rem;
+    line-height: 1;
+    padding: 0.1rem;
+    cursor: pointer;
+  }
+  .star-btn:disabled { cursor: default; opacity: 0.5; }
+  .rating-summary { font-size: 0.75rem; color: var(--text-body); }
+
+  /* Name modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 15, 12, 0.55);
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 50;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-sheet {
+    background-color: #f7fbf8;
+    width: 100%;
+    max-width: 480px;
+    border-radius: 20px 20px 0 0;
+    padding: 20px 20px calc(20px + env(safe-area-inset-bottom, 0px));
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.2s ease;
+  }
+  @media (prefers-color-scheme: dark) {
+    .modal-sheet { background-color: #16201a; }
+  }
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0.5; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .modal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .modal-head h2 { font-size: 1.1rem; margin: 0; }
+  .modal-close {
+    border: none;
+    background: var(--points-bg);
+    color: var(--text-heading);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .name-input {
+    width: 100%;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    background: var(--card-bg);
+    color: var(--text-heading);
+    font-size: 0.95rem;
+    margin-bottom: 14px;
+  }
+  .modal-done {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 10px;
+    background: var(--primary);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+  .modal-done:active { background: var(--primary-hover); }
 </style>
 </head>
 <body>
@@ -168,7 +299,15 @@
     <div class="swiss-badge">🇨🇭 Suisse 2026</div>
     <h1>🧭 Activités & Loisirs</h1>
     <p>19 activités et sorties à proximité du Camping Bella-Tola (Susten, Valais) — du plus proche au plus lointain, avec un lien vers le site officiel de chacune.</p>
+    <a class="ranking-link" href="../planning-activites-semaine/classement.html">🏆 Classement des activités</a>
+    <div class="voter-banner" id="voterBanner"></div>
   </header>
+
+  <section class="map-section">
+    <h2>🗺️ Où se trouvent ces activités ?</h2>
+    <p class="map-caption">Vue d'ensemble depuis le Camping Bella-Tola. Cliquez un marqueur pour le nom de l'activité, ou utilisez le lien « Itinéraire » de chaque carte ci-dessous pour un trajet précis.</p>
+    <div id="activities-map"></div>
+  </section>
 
   <div class="activities-grid">
     <!-- Activité 1 -->
@@ -185,6 +324,8 @@
         </div>
         <p class="activity-description">Les plus célèbres et grands thermes des Alpes. Bassins chauds extérieurs au pied de vertigineuses falaises et espace aquatique moderne.</p>
         <a class="activity-link" href="https://alpentherme.ch/" target="_blank" rel="noopener">🔗 alpentherme.ch ↗</a>
+        <div class="rating-slot" data-activity-id="bains-leukerbad"></div>
+        <a class="itinerary-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&amp;destination=Walliser%20Alpentherme%2C%20Leukerbad%2C%20Suisse&amp;travelmode=driving" target="_blank" rel="noopener">🗺️ Itinéraire depuis le camping ↗</a>
       </div>
       <ul class="activity-points">
         <li><strong>Pour les ados :</strong> Les grands toboggans couverts et les plongeoirs pour s'amuser.</li>
@@ -207,6 +348,8 @@
         </div>
         <p class="activity-description">Une randonnée spectaculaire traversant un pont suspendu de 134m de long qui relie le Haut et le Bas-Valais au-dessus du grand canyon de l'Illgraben.</p>
         <a class="activity-link" href="https://www.sierretourisme.ch/fr/V4366/a-faire/sport-et-loisirs/randonnees-balades/sierre-illgraben-pont-bouthanais-leuk-susten" target="_blank" rel="noopener">🔗 Sierre Tourisme ↗</a>
+        <div class="rating-slot" data-activity-id="pont-bhoutan-illgraben"></div>
+        <a class="itinerary-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&amp;destination=Pont%20bhoutanais%2C%20Illgraben%2C%20Susten%2C%20Suisse&amp;travelmode=driving" target="_blank" rel="noopener">🗺️ Itinéraire depuis le camping ↗</a>
       </div>
       <ul class="activity-points">
         <li><strong>Pour les ados :</strong> Les sensations de hauteur sur le pont suspendu.</li>
@@ -229,6 +372,8 @@
         </div>
         <p class="activity-description">Une traversée magique de 30 minutes sur le plus grand lac souterrain navigable d'Europe, logé dans une grotte de gypse éclairée.</p>
         <a class="activity-link" href="https://lac-souterrain.com/en/" target="_blank" rel="noopener">🔗 lac-souterrain.com ↗</a>
+        <div class="rating-slot" data-activity-id="lac-souterrain-st-leonard"></div>
+        <a class="itinerary-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&amp;destination=Lac%20Souterrain%20de%20St-L%C3%A9onard%2C%20Suisse&amp;travelmode=driving" target="_blank" rel="noopener">🗺️ Itinéraire depuis le camping ↗</a>
       </div>
       <ul class="activity-points">
         <li><strong>Pour les ados :</strong> Explorer une grotte mystique en barque géante et le wifi à l'entrée.</li>
@@ -251,6 +396,8 @@
         </div>
         <p class="activity-description">Un pont suspendu piéton historique surnommé le « Pont Araignée » perché à 190m de hauteur dans le Val d'Anniviers.</p>
         <a class="activity-link" href="https://pontsuspendu.ch/la-region/" target="_blank" rel="noopener">🔗 pontsuspendu.ch ↗</a>
+        <div class="rating-slot" data-activity-id="pont-spinelle-niouc"></div>
+        <a class="itinerary-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&amp;destination=Pont%20suspendu%20de%20Niouc%2C%20Anniviers%2C%20Suisse&amp;travelmode=driving" target="_blank" rel="noopener">🗺️ Itinéraire depuis le camping ↗</a>
       </div>
       <ul class="activity-points">
         <li><strong>Pour les ados :</strong> Les sensations fortes : tyrolienne géante de 220m ou saut à l'élastique.</li>
@@ -273,6 +420,8 @@
         </div>
         <p class="activity-description">Visite du bourg médiéval pavé de Loèche et de son château fort abritant une magnifique coupole en verre dessinée par le célèbre architecte Mario Botta.</p>
         <a class="activity-link" href="https://www.pfyn-finges.ch/fr/experience/carte-du-parc/offer-detail/chateau-loeche-2151" target="_blank" rel="noopener">🔗 pfyn-finges.ch ↗</a>
+        <div class="rating-slot" data-activity-id="chateau-loeche"></div>
+        <a class="itinerary-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&amp;destination=Ch%C3%A2teau%20de%20Lo%C3%A8che%2C%20Leuk-Stadt%2C%20Suisse&amp;travelmode=driving" target="_blank" rel="noopener">🗺️ Itinéraire depuis le camping ↗</a>
       </div>
       <ul class="activity-points">
         <li><strong>Pour les ados :</strong> Monter dans la coupole moderne de verre et de métal futuriste.</li>
@@ -295,6 +444,8 @@
         </div>
         <p class="activity-description">L'une des plus grandes forêts de pins des Alpes et une réserve naturelle protégée où le fleuve Rhône coule encore de façon totalement sauvage.</p>
         <a class="activity-link" href="https://www.pfyn-finges.ch/fr/decouvrir-le-parc/decouvrir-par-soi-meme/exceptionelle/reserve-naturelle-du-bois-de-finges-3" target="_blank" rel="noopener">🔗 pfyn-finges.ch ↗</a>
+        <div class="rating-slot" data-activity-id="pfynwald-finges"></div>
+        <a class="itinerary-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&amp;destination=Bois%20de%20Finges%2C%20Salgesch%2C%20Suisse&amp;travelmode=driving" target="_blank" rel="noopener">🗺️ Itinéraire depuis le camping ↗</a>
       </div>
       <ul class="activity-points">
         <li><strong>Pour les ados :</strong> Louer un VTT et explorer les sentiers forestiers et les étangs secrets.</li>
@@ -317,6 +468,8 @@
         </div>
         <p class="activity-description">Une traversée légendaire de haute montagne à 2300m d'altitude reliant Leukerbad à Kandersteg, longeant le lac glaciaire Daubensee au milieu de paysages lunaires.</p>
         <a class="activity-link" href="https://leukerbad.ch/fr/tour/chemin-du-col-de-la-gemmi-57718545" target="_blank" rel="noopener">🔗 leukerbad.ch ↗</a>
+        <div class="rating-slot" data-activity-id="rando-col-gemmi"></div>
+        <a class="itinerary-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&amp;destination=Gemmipass%2C%20Leukerbad%2C%20Suisse&amp;travelmode=driving" target="_blank" rel="noopener">🗺️ Itinéraire depuis le camping ↗</a>
       </div>
       <ul class="activity-points">
         <li><strong>Pour les ados :</strong> L'arrivée impressionnante en téléphérique et les pierriers alpins de haute montagne.</li>
@@ -339,6 +492,8 @@
         </div>
         <p class="activity-description">Une boucle à couper le souffle au-dessus de Leukerbad / Albinen avec un panorama à 360° permanent sur la chaîne des 4000m du Valais (Mont Rose, Cervin, Dent Blanche).</p>
         <a class="activity-link" href="https://www.leukerbad.ch/fr/tour/chemin-panoramique-du-torrent-57523502" target="_blank" rel="noopener">🔗 leukerbad.ch ↗</a>
+        <div class="rating-slot" data-activity-id="sentier-torrent"></div>
+        <a class="itinerary-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&amp;destination=Torrent-Bahnen%2C%20Leukerbad%2C%20Suisse&amp;travelmode=driving" target="_blank" rel="noopener">🗺️ Itinéraire depuis le camping ↗</a>
       </div>
       <ul class="activity-points">
         <li><strong>Pour les ados :</strong> Une rando active avec des points de vue photo incroyables au-dessus des nuages.</li>
@@ -361,6 +516,8 @@
         </div>
         <p class="activity-description">Une incursion sauvage dans la vallée voisine de Tourtemagne. Randonnée en boucle montant du barrage jusqu'à la cabane CAS (2519m) au pied immédiat du glacier et de ses séracs.</p>
         <a class="activity-link" href="https://www.cas-prevotoise.ch/cabanes/cabane-de-tourtemagne.php" target="_blank" rel="noopener">🔗 CAS Prévôtoise ↗</a>
+        <div class="rating-slot" data-activity-id="cabane-turtmann"></div>
+        <a class="itinerary-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&amp;destination=Turtmannh%C3%BCtte%2C%20Gruben%2C%20Suisse&amp;travelmode=driving" target="_blank" rel="noopener">🗺️ Itinéraire depuis le camping ↗</a>
       </div>
       <ul class="activity-points">
         <li><strong>Pour les ados :</strong> Approcher le gigantesque front de glace et les crevasses du glacier de Turtmann.</li>
@@ -383,6 +540,8 @@
         </div>
         <p class="activity-description">Village sans voitures au pied du Cervin. Montée en train à crémaillère au Gornergrat ou en téléphérique au Matterhorn Glacier Paradise, le plus haut téléphérique d'Europe.</p>
         <a class="activity-link" href="https://www.gornergrat.ch/en/" target="_blank" rel="noopener">🔗 gornergrat.ch ↗</a>
+        <div class="rating-slot" data-activity-id="zermatt-cervin"></div>
+        <a class="itinerary-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&amp;destination=Gornergrat%20Bahn%2C%20Zermatt%2C%20Suisse&amp;travelmode=driving" target="_blank" rel="noopener">🗺️ Itinéraire depuis le camping ↗</a>
       </div>
       <ul class="activity-points">
         <li><strong>Pour les ados :</strong> Le pont suspendu le plus haut du monde et le glacier du Matterhorn Glacier Paradise, avec neige toute l'année.</li>
@@ -405,6 +564,8 @@
         </div>
         <p class="activity-description">Le plus long glacier des Alpes (23 km), site classé à l'UNESCO, visible depuis les balcons panoramiques de Bettmerhorn ou Eggishorn au-dessus de la vallée de Conches.</p>
         <a class="activity-link" href="https://www.aletscharena.ch/en/about-the-region/destination" target="_blank" rel="noopener">🔗 aletscharena.ch ↗</a>
+        <div class="rating-slot" data-activity-id="aletsch-arena"></div>
+        <a class="itinerary-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&amp;destination=Bettmeralp%2C%20Aletsch%20Arena%2C%20Suisse&amp;travelmode=driving" target="_blank" rel="noopener">🗺️ Itinéraire depuis le camping ↗</a>
       </div>
       <ul class="activity-points">
         <li><strong>Pour les ados :</strong> Le sentier suspendu et les via ferrata légères sur les crêtes autour du glacier.</li>
@@ -427,6 +588,8 @@
         </div>
         <p class="activity-description">Le plus grand parc aquatique couvert et extérieur de Suisse, au bord du lac Léman, avec toboggans géants, rivière à bouées et espace bien-être.</p>
         <a class="activity-link" href="https://www.aquaparc.ch/en" target="_blank" rel="noopener">🔗 aquaparc.ch ↗</a>
+        <div class="rating-slot" data-activity-id="aquaparc-bouveret"></div>
+        <a class="itinerary-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&amp;destination=Aquaparc%2C%20Le%20Bouveret%2C%20Suisse&amp;travelmode=driving" target="_blank" rel="noopener">🗺️ Itinéraire depuis le camping ↗</a>
       </div>
       <ul class="activity-points">
         <li><strong>Pour les ados :</strong> Les toboggans à sensations (Space Boarding, Kamikaze) et le simulateur de surf.</li>
@@ -449,6 +612,8 @@
         </div>
         <p class="activity-description">Lac de montagne turquoise à 1580m d'altitude, encerclé de parois rocheuses et de glaciers, considéré comme l'un des plus beaux lacs alpins de Suisse.</p>
         <a class="activity-link" href="https://www.oeschinensee.ch/en/" target="_blank" rel="noopener">🔗 oeschinensee.ch ↗</a>
+        <div class="rating-slot" data-activity-id="lac-oeschinen"></div>
+        <a class="itinerary-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&amp;destination=Oeschinensee%2C%20Kandersteg%2C%20Suisse&amp;travelmode=driving" target="_blank" rel="noopener">🗺️ Itinéraire depuis le camping ↗</a>
       </div>
       <ul class="activity-points">
         <li><strong>Pour les ados :</strong> La luge d'été et les bouées à pédales sur le lac.</li>
@@ -471,6 +636,8 @@
         </div>
         <p class="activity-description">Le monument historique le plus visité de Suisse, forteresse médiévale posée sur un îlot rocheux au bord du lac Léman, immortalisée par Lord Byron.</p>
         <a class="activity-link" href="https://www.chillon.ch/en/" target="_blank" rel="noopener">🔗 chillon.ch ↗</a>
+        <div class="rating-slot" data-activity-id="chateau-chillon"></div>
+        <a class="itinerary-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&amp;destination=Ch%C3%A2teau%20de%20Chillon%2C%20Veytaux%2C%20Suisse&amp;travelmode=driving" target="_blank" rel="noopener">🗺️ Itinéraire depuis le camping ↗</a>
       </div>
       <ul class="activity-points">
         <li><strong>Pour les ados :</strong> Les cachots, oubliettes et passages secrets du château.</li>
@@ -493,6 +660,8 @@
         </div>
         <p class="activity-description">L'une des plus longues pistes de luge sur rail de Suisse (3,5 km), qui dévale la montagne avec virages relevés et sauts.</p>
         <a class="activity-link" href="https://nendaz.ch/fr/fppoi-piste-de-luge-siviez-39727.html" target="_blank" rel="noopener">🔗 nendaz.ch ↗</a>
+        <div class="rating-slot" data-activity-id="luge-ete-nendaz"></div>
+        <a class="itinerary-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&amp;destination=Piste%20de%20luge%20de%20Siviez%2C%20Nendaz%2C%20Suisse&amp;travelmode=driving" target="_blank" rel="noopener">🗺️ Itinéraire depuis le camping ↗</a>
       </div>
       <ul class="activity-points">
         <li><strong>Pour les ados :</strong> La vitesse et les virages en banking de la piste, avec plusieurs descentes possibles.</li>
@@ -515,6 +684,8 @@
         </div>
         <p class="activity-description">Station panoramique perchée à 1500m au-dessus de la plaine du Rhône, avec un plan d'eau familial, plages et jeux au bord du lac Grenon.</p>
         <a class="activity-link" href="https://www.crans-montana.ch/en/beach" target="_blank" rel="noopener">🔗 crans-montana.ch ↗</a>
+        <div class="rating-slot" data-activity-id="crans-montana"></div>
+        <a class="itinerary-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&amp;destination=Lac%20Grenon%2C%20Crans-Montana%2C%20Suisse&amp;travelmode=driving" target="_blank" rel="noopener">🗺️ Itinéraire depuis le camping ↗</a>
       </div>
       <ul class="activity-points">
         <li><strong>Pour les ados :</strong> La baignade et le stand-up paddle sur le lac Grenon, ou le bike park.</li>
@@ -537,6 +708,8 @@
         </div>
         <p class="activity-description">La capitale du Valais est dominée par deux collines jumelles fortifiées : la basilique de Valère, plus vieil orgue jouable au monde, et les ruines du château de Tourbillon.</p>
         <a class="activity-link" href="https://siontourisme.ch/fr/les-chateaux" target="_blank" rel="noopener">🔗 siontourisme.ch ↗</a>
+        <div class="rating-slot" data-activity-id="sion-valere-tourbillon"></div>
+        <a class="itinerary-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&amp;destination=Basilique%20de%20Val%C3%A8re%2C%20Sion%2C%20Suisse&amp;travelmode=driving" target="_blank" rel="noopener">🗺️ Itinéraire depuis le camping ↗</a>
       </div>
       <ul class="activity-points">
         <li><strong>Pour les ados :</strong> Grimper jusqu'aux ruines de Tourbillon et explorer les remparts.</li>
@@ -559,6 +732,8 @@
         </div>
         <p class="activity-description">Le premier pont suspendu au monde reliant deux sommets, à 3000m d'altitude, avec vue sur les Alpes bernoises, valaisannes et le Mont-Blanc.</p>
         <a class="activity-link" href="https://www.glacier3000.ch/en" target="_blank" rel="noopener">🔗 glacier3000.ch ↗</a>
+        <div class="rating-slot" data-activity-id="glacier-3000-diablerets"></div>
+        <a class="itinerary-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&amp;destination=Glacier%203000%2C%20Col%20du%20Pillon%2C%20Suisse&amp;travelmode=driving" target="_blank" rel="noopener">🗺️ Itinéraire depuis le camping ↗</a>
       </div>
       <ul class="activity-points">
         <li><strong>Pour les ados :</strong> Traverser le Peak Walk by Tissot au-dessus du vide et la luge sur neige toute l'année.</li>
@@ -581,6 +756,8 @@
         </div>
         <p class="activity-description">Randonnée familiale le long d'un bisse historique (canal d'irrigation valaisan), en partie creusé à flanc de falaise, surplombant les gorges de la Morge.</p>
         <a class="activity-link" href="https://torrent-neuf.ch/" target="_blank" rel="noopener">🔗 torrent-neuf.ch ↗</a>
+        <div class="rating-slot" data-activity-id="bisse-du-ro-saviese"></div>
+        <a class="itinerary-link" href="https://www.google.com/maps/dir/?api=1&amp;origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&amp;destination=Torrent-Neuf%2C%20Savi%C3%A8se%2C%20Suisse&amp;travelmode=driving" target="_blank" rel="noopener">🗺️ Itinéraire depuis le camping ↗</a>
       </div>
       <ul class="activity-points">
         <li><strong>Pour les ados :</strong> Longer le canal au bord du vide sur les passerelles en bois accrochées à la paroi.</li>
@@ -595,5 +772,241 @@
     Envie de planifier ces activités jour par jour ? Voir le <a href="../planning-activites-semaine/">Planning des activités</a>.
   </footer>
 </div>
+
+<div class="modal-overlay" id="nameModalOverlay">
+  <div class="modal-sheet">
+    <div class="modal-head">
+      <h2>Qui note ?</h2>
+      <button class="modal-close" id="nameModalCloseBtn" type="button" aria-label="Fermer">✕</button>
+    </div>
+    <input type="text" class="name-input" id="voterNameInput" placeholder="Ton prénom">
+    <button class="modal-done" id="voterNameSaveBtn" type="button">Valider</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function () {
+  var VOTER_KEY = 'planning_activites_voter_suisse_2026';
+  var SUPABASE_URL = 'https://hmpiluotdcympkihvnlt.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_osU_bo7QNJVg3yjxJObUSg_Y7So1lZZ';
+  var sb = (window.supabase && window.supabase.createClient)
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+    : null;
+  var ratingsCache = {};
+  var pendingRating = null;
+
+  var voterBanner = document.getElementById('voterBanner');
+  var nameModalOverlay = document.getElementById('nameModalOverlay');
+  var voterNameInput = document.getElementById('voterNameInput');
+  var nameModalCloseBtn = document.getElementById('nameModalCloseBtn');
+  var voterNameSaveBtn = document.getElementById('voterNameSaveBtn');
+  var ratingSlots = Array.prototype.slice.call(document.querySelectorAll('.rating-slot'));
+
+  function getVoterName() {
+    try { return localStorage.getItem(VOTER_KEY) || ''; } catch (e) { return ''; }
+  }
+
+  function setVoterName(name) {
+    try { localStorage.setItem(VOTER_KEY, name); } catch (e) { /* stockage indisponible */ }
+  }
+
+  function ratingStats(activityId) {
+    var r = ratingsCache[activityId];
+    if (!r || !r.count) return { avg: null, count: 0, mine: null };
+    var name = getVoterName();
+    return {
+      avg: r.sum / r.count,
+      count: r.count,
+      mine: (name && r.byVoter[name]) ? r.byVoter[name] : null
+    };
+  }
+
+  function loadRatings() {
+    if (!sb) { renderRatings(); return; }
+    sb.from('activity_ratings').select('activity_id, voter_name, rating').then(function (res) {
+      if (res.error) { return; }
+      var map = {};
+      res.data.forEach(function (row) {
+        if (!map[row.activity_id]) map[row.activity_id] = { sum: 0, count: 0, byVoter: {} };
+        map[row.activity_id].sum += row.rating;
+        map[row.activity_id].count += 1;
+        map[row.activity_id].byVoter[row.voter_name] = row.rating;
+      });
+      ratingsCache = map;
+      renderRatings();
+    });
+  }
+
+  function submitRating(activityId, name, value) {
+    if (!ratingsCache[activityId]) ratingsCache[activityId] = { sum: 0, count: 0, byVoter: {} };
+    var r = ratingsCache[activityId];
+    var prev = r.byVoter[name];
+    r.sum += prev ? (value - prev) : value;
+    if (!prev) r.count += 1;
+    r.byVoter[name] = value;
+    renderRatings();
+
+    sb.from('activity_ratings').upsert({
+      activity_id: activityId,
+      voter_name: name,
+      rating: value,
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'activity_id,voter_name' }).then(function (res) {
+      if (res.error) { console.warn('Erreur en enregistrant la note :', res.error.message); }
+    });
+  }
+
+  function rateActivity(activityId, value) {
+    if (!sb) return;
+    var name = getVoterName();
+    if (!name) {
+      pendingRating = { activityId: activityId, value: value };
+      openNameModal();
+      return;
+    }
+    submitRating(activityId, name, value);
+  }
+
+  function buildRatingWidget(activityId) {
+    var stats = ratingStats(activityId);
+    var wrap = document.createElement('div');
+    wrap.className = 'rating-widget';
+
+    var starsRow = document.createElement('div');
+    starsRow.className = 'stars-row';
+    [1, 2, 3].forEach(function (v) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'star-btn';
+      btn.textContent = (stats.mine && v <= stats.mine) ? '★' : '☆';
+      btn.setAttribute('aria-label', 'Noter ' + v + ' étoile' + (v > 1 ? 's' : ''));
+      if (!sb) btn.disabled = true;
+      btn.addEventListener('click', function () { rateActivity(activityId, v); });
+      starsRow.appendChild(btn);
+    });
+    wrap.appendChild(starsRow);
+
+    var summary = document.createElement('span');
+    summary.className = 'rating-summary';
+    summary.textContent = !sb
+      ? 'Notation hors ligne'
+      : (stats.count > 0 ? '★ ' + stats.avg.toFixed(1) + ' (' + stats.count + ')' : 'Pas encore noté');
+    wrap.appendChild(summary);
+
+    return wrap;
+  }
+
+  function renderRatings() {
+    ratingSlots.forEach(function (slot) {
+      slot.innerHTML = '';
+      slot.appendChild(buildRatingWidget(slot.getAttribute('data-activity-id')));
+    });
+    renderVoterBanner();
+  }
+
+  function renderVoterBanner() {
+    var name = getVoterName();
+    voterBanner.innerHTML = '';
+    var span = document.createElement('span');
+    if (name) {
+      span.appendChild(document.createTextNode('Tu notes en tant que '));
+      var strong = document.createElement('strong');
+      strong.textContent = name;
+      span.appendChild(strong);
+    } else {
+      span.textContent = 'Choisis un prénom pour noter les activités';
+    }
+    voterBanner.appendChild(span);
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = name ? 'changer' : 'choisir';
+    btn.addEventListener('click', openNameModal);
+    voterBanner.appendChild(btn);
+  }
+
+  function openNameModal() {
+    voterNameInput.value = getVoterName() || '';
+    nameModalOverlay.classList.add('open');
+    setTimeout(function () { voterNameInput.focus(); }, 50);
+  }
+
+  function closeNameModal() {
+    nameModalOverlay.classList.remove('open');
+    pendingRating = null;
+  }
+
+  nameModalCloseBtn.addEventListener('click', closeNameModal);
+  nameModalOverlay.addEventListener('click', function (e) {
+    if (e.target === nameModalOverlay) closeNameModal();
+  });
+  voterNameSaveBtn.addEventListener('click', function () {
+    var name = voterNameInput.value.trim();
+    if (!name) { voterNameInput.focus(); return; }
+    setVoterName(name);
+    nameModalOverlay.classList.remove('open');
+    var pr = pendingRating;
+    pendingRating = null;
+    if (pr) {
+      submitRating(pr.activityId, name, pr.value);
+    } else {
+      renderRatings();
+    }
+  });
+
+  var CAMPING = { lat: 46.298774, lng: 7.636474, name: 'Camping Bella-Tola' };
+
+  var MAP_POINTS = [
+    { id: 'bains-leukerbad', name: 'Bains thermaux de Leukerbad', lat: 46.3793, lng: 7.6267, link: 'https://www.google.com/maps/dir/?api=1&origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&destination=Walliser%20Alpentherme%2C%20Leukerbad%2C%20Suisse&travelmode=driving' },
+    { id: 'pont-bhoutan-illgraben', name: 'Pont du Bhoutan & Illgraben', lat: 46.293, lng: 7.617, link: 'https://www.google.com/maps/dir/?api=1&origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&destination=Pont%20bhoutanais%2C%20Illgraben%2C%20Susten%2C%20Suisse&travelmode=driving' },
+    { id: 'lac-souterrain-st-leonard', name: 'Lac Souterrain de St-Léonard', lat: 46.25639, lng: 7.42556, link: 'https://www.google.com/maps/dir/?api=1&origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&destination=Lac%20Souterrain%20de%20St-L%C3%A9onard%2C%20Suisse&travelmode=driving' },
+    { id: 'pont-spinelle-niouc', name: 'Pont Spinelle de Niouc', lat: 46.246, lng: 7.585, link: 'https://www.google.com/maps/dir/?api=1&origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&destination=Pont%20suspendu%20de%20Niouc%2C%20Anniviers%2C%20Suisse&travelmode=driving' },
+    { id: 'chateau-loeche', name: 'Château de Loèche (Leuk-Stadt)', lat: 46.31619, lng: 7.633858, link: 'https://www.google.com/maps/dir/?api=1&origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&destination=Ch%C3%A2teau%20de%20Lo%C3%A8che%2C%20Leuk-Stadt%2C%20Suisse&travelmode=driving' },
+    { id: 'pfynwald-finges', name: 'Pfynwald - Bois de Finges', lat: 46.302, lng: 7.625, link: 'https://www.google.com/maps/dir/?api=1&origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&destination=Bois%20de%20Finges%2C%20Salgesch%2C%20Suisse&travelmode=driving' },
+    { id: 'rando-col-gemmi', name: 'Rando Col de la Gemmi (10 km)', lat: 46.3815, lng: 7.629, link: 'https://www.google.com/maps/dir/?api=1&origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&destination=Gemmipass%2C%20Leukerbad%2C%20Suisse&travelmode=driving' },
+    { id: 'sentier-torrent', name: 'Sentier Panoramique de Torrent (11 km)', lat: 46.394, lng: 7.612, link: 'https://www.google.com/maps/dir/?api=1&origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&destination=Torrent-Bahnen%2C%20Leukerbad%2C%20Suisse&travelmode=driving' },
+    { id: 'cabane-turtmann', name: 'Rando de la cabane de Turtmann (12 km)', lat: 46.222, lng: 7.665, link: 'https://www.google.com/maps/dir/?api=1&origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&destination=Turtmannh%C3%BCtte%2C%20Gruben%2C%20Suisse&travelmode=driving' },
+    { id: 'zermatt-cervin', name: 'Zermatt & Cervin (Gornergrat)', lat: 46.02071, lng: 7.74912, link: 'https://www.google.com/maps/dir/?api=1&origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&destination=Gornergrat%20Bahn%2C%20Zermatt%2C%20Suisse&travelmode=driving' },
+    { id: 'aletsch-arena', name: 'Aletsch Arena - Glacier d’Aletsch', lat: 46.400, lng: 8.133, link: 'https://www.google.com/maps/dir/?api=1&origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&destination=Bettmeralp%2C%20Aletsch%20Arena%2C%20Suisse&travelmode=driving' },
+    { id: 'aquaparc-bouveret', name: 'Aquaparc Le Bouveret', lat: 46.314288, lng: 6.866927, link: 'https://www.google.com/maps/dir/?api=1&origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&destination=Aquaparc%2C%20Le%20Bouveret%2C%20Suisse&travelmode=driving' },
+    { id: 'lac-oeschinen', name: 'Lac d’Oeschinen (Oeschinensee)', lat: 46.4952, lng: 7.6715, link: 'https://www.google.com/maps/dir/?api=1&origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&destination=Oeschinensee%2C%20Kandersteg%2C%20Suisse&travelmode=driving' },
+    { id: 'chateau-chillon', name: 'Château de Chillon (Montreux)', lat: 46.4142, lng: 6.9271, link: 'https://www.google.com/maps/dir/?api=1&origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&destination=Ch%C3%A2teau%20de%20Chillon%2C%20Veytaux%2C%20Suisse&travelmode=driving' },
+    { id: 'luge-ete-nendaz', name: 'Luge d’été de Nendaz', lat: 46.1853, lng: 7.2927, link: 'https://www.google.com/maps/dir/?api=1&origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&destination=Piste%20de%20luge%20de%20Siviez%2C%20Nendaz%2C%20Suisse&travelmode=driving' },
+    { id: 'crans-montana', name: 'Crans-Montana & Lac Grenon', lat: 46.3100, lng: 7.4758, link: 'https://www.google.com/maps/dir/?api=1&origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&destination=Lac%20Grenon%2C%20Crans-Montana%2C%20Suisse&travelmode=driving' },
+    { id: 'sion-valere-tourbillon', name: 'Sion - Valère & Tourbillon', lat: 46.2331, lng: 7.3606, link: 'https://www.google.com/maps/dir/?api=1&origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&destination=Basilique%20de%20Val%C3%A8re%2C%20Sion%2C%20Suisse&travelmode=driving' },
+    { id: 'glacier-3000-diablerets', name: 'Glacier 3000 & Peak Walk', lat: 46.35694, lng: 7.21556, link: 'https://www.google.com/maps/dir/?api=1&origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&destination=Glacier%203000%2C%20Col%20du%20Pillon%2C%20Suisse&travelmode=driving' },
+    { id: 'bisse-du-ro-saviese', name: 'Bisse du Ro (Savièse)', lat: 46.24532, lng: 7.34559, link: 'https://www.google.com/maps/dir/?api=1&origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&destination=Torrent-Neuf%2C%20Savi%C3%A8se%2C%20Suisse&travelmode=driving' }
+  ];
+
+  function initMap() {
+    var mapEl = document.getElementById('activities-map');
+    if (!mapEl || !window.L) return;
+    var map = L.map('activities-map', { scrollWheelZoom: false }).setView([CAMPING.lat, CAMPING.lng], 9);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'
+    }).addTo(map);
+
+    var campingIcon = L.divIcon({
+      html: '<div style="font-size:22px;line-height:1;">🏕️</div>',
+      className: '', iconSize: [24, 24], iconAnchor: [12, 12]
+    });
+    L.marker([CAMPING.lat, CAMPING.lng], { icon: campingIcon })
+      .addTo(map)
+      .bindPopup('<div class="map-popup"><strong>🏕️ ' + CAMPING.name + '</strong>Point de départ</div>');
+
+    MAP_POINTS.forEach(function (p) {
+      L.marker([p.lat, p.lng]).addTo(map).bindPopup(
+        '<div class="map-popup"><strong>' + p.name + '</strong><a href="' + p.link + '" target="_blank" rel="noopener">🗺️ Itinéraire depuis le camping ↗</a></div>'
+      );
+    });
+  }
+
+  renderVoterBanner();
+  loadRatings();
+  initMap();
+})();
+</script>
 </body>
 </html>
