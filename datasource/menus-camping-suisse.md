@@ -1,6 +1,14 @@
 # Planification des Menus de Camping en Suisse (10 Jours pour 8 Personnes)
 
-Ce document présente une planification de menus équilibrés, économiques et faciles à préparer pour **4 adultes et 4 enfants** (soit environ 7 parts d'adultes en termes de portions) lors d'un séjour en camping sous tente en Suisse. 
+Ce document présente une planification de menus équilibrés, économiques et faciles à préparer pour **4 adultes et 4 enfants** (soit environ 7 parts d'adultes en termes de portions) lors d'un séjour en camping sous tente en Suisse.
+
+Toute mini-app proposant des menus ou de la planification de repas de
+camping peut réutiliser cette datasource.
+
+Source initiale : contenu de l'app `apps/repas-en-suisse` (anciennement
+« CampMenu Suisse 2026 », dossier `apps/menus-camping-suisse`). Les
+activités touristiques qu'il contenait ont depuis été extraites dans
+`datasource/activites.md`, seule source à jour pour les activités.
 
 ---
 
@@ -93,75 +101,6 @@ Voici les quantités recommandées pour **8 personnes** (ajustées pour **1 pers
 En choisissant majoritairement les gammes économiques (M-Budget / Prix Garantie) ou les magasins Aldi/Lidl, ce panier complet pour 10 jours (repas du midi, du soir et desserts) s'élève à environ **325 - 375 CHF** (soit environ **350 - 405 €**) au total pour le groupe.
 * Cela représente environ **4.00 à 4.70 CHF** (soit environ **4.30 à 5.00 €**) **par repas complet (comprenant le dessert) et par personne**, ce qui est exceptionnellement économique pour la Suisse, tout en assurant des repas nourrissants, riches en légumes et variés.
 * *Note : Les boissons, petits-déjeuners (ex: flocons d'avoine, lait UHT, pain de mie, confiture) et goûters des enfants ne sont pas inclus dans cette estimation, comptez environ 80-100 CHF (soit 85-110 €) de plus.*
-
----
-
-## 🧭 Propositions d'Activités pour 4 Ados & 4 Adultes (Autour du Camping Bella Tola - Susten)
-
-Pour motiver les adolescents (et décharger les écrans) tout en proposant des moments culturels et naturels exceptionnels pour les adultes, voici 9 activités idéales à proximité de Susten (Loèche), au cœur du Valais :
-
-### 1. 🌊 Détente & Fun : Bains thermaux et toboggans de Leukerbad (Loèche-les-Bains)
-* **Description** : Les plus grands bains thermaux des Alpes suisses. Un complexe aquatique géant chaud (37°C) creusé au pied de falaises calcaires spectaculaires.
-* **Intérêt ados** : Les grands toboggans couverts à sensations et les plongeoirs pour s'amuser.
-* **Intérêt adultes** : Les bassins thermaux relaxants extérieurs et intérieurs pour se ressourcer.
-* **Distance** : 20 min du camping en voiture (15 km) ou en bus postal.
-* **Budget** : Payant.
-
-### 2. 🌉 Vertige en Nature : Randonnée du Pont du Bhoutan et Illgraben (Leuk/Susten)
-* **Description** : Un pont suspendu impressionnant de 134m de long qui traverse la rivière de l'Illgraben, un gigantesque entonnoir d'érosion naturelle surnommé "le Grand Canyon du Valais".
-* **Intérêt ados** : Le frisson de la traversée à pied sur le pont suspendu.
-* **Intérêt adultes** : La randonnée à l'ombre de la pinède du Pfynwald et l'incroyable paysage géologique.
-* **Distance** : Départ direct à pied depuis le camping Bella Tola.
-* **Budget** : **100% Gratuit**.
-
-### 🚣 3. Grotte insolite : Navigation sur le Lac Souterrain de Saint-Léonard
-* **Description** : Le plus grand lac souterrain naturel d'Europe. Il se visite à bord de barques à rames commentées par des guides locaux dans une ambiance féerique. Une halte très rafraîchissante par forte chaleur.
-* **Intérêt ados** : L'ambiance mystique de la caverne géante et la présence de truites géantes.
-* **Intérêt adultes** : L'acoustique fantastique de la grotte et les explications historiques sur le gypse.
-* **Distance** : 20 min en voiture (28 km) en direction de Sion.
-* **Budget** : Payant (réservation indispensable).
-
-### 🧗 4. Sensations extrêmes : Pont de Niouc « Pont Araignée » (Entrée du Val d'Anniviers)
-* **Description** : Suspendu à 190 mètres au-dessus du gouffre de la rivière Navizence, ce pont piéton historique en fil de fer est l'un des plus hauts d'Europe.
-* **Intérêt ados** : Pour les plus intrépides : tyrolienne géante de 220m, saut de pendule ou saut à l'élastique.
-* **Intérêt adultes** : Randonnée boisée et vue panoramique spectaculaire sur les sommets.
-* **Distance** : 25 min en voiture direction val d'Anniviers.
-* **Budget** : Entrée sur le pont à 5 CHF, attractions payantes.
-
-### 🏰 5. Architecture médiévale & moderne : Château de Loèche (Leuk-Stadt)
-* **Description** : Leuk est une petite cité historique perchée. Son château médiéval a été magnifiquement réaménagé par le célèbre architecte tessinois **Mario Botta**, qui y a ajouté une impressionnante coupole de verre.
-* **Intérêt ados** : Visiter la tour et la coupole métallique moderne flottante en haut du fort médiéval.
-* **Intérêt adultes** : La vieille ville pittoresque, l'ossuaire de l'église St-Etienne et la chapelle baroque de Ringacker.
-* **Distance** : 5 min de voiture au-dessus de Susten (sentier pédestre direct depuis Susten).
-* **Budget** : **Visite libre gratuite**.
-
-### 🚲 6. Exploration à vélo : Réserve naturelle du Pfynwald (Bois de Finges)
-* **Description** : L'une des plus grandes forêts de pins d'Europe centrale. Elle entoure le lit du Rhône sauvage, l'unique tronçon du fleuve à n'avoir jamais été canalisé.
-* **Intérêt ados** : Louer des VTT au camping et s'éclater sur les sentiers accidentés et les ponts de bois.
-* **Intérêt adultes** : Randonnée sereine entre collines de pins d'influence méditerranéenne, étangs et faune protégée.
-* **Distance** : Accès immédiat depuis les tentes du camping Bella Tola.
-* **Budget** : **100% Gratuit**.
-
-### 🥾 7. Rando Altitude : Traversée classique du Col de la Gemmi (Leukerbad - Kandersteg)
-* **Description** : Une randonnée mythique de haute montagne reliant le Valais au canton de Berne à 2300 mètres d'altitude, longeant le lac sauvage de Daubensee au milieu de paysages lunaires grandioses.
-* **Intérêt ados** : La montée palpitante en téléphérique et la marche dans les grands eboulis.
-* **Intérêt adultes** : Sentier historique impressionnant avec une vue vertigineuse sur Leukerbad.
-* **Distance/Rando** : **10 km** de randonnée (3h30), dénivelé léger (+350m / -550m). Retour de Kandersteg à Susten par le train des alpes (Lötschberg).
-* **Budget** : Pas cher (uniquement transport retour et téléphérique facultatif).
-
-### 🥾 8. Rando Panorama : Sentier panoramique de Torrent (Albinen/Torrent)
-* **Description** : Randonnée à plat en balcon au-dessus de Loèche-les-Bains offrant une vue imprenable sur la couronne impériale des sommets de plus de 4000m du Valais (Mont Rose, Cervin, Dent Blanche).
-* **Intérêt ados** : Des panoramas impressionnants au-dessus des nuages et des photos à couper le souffle.
-* **Intérêt adultes** : Une flore d'altitude exceptionnelle et le calme absolu de la haute montagne.
-* **Distance/Rando** : **11 km** en boucle (4h), dénivelé modéré (+480m / -480m). À 20 min du camping.
-* **Budget** : **100% Gratuit** (hors remontées mécaniques si vous choisissez d'abréger la montée).
-
-### 🥾 9. Rando Glacier : Cabane de Murtmann & Glacier de Tourtemagne (Turtmanntal)
-* **Description** : Randonnée immersive dans la vallée sauvage préservée de Tourtemagne (Turtmanntal) montée au barrage et à la cabane CAF de Turtmann (2519m) au pied immédiat des immenses crevasses et séracs du glacier.
-* **Intérêt ados** : Toucher presque du doigt un véritable géant des glaces et voir le front du glacier.
-* **Intérêt adultes** : Isolement complet, grand bol d'air pur et dégustation d'une tarte aux abricots typique à la cabane.
-* **Distance/Rando** : **12 km** en boucle (5h), dénivelé plus soutenu (+650m / -650m). Parking à Senntum à 25 min de Susten.
-* **Budget** : **100% Gratuit**.
 
 ---
 
