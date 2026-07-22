@@ -99,8 +99,48 @@
   }
   .ranking-link:hover { text-decoration: underline; }
   .map-section { margin-bottom: 32px; }
-  .map-section h2 { font-size: 1.25rem; margin-bottom: 4px; }
-  .map-caption { font-size: 0.85rem; color: var(--text-body); opacity: 0.85; margin-bottom: 14px; max-width: 680px; }
+  .map-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 0;
+    margin-bottom: 4px;
+    cursor: pointer;
+    text-align: left;
+    font: inherit;
+  }
+  .map-toggle h2 { font-size: 1.25rem; margin-bottom: 0; }
+  .map-toggle-chevron {
+    font-size: 1.1rem;
+    color: var(--primary);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+    margin-left: 12px;
+  }
+  .map-toggle[aria-expanded="false"] .map-toggle-chevron { transform: rotate(-90deg); }
+  .map-panel.collapsed { display: none; }
+  .map-caption { font-size: 0.85rem; color: var(--text-body); opacity: 0.85; margin: 8px 0 14px; max-width: 680px; }
+  .sort-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-size: 0.88rem;
+    color: var(--text-body);
+  }
+  .sort-bar select {
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text-heading);
+    font-size: 0.88rem;
+    font-family: inherit;
+    cursor: pointer;
+  }
   #activities-map {
     height: 380px;
     width: 100%;
@@ -304,14 +344,28 @@
   </header>
 
   <section class="map-section">
-    <h2>🗺️ Où se trouvent ces activités ?</h2>
-    <p class="map-caption">Vue d'ensemble depuis le Camping Bella-Tola. Cliquez un marqueur pour le nom de l'activité, ou utilisez le lien « Itinéraire » de chaque carte ci-dessous pour un trajet précis.</p>
-    <div id="activities-map"></div>
+    <button type="button" class="map-toggle" id="mapToggle" aria-expanded="true" aria-controls="mapPanel">
+      <h2>🗺️ Où se trouvent ces activités ?</h2>
+      <span class="map-toggle-chevron" aria-hidden="true">▾</span>
+    </button>
+    <div class="map-panel" id="mapPanel">
+      <p class="map-caption">Vue d'ensemble depuis le Camping Bella-Tola. Cliquez un marqueur pour le nom de l'activité, ou utilisez le lien « Itinéraire » de chaque carte ci-dessous pour un trajet précis.</p>
+      <div id="activities-map"></div>
+    </div>
   </section>
+
+  <div class="sort-bar">
+    <label for="sortSelect">Trier par :</label>
+    <select id="sortSelect">
+      <option value="default">Ordre par défaut</option>
+      <option value="distance">📍 Distance (plus proche → plus loin)</option>
+      <option value="rating">⭐ Note moyenne (plus → moins d'étoiles)</option>
+    </select>
+  </div>
 
   <div class="activities-grid">
     <!-- Activité 1 -->
-    <div class="activity-card">
+    <div class="activity-card" data-activity-id="bains-leukerbad" data-distance-km="15">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🌊</span>
@@ -335,7 +389,7 @@
     </div>
 
     <!-- Activité 2 -->
-    <div class="activity-card">
+    <div class="activity-card" data-activity-id="pont-bhoutan-illgraben" data-distance-km="1.5">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🌉</span>
@@ -359,7 +413,7 @@
     </div>
 
     <!-- Activité 3 -->
-    <div class="activity-card">
+    <div class="activity-card" data-activity-id="lac-souterrain-st-leonard" data-distance-km="28">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🚣</span>
@@ -383,7 +437,7 @@
     </div>
 
     <!-- Activité 4 -->
-    <div class="activity-card">
+    <div class="activity-card" data-activity-id="pont-spinelle-niouc" data-distance-km="20">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🧗</span>
@@ -407,7 +461,7 @@
     </div>
 
     <!-- Activité 5 -->
-    <div class="activity-card">
+    <div class="activity-card" data-activity-id="chateau-loeche" data-distance-km="3">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🏰</span>
@@ -431,7 +485,7 @@
     </div>
 
     <!-- Activité 6 -->
-    <div class="activity-card">
+    <div class="activity-card" data-activity-id="pfynwald-finges" data-distance-km="1">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🚲</span>
@@ -455,7 +509,7 @@
     </div>
 
     <!-- Activité 7 -->
-    <div class="activity-card">
+    <div class="activity-card" data-activity-id="rando-col-gemmi" data-distance-km="15">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🥾</span>
@@ -479,7 +533,7 @@
     </div>
 
     <!-- Activité 8 -->
-    <div class="activity-card">
+    <div class="activity-card" data-activity-id="sentier-torrent" data-distance-km="16">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🥾</span>
@@ -503,7 +557,7 @@
     </div>
 
     <!-- Activité 9 -->
-    <div class="activity-card">
+    <div class="activity-card" data-activity-id="cabane-turtmann" data-distance-km="20">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🥾</span>
@@ -527,7 +581,7 @@
     </div>
 
     <!-- Activité 10 -->
-    <div class="activity-card">
+    <div class="activity-card" data-activity-id="zermatt-cervin" data-distance-km="48">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🚠</span>
@@ -551,7 +605,7 @@
     </div>
 
     <!-- Activité 11 -->
-    <div class="activity-card">
+    <div class="activity-card" data-activity-id="aletsch-arena" data-distance-km="55">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🏔️</span>
@@ -575,7 +629,7 @@
     </div>
 
     <!-- Activité 12 -->
-    <div class="activity-card">
+    <div class="activity-card" data-activity-id="aquaparc-bouveret" data-distance-km="85">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🌊</span>
@@ -599,7 +653,7 @@
     </div>
 
     <!-- Activité 13 -->
-    <div class="activity-card">
+    <div class="activity-card" data-activity-id="lac-oeschinen" data-distance-km="35">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🏞️</span>
@@ -623,7 +677,7 @@
     </div>
 
     <!-- Activité 14 -->
-    <div class="activity-card">
+    <div class="activity-card" data-activity-id="chateau-chillon" data-distance-km="95">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🏰</span>
@@ -647,7 +701,7 @@
     </div>
 
     <!-- Activité 15 -->
-    <div class="activity-card">
+    <div class="activity-card" data-activity-id="luge-ete-nendaz" data-distance-km="50">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🛷</span>
@@ -671,7 +725,7 @@
     </div>
 
     <!-- Activité 16 -->
-    <div class="activity-card">
+    <div class="activity-card" data-activity-id="crans-montana" data-distance-km="35">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🚡</span>
@@ -695,7 +749,7 @@
     </div>
 
     <!-- Activité 17 -->
-    <div class="activity-card">
+    <div class="activity-card" data-activity-id="sion-valere-tourbillon" data-distance-km="30">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🏛️</span>
@@ -719,7 +773,7 @@
     </div>
 
     <!-- Activité 18 -->
-    <div class="activity-card">
+    <div class="activity-card" data-activity-id="glacier-3000-diablerets" data-distance-km="75">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🌉</span>
@@ -743,7 +797,7 @@
     </div>
 
     <!-- Activité 19 -->
-    <div class="activity-card">
+    <div class="activity-card" data-activity-id="bisse-du-ro-saviese" data-distance-km="35">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🚶</span>
@@ -904,6 +958,7 @@
       slot.appendChild(buildRatingWidget(slot.getAttribute('data-activity-id')));
     });
     renderVoterBanner();
+    if (sortSelect && sortSelect.value === 'rating') applySort();
   }
 
   function renderVoterBanner() {
@@ -979,10 +1034,13 @@
     { id: 'bisse-du-ro-saviese', name: 'Bisse du Ro (Savièse)', lat: 46.24532, lng: 7.34559, link: 'https://www.google.com/maps/dir/?api=1&origin=Camping%20Bella-Tola%2C%20Waldstrasse%2057%2C%203952%20Susten%2C%20Suisse&destination=Torrent-Neuf%2C%20Savi%C3%A8se%2C%20Suisse&travelmode=driving' }
   ];
 
+  var mapInstance = null;
+
   function initMap() {
     var mapEl = document.getElementById('activities-map');
     if (!mapEl || !window.L) return;
     var map = L.map('activities-map', { scrollWheelZoom: false }).setView([CAMPING.lat, CAMPING.lng], 9);
+    mapInstance = map;
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'
@@ -1002,6 +1060,51 @@
       );
     });
   }
+
+  var mapToggle = document.getElementById('mapToggle');
+  var mapPanel = document.getElementById('mapPanel');
+  mapToggle.addEventListener('click', function () {
+    var expanded = mapToggle.getAttribute('aria-expanded') === 'true';
+    mapToggle.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+    mapPanel.classList.toggle('collapsed', expanded);
+    if (expanded === false && mapInstance) {
+      setTimeout(function () { mapInstance.invalidateSize(); }, 50);
+    }
+  });
+
+  var activitiesGrid = document.querySelector('.activities-grid');
+  var activityCards = Array.prototype.slice.call(document.querySelectorAll('.activity-card'));
+  var defaultCardOrder = activityCards.slice();
+  var sortSelect = document.getElementById('sortSelect');
+
+  function averageRating(activityId) {
+    var r = ratingsCache[activityId];
+    return (r && r.count) ? (r.sum / r.count) : null;
+  }
+
+  function applySort() {
+    var mode = sortSelect.value;
+    var ordered;
+    if (mode === 'distance') {
+      ordered = activityCards.slice().sort(function (a, b) {
+        return parseFloat(a.getAttribute('data-distance-km')) - parseFloat(b.getAttribute('data-distance-km'));
+      });
+    } else if (mode === 'rating') {
+      ordered = activityCards.slice().sort(function (a, b) {
+        var avgA = averageRating(a.getAttribute('data-activity-id'));
+        var avgB = averageRating(b.getAttribute('data-activity-id'));
+        if (avgA === null && avgB === null) return 0;
+        if (avgA === null) return 1;
+        if (avgB === null) return -1;
+        return avgB - avgA;
+      });
+    } else {
+      ordered = defaultCardOrder;
+    }
+    ordered.forEach(function (card) { activitiesGrid.appendChild(card); });
+  }
+
+  sortSelect.addEventListener('change', applySort);
 
   renderVoterBanner();
   loadRatings();
