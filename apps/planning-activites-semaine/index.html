@@ -356,6 +356,17 @@
     color: var(--muted);
     line-height: 1.35;
   }
+  .picker-card .activity-external-link {
+    display: inline-block;
+    margin-top: 0.35rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .picker-card .activity-external-link:hover {
+    text-decoration: underline;
+  }
   .picker-card .used-note {
     font-size: 0.72rem;
     color: var(--accent);
@@ -448,7 +459,8 @@
       duration: '1/2 journée',
       budget: 'Payant',
       distance: '15 km',
-      desc: 'Les plus célèbres et grands thermes des Alpes. Bassins chauds extérieurs au pied de vertigineuses falaises et espace aquatique moderne.'
+      desc: 'Les plus célèbres et grands thermes des Alpes. Bassins chauds extérieurs au pied de vertigineuses falaises et espace aquatique moderne.',
+      link: 'https://alpentherme.ch/'
     },
     {
       id: 'pont-bhoutan-illgraben',
@@ -458,7 +470,8 @@
       duration: '1/2 journée',
       budget: 'Gratuit',
       distance: '~1,5 km',
-      desc: 'Randonnée spectaculaire traversant un pont suspendu de 134 m qui relie le Haut et le Bas-Valais au-dessus du grand canyon de l’Illgraben.'
+      desc: 'Randonnée spectaculaire traversant un pont suspendu de 134 m qui relie le Haut et le Bas-Valais au-dessus du grand canyon de l’Illgraben.',
+      link: 'https://www.sierretourisme.ch/fr/V4366/a-faire/sport-et-loisirs/randonnees-balades/sierre-illgraben-pont-bouthanais-leuk-susten'
     },
     {
       id: 'lac-souterrain-st-leonard',
@@ -468,7 +481,8 @@
       duration: '1/2 journée',
       budget: 'Payant',
       distance: '28 km',
-      desc: 'Traversée magique de 30 minutes sur le plus grand lac souterrain navigable d’Europe, logé dans une grotte de gypse éclairée. Réservation obligatoire.'
+      desc: 'Traversée magique de 30 minutes sur le plus grand lac souterrain navigable d’Europe, logé dans une grotte de gypse éclairée. Réservation obligatoire.',
+      link: 'https://lac-souterrain.com/en/'
     },
     {
       id: 'pont-spinelle-niouc',
@@ -478,7 +492,8 @@
       duration: '1/2 journée',
       budget: 'Moyen',
       distance: '~20 km',
-      desc: 'Pont suspendu piéton historique surnommé le « Pont Araignée » perché à 190 m de hauteur dans le Val d’Anniviers. Tyrolienne géante et saut à l’élastique.'
+      desc: 'Pont suspendu piéton historique surnommé le « Pont Araignée » perché à 190 m de hauteur dans le Val d’Anniviers. Tyrolienne géante et saut à l’élastique.',
+      link: 'https://pontsuspendu.ch/la-region/'
     },
     {
       id: 'chateau-loeche',
@@ -488,7 +503,8 @@
       duration: '2h',
       budget: 'Gratuit',
       distance: '~3 km',
-      desc: 'Visite du bourg médiéval pavé de Loèche et de son château fort abritant une coupole en verre dessinée par Mario Botta.'
+      desc: 'Visite du bourg médiéval pavé de Loèche et de son château fort abritant une coupole en verre dessinée par Mario Botta.',
+      link: 'https://www.pfyn-finges.ch/fr/experience/carte-du-parc/offer-detail/chateau-loeche-2151'
     },
     {
       id: 'pfynwald-finges',
@@ -498,7 +514,8 @@
       duration: '1/2 journée',
       budget: 'Gratuit',
       distance: '~1 km',
-      desc: 'L’une des plus grandes forêts de pins des Alpes, réserve naturelle protégée où le Rhône coule encore de façon totalement sauvage. Accès direct à pied/vélo depuis le camping.'
+      desc: 'L’une des plus grandes forêts de pins des Alpes, réserve naturelle protégée où le Rhône coule encore de façon totalement sauvage. Accès direct à pied/vélo depuis le camping.',
+      link: 'https://www.pfyn-finges.ch/fr/decouvrir-le-parc/decouvrir-par-soi-meme/exceptionelle/reserve-naturelle-du-bois-de-finges-3'
     },
     {
       id: 'rando-col-gemmi',
@@ -508,7 +525,8 @@
       duration: 'Journée',
       budget: 'Pas cher',
       distance: '15 km',
-      desc: 'Traversée légendaire à 2300 m reliant Leukerbad à Kandersteg, le long du lac glaciaire Daubensee. 10 km (3h30), +350 m / -550 m. Retour en train depuis Kandersteg.'
+      desc: 'Traversée légendaire à 2300 m reliant Leukerbad à Kandersteg, le long du lac glaciaire Daubensee. 10 km (3h30), +350 m / -550 m. Retour en train depuis Kandersteg.',
+      link: 'https://leukerbad.ch/fr/tour/chemin-du-col-de-la-gemmi-57718545'
     },
     {
       id: 'sentier-torrent',
@@ -518,7 +536,8 @@
       duration: '1/2 journée',
       budget: 'Gratuit',
       distance: '~16 km',
-      desc: 'Boucle au-dessus de Leukerbad / Albinen avec panorama à 360° sur la chaîne des 4000 m. 11 km, +480 m / -480 m. Départ de Torrentalp.'
+      desc: 'Boucle au-dessus de Leukerbad / Albinen avec panorama à 360° sur la chaîne des 4000 m. 11 km, +480 m / -480 m. Départ de Torrentalp.',
+      link: 'https://www.leukerbad.ch/fr/tour/chemin-panoramique-du-torrent-57523502'
     },
     {
       id: 'cabane-turtmann',
@@ -528,7 +547,8 @@
       duration: 'Journée',
       budget: 'Gratuit',
       distance: '~20 km',
-      desc: 'Incursion dans la vallée de Tourtemagne, boucle du barrage jusqu’à la cabane CAS (2519 m) au pied du glacier. 12 km, +650 m / -650 m. Chaussures robustes indispensables.'
+      desc: 'Incursion dans la vallée de Tourtemagne, boucle du barrage jusqu’à la cabane CAS (2519 m) au pied du glacier. 12 km, +650 m / -650 m. Chaussures robustes indispensables.',
+      link: 'https://www.cas-prevotoise.ch/cabanes/cabane-de-tourtemagne.php'
     },
     {
       id: 'zermatt-cervin',
@@ -538,7 +558,8 @@
       duration: 'Journée',
       budget: 'Payant',
       distance: '~48 km',
-      desc: 'Village sans voitures au pied du Cervin. Montée en train à crémaillère au Gornergrat ou en téléphérique au Matterhorn Glacier Paradise, le plus haut téléphérique d’Europe.'
+      desc: 'Village sans voitures au pied du Cervin. Montée en train à crémaillère au Gornergrat ou en téléphérique au Matterhorn Glacier Paradise, le plus haut téléphérique d’Europe.',
+      link: 'https://www.gornergrat.ch/en/'
     },
     {
       id: 'aletsch-arena',
@@ -548,7 +569,8 @@
       duration: 'Journée',
       budget: 'Payant',
       distance: '~55 km',
-      desc: 'Le plus long glacier des Alpes (23 km), site UNESCO, visible depuis les balcons panoramiques de Bettmerhorn ou Eggishorn au-dessus de la vallée de Conches.'
+      desc: 'Le plus long glacier des Alpes (23 km), site UNESCO, visible depuis les balcons panoramiques de Bettmerhorn ou Eggishorn au-dessus de la vallée de Conches.',
+      link: 'https://www.aletscharena.ch/en/about-the-region/destination'
     },
     {
       id: 'aquaparc-bouveret',
@@ -558,7 +580,8 @@
       duration: 'Journée',
       budget: 'Payant',
       distance: '~85 km',
-      desc: 'Le plus grand parc aquatique de Suisse, au bord du lac Léman, avec toboggans géants, rivière à bouées et espace bien-être.'
+      desc: 'Le plus grand parc aquatique de Suisse, au bord du lac Léman, avec toboggans géants, rivière à bouées et espace bien-être.',
+      link: 'https://www.aquaparc.ch/en'
     },
     {
       id: 'lac-oeschinen',
@@ -568,7 +591,8 @@
       duration: '1/2 journée',
       budget: 'Payant',
       distance: '~35 km',
-      desc: 'Lac de montagne turquoise à 1580 m, encerclé de parois rocheuses et de glaciers. Accès via le train-auto du tunnel du Lötschberg à Kandersteg.'
+      desc: 'Lac de montagne turquoise à 1580 m, encerclé de parois rocheuses et de glaciers. Accès via le train-auto du tunnel du Lötschberg à Kandersteg.',
+      link: 'https://www.oeschinensee.ch/en/'
     },
     {
       id: 'chateau-chillon',
@@ -578,7 +602,8 @@
       duration: '1/2 journée',
       budget: 'Payant',
       distance: '~95 km',
-      desc: 'Le monument historique le plus visité de Suisse, forteresse médiévale sur un îlot rocheux du lac Léman, immortalisée par Lord Byron.'
+      desc: 'Le monument historique le plus visité de Suisse, forteresse médiévale sur un îlot rocheux du lac Léman, immortalisée par Lord Byron.',
+      link: 'https://www.chillon.ch/en/'
     },
     {
       id: 'luge-ete-nendaz',
@@ -588,7 +613,8 @@
       duration: '2h',
       budget: 'Payant',
       distance: '~50 km',
-      desc: 'L’une des plus longues pistes de luge sur rail de Suisse (3,5 km), qui dévale la montagne avec virages relevés et sauts.'
+      desc: 'L’une des plus longues pistes de luge sur rail de Suisse (3,5 km), qui dévale la montagne avec virages relevés et sauts.',
+      link: 'https://nendaz.ch/fr/fppoi-piste-de-luge-siviez-39727.html'
     },
     {
       id: 'crans-montana',
@@ -598,7 +624,8 @@
       duration: '1/2 journée',
       budget: 'Moyen',
       distance: '~35 km',
-      desc: 'Station panoramique à 1500 m au-dessus de la plaine du Rhône, avec un plan d’eau familial, plages et jeux au bord du lac Grenon.'
+      desc: 'Station panoramique à 1500 m au-dessus de la plaine du Rhône, avec un plan d’eau familial, plages et jeux au bord du lac Grenon.',
+      link: 'https://www.crans-montana.ch/en/beach'
     },
     {
       id: 'sion-valere-tourbillon',
@@ -608,7 +635,8 @@
       duration: '1/2 journée',
       budget: 'Gratuit',
       distance: '~30 km',
-      desc: 'Deux collines fortifiées dominent la capitale valaisanne : la basilique de Valère (plus vieil orgue jouable au monde) et les ruines du château de Tourbillon.'
+      desc: 'Deux collines fortifiées dominent la capitale valaisanne : la basilique de Valère (plus vieil orgue jouable au monde) et les ruines du château de Tourbillon.',
+      link: 'https://siontourisme.ch/fr/les-chateaux'
     },
     {
       id: 'glacier-3000-diablerets',
@@ -618,7 +646,8 @@
       duration: 'Journée',
       budget: 'Payant',
       distance: '~75 km',
-      desc: 'Le premier pont suspendu au monde reliant deux sommets, à 3000 m d’altitude, avec vue sur les Alpes bernoises, valaisannes et le Mont-Blanc.'
+      desc: 'Le premier pont suspendu au monde reliant deux sommets, à 3000 m d’altitude, avec vue sur les Alpes bernoises, valaisannes et le Mont-Blanc.',
+      link: 'https://www.glacier3000.ch/en'
     },
     {
       id: 'bisse-du-ro-saviese',
@@ -628,7 +657,8 @@
       duration: '1/2 journée',
       budget: 'Gratuit',
       distance: '~35 km',
-      desc: 'Randonnée familiale le long d’un bisse historique creusé à flanc de falaise, surplombant les gorges de la Morge.'
+      desc: 'Randonnée familiale le long d’un bisse historique creusé à flanc de falaise, surplombant les gorges de la Morge.',
+      link: 'https://torrent-neuf.ch/'
     }
   ];
 
@@ -1052,6 +1082,17 @@
       desc.className = 'desc';
       desc.textContent = a.desc;
       card.appendChild(desc);
+
+      if (a.link) {
+        var linkEl = document.createElement('a');
+        linkEl.className = 'activity-external-link';
+        linkEl.href = a.link;
+        linkEl.target = '_blank';
+        linkEl.rel = 'noopener';
+        linkEl.textContent = 'En savoir plus ↗';
+        linkEl.addEventListener('click', function (e) { e.stopPropagation(); });
+        card.appendChild(linkEl);
+      }
 
       card.appendChild(buildRatingWidget(a.id, false));
 

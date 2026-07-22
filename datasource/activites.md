@@ -18,6 +18,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Description :** Les plus célèbres et grands thermes des Alpes.
   Bassins chauds extérieurs au pied de vertigineuses falaises et espace
   aquatique moderne.
+- **Lien :** [alpentherme.ch](https://alpentherme.ch/)
 - **Pour les ados :** Les grands toboggans couverts et les plongeoirs
   pour s'amuser.
 - **Pour les adultes :** Les bains de vapeur à 37°C et la relaxation
@@ -34,6 +35,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Description :** Une randonnée spectaculaire traversant un pont
   suspendu de 134 m de long qui relie le Haut et le Bas-Valais
   au-dessus du grand canyon de l'Illgraben.
+- **Lien :** [Sierre Tourisme - Illgraben & Pont Bouthanais](https://www.sierretourisme.ch/fr/V4366/a-faire/sport-et-loisirs/randonnees-balades/sierre-illgraben-pont-bouthanais-leuk-susten)
 - **Pour les ados :** Les sensations de hauteur sur le pont suspendu.
 - **Pour les adultes :** Le panorama géologique unique du cirque
   d'érosion de l'Illgraben.
@@ -49,6 +51,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Description :** Une traversée magique de 30 minutes sur le plus
   grand lac souterrain navigable d'Europe, logé dans une grotte de
   gypse éclairée.
+- **Lien :** [lac-souterrain.com](https://lac-souterrain.com/en/)
 - **Pour les ados :** Explorer une grotte mystique en barque géante et
   le wifi à l'entrée.
 - **Pour les adultes :** Les commentaires historiques et la fraîcheur
@@ -64,6 +67,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Distance :** ~20 km du camping (~25 min en voiture)
 - **Description :** Un pont suspendu piéton historique surnommé le
   « Pont Araignée » perché à 190 m de hauteur dans le Val d'Anniviers.
+- **Lien :** [pontsuspendu.ch](https://pontsuspendu.ch/la-region/)
 - **Pour les ados :** Les sensations fortes : tyrolienne géante de
   220 m ou saut à l'élastique.
 - **Pour les adultes :** Randonnée forestière et pont vertigineux
@@ -80,6 +84,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Description :** Visite du bourg médiéval pavé de Loèche et de son
   château fort abritant une magnifique coupole en verre dessinée par le
   célèbre architecte Mario Botta.
+- **Lien :** [Parc Pfyn-Finges - Château de Loèche](https://www.pfyn-finges.ch/fr/experience/carte-du-parc/offer-detail/chateau-loeche-2151)
 - **Pour les ados :** Monter dans la coupole moderne de verre et de
   métal futuriste.
 - **Pour les adultes :** L'architecture pittoresque, l'arbre de justice
@@ -96,6 +101,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Description :** L'une des plus grandes forêts de pins des Alpes et
   une réserve naturelle protégée où le fleuve Rhône coule encore de
   façon totalement sauvage.
+- **Lien :** [pfyn-finges.ch - Réserve naturelle du Bois de Finges](https://www.pfyn-finges.ch/fr/decouvrir-le-parc/decouvrir-par-soi-meme/exceptionelle/reserve-naturelle-du-bois-de-finges-3)
 - **Pour les ados :** Louer un VTT et explorer les sentiers forestiers
   et les étangs secrets.
 - **Pour les adultes :** Sentier d'interprétation sonore et observation
@@ -112,6 +118,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Description :** Une traversée légendaire de haute montagne à 2300 m
   d'altitude reliant Leukerbad à Kandersteg, longeant le lac glaciaire
   Daubensee au milieu de paysages lunaires.
+- **Lien :** [leukerbad.ch - Chemin du col de la Gemmi](https://leukerbad.ch/fr/tour/chemin-du-col-de-la-gemmi-57718545)
 - **Pour les ados :** L'arrivée impressionnante en téléphérique et les
   pierriers alpins de haute montagne.
 - **Pour les adultes :** Sentier historique spectaculaire creusé dans
@@ -128,6 +135,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Description :** Une boucle à couper le souffle au-dessus de
   Leukerbad / Albinen avec un panorama à 360° permanent sur la chaîne
   des 4000 m du Valais (Mont Rose, Cervin, Dent Blanche).
+- **Lien :** [leukerbad.ch - Chemin panoramique du Torrent](https://www.leukerbad.ch/fr/tour/chemin-panoramique-du-torrent-57523502)
 - **Pour les ados :** Une rando active avec des points de vue photo
   incroyables au-dessus des nuages.
 - **Pour les adultes :** Flore alpine d'altitude exceptionnelle et
@@ -145,6 +153,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Description :** Une incursion sauvage dans la vallée voisine de
   Tourtemagne. Randonnée en boucle montant du barrage jusqu'à la cabane
   CAS (2519 m) au pied immédiat du glacier et de ses séracs.
+- **Lien :** [CAS Prévôtoise - Cabane de Tourtemagne](https://www.cas-prevotoise.ch/cabanes/cabane-de-tourtemagne.php)
 - **Pour les ados :** Approcher le gigantesque front de glace et les
   crevasses du glacier de Turtmann.
 - **Pour les adultes :** L'ambiance isolée d'une vallée 100% sauvage et
@@ -164,6 +173,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
   pied du Cervin. Montée en train à crémaillère au Gornergrat ou en
   téléphérique au Matterhorn Glacier Paradise, le plus haut téléphérique
   d'Europe.
+- **Lien :** [gornergrat.ch](https://www.gornergrat.ch/en/)
 - **Pour les ados :** Le pont suspendu le plus haut du monde ou le
   glacier du Matterhorn Glacier Paradise, avec neige toute l'année.
 - **Pour les adultes :** Le panorama à 360° sur 29 sommets de plus de
@@ -181,6 +191,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Description :** Le plus long glacier des Alpes (23 km), site classé
   à l'UNESCO, visible depuis les balcons panoramiques de Bettmerhorn ou
   Eggishorn au-dessus de la vallée de Conches.
+- **Lien :** [aletscharena.ch](https://www.aletscharena.ch/en/about-the-region/destination)
 - **Pour les ados :** Le sentier suspendu et les via ferrata légères sur
   les crêtes autour du glacier.
 - **Pour les adultes :** Le point de vue mythique de l'Eggishorn, l'un
@@ -197,6 +208,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Description :** Le plus grand parc aquatique couvert et extérieur de
   Suisse, au bord du lac Léman, avec toboggans géants, rivière à bouées
   et espace bien-être.
+- **Lien :** [aquaparc.ch](https://www.aquaparc.ch/en)
 - **Pour les ados :** Les toboggans à sensations (Space Boarding,
   Kamikaze) et le simulateur de surf.
 - **Pour les adultes :** Le spa extérieur avec vue sur le lac Léman et
@@ -214,6 +226,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Description :** Lac de montagne turquoise à 1580 m d'altitude,
   encerclé de parois rocheuses et de glaciers, considéré comme l'un des
   plus beaux lacs alpins de Suisse.
+- **Lien :** [oeschinensee.ch](https://www.oeschinensee.ch/en/)
 - **Pour les ados :** La luge d'été et les bouées à pédales sur le lac.
 - **Pour les adultes :** La randonnée facile autour du lac avec vue sur
   le massif du Blüemlisalp.
@@ -230,6 +243,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Description :** Le monument historique le plus visité de Suisse,
   forteresse médiévale posée sur un îlot rocheux au bord du lac Léman,
   immortalisée par Lord Byron.
+- **Lien :** [chillon.ch](https://www.chillon.ch/en/)
 - **Pour les ados :** Les cachots, oubliettes et passages secrets du
   château.
 - **Pour les adultes :** Les salles d'apparat meublées et la vue sur les
@@ -246,6 +260,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Distance :** ~50 km du camping jusqu'à Siviez (~50 min en voiture)
 - **Description :** L'une des plus longues pistes de luge sur rail de
   Suisse (3,5 km), qui dévale la montagne avec virages relevés et sauts.
+- **Lien :** [nendaz.ch - Piste de luge de Siviez](https://nendaz.ch/fr/fppoi-piste-de-luge-siviez-39727.html)
 - **Pour les ados :** La vitesse et les virages en banking de la piste,
   avec plusieurs descentes possibles.
 - **Pour les adultes :** Le parc de loisirs de montagne alentour
@@ -262,6 +277,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Description :** Station panoramique perchée à 1500 m au-dessus de la
   plaine du Rhône, avec un plan d'eau familial, plages et jeux au bord du
   lac Grenon.
+- **Lien :** [crans-montana.ch - Lac Grenon](https://www.crans-montana.ch/en/beach)
 - **Pour les ados :** La baignade et le stand-up paddle sur le lac
   Grenon, ou le bike park.
 - **Pour les adultes :** La promenade sur les greens du golf historique
@@ -278,6 +294,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Description :** La capitale du Valais est dominée par deux collines
   jumelles fortifiées : la basilique de Valère, qui abrite le plus vieil
   orgue jouable au monde, et les ruines du château de Tourbillon.
+- **Lien :** [siontourisme.ch - Les châteaux](https://siontourisme.ch/fr/les-chateaux)
 - **Pour les ados :** Grimper jusqu'aux ruines de Tourbillon et explorer
   les remparts.
 - **Pour les adultes :** Le musée d'histoire de Valère et le panorama
@@ -295,6 +312,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Description :** Le premier pont suspendu au monde reliant deux
   sommets, à 3000 m d'altitude, avec vue sur les Alpes bernoises,
   valaisannes et le Mont-Blanc.
+- **Lien :** [glacier3000.ch](https://www.glacier3000.ch/en)
 - **Pour les ados :** Traverser le Peak Walk by Tissot au-dessus du vide
   et la luge sur neige toute l'année.
 - **Pour les adultes :** Le panorama à 360° sur plus de 24 glaciers et
@@ -311,6 +329,7 @@ Source initiale : reprise des activités déjà présentes dans la mini-app
 - **Description :** Randonnée familiale le long d'un bisse historique
   (canal d'irrigation valaisan), en partie creusé à flanc de falaise,
   surplombant les gorges de la Morge.
+- **Lien :** [torrent-neuf.ch](https://torrent-neuf.ch/)
 - **Pour les ados :** Longer le canal au bord du vide sur les passerelles
   en bois accrochées à la paroi.
 - **Pour les adultes :** L'ingéniosité de ces canaux séculaires et les
