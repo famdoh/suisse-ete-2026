@@ -16,6 +16,15 @@ Chaque mini-app doit tenir compte du contexte de voyage suivant :
   Rhône.
 - **Voyageurs** : 4 adultes et 4 enfants (entre 8 et 13 ans).
 
+## Portée de ce fichier
+
+`AGENTS.md` ne doit contenir que des règles et informations générales,
+communes à l'ensemble des mini-apps de ce projet (architecture,
+conventions, workflow, contexte du voyage). Tout ce qui est spécifique
+à une app en particulier (son fonctionnement propre, ses contraintes,
+ses choix de conception, ses dépendances) doit être documenté dans le
+`description.md` de cette app, pas ici.
+
 ## Architecture
 
 - `index.html` (racine du dépôt) — la page d'accueil. Elle liste toutes
