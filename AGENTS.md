@@ -54,6 +54,11 @@ shareable, directly-viewable link. When an app's HTML changes, redeploy
 its Artifact from the same file path so the existing Artifact URL is
 updated in place rather than creating a new one.
 
+## Git Workflow
+
+All changes made during a session must be merged directly into the
+`dev` branch (no pull request required).
+
 ## Deployment
 
 GitHub Pages is served via GitHub Actions (see
