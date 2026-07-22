@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activités & Loisirs - Suisse Été 2026</title>
+<meta name="description" content="19 activités et sorties à proximité du Camping Bella-Tola (Susten, Valais) pour le séjour en Suisse du 22 juillet au 1er août 2026, avec lien vers le site officiel de chacune.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light dark;
+    --primary: #2d6a4f;
+    --primary-hover: #1b4332;
+    --swiss-red: #D52B1E;
+    --bg-gradient: linear-gradient(135deg, #f2faf6 0%, #dcf0e4 100%);
+    --card-bg: rgba(255, 255, 255, 0.75);
+    --card-border: rgba(45, 106, 79, 0.12);
+    --text-heading: #1C2E24;
+    --text-body: #485c52;
+    --badge-nature-bg: rgba(35, 169, 93, 0.1);
+    --badge-nature-text: #1e7e46;
+    --badge-nature-border: rgba(35, 169, 93, 0.18);
+    --badge-culture-bg: rgba(29, 78, 216, 0.1);
+    --badge-culture-text: #1d4ed8;
+    --badge-culture-border: rgba(29, 78, 216, 0.18);
+    --badge-duration-bg: rgba(217, 93, 57, 0.1);
+    --badge-duration-text: #b54221;
+    --badge-duration-border: rgba(217, 93, 57, 0.18);
+    --badge-budget-bg: rgba(0, 0, 0, 0.04);
+    --badge-budget-border: rgba(0, 0, 0, 0.08);
+    --points-bg: rgba(0, 0, 0, 0.025);
+    --points-border: rgba(0, 0, 0, 0.04);
+    --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --primary: #5fb98a;
+      --primary-hover: #7fd0a4;
+      --bg-gradient: linear-gradient(135deg, #0f1712 0%, #142019 100%);
+      --card-bg: rgba(255, 255, 255, 0.04);
+      --card-border: rgba(95, 185, 138, 0.18);
+      --text-heading: #eef4f0;
+      --text-body: #aebdb4;
+      --badge-nature-bg: rgba(95, 185, 138, 0.12);
+      --badge-nature-text: #7fd0a4;
+      --badge-nature-border: rgba(95, 185, 138, 0.25);
+      --badge-culture-bg: rgba(96, 140, 255, 0.14);
+      --badge-culture-text: #93b1ff;
+      --badge-culture-border: rgba(96, 140, 255, 0.28);
+      --badge-duration-bg: rgba(226, 133, 92, 0.14);
+      --badge-duration-text: #e2855c;
+      --badge-duration-border: rgba(226, 133, 92, 0.28);
+      --badge-budget-bg: rgba(255, 255, 255, 0.05);
+      --badge-budget-border: rgba(255, 255, 255, 0.1);
+      --points-bg: rgba(255, 255, 255, 0.03);
+      --points-border: rgba(255, 255, 255, 0.06);
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg-gradient);
+    background-attachment: fixed;
+    color: var(--text-body);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+  h1, h2, h3 { font-family: 'Outfit', sans-serif; color: var(--text-heading); font-weight: 700; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+  header { text-align: center; padding: 60px 0 40px; }
+  .swiss-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--swiss-red);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 8px 20px rgba(213, 43, 30, 0.3);
+  }
+  header h1 { font-size: 2.6rem; letter-spacing: -0.5px; margin-bottom: 12px; text-wrap: balance; }
+  header p { font-size: 1.05rem; max-width: 680px; margin: 0 auto; opacity: 0.9; }
+  .activities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 24px;
+  }
+  .activity-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+  }
+  .activity-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+  }
+  .activity-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 4px;
+    background: var(--primary);
+    opacity: 0.8;
+  }
+  .activity-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .activity-icon { font-size: 2rem; flex-shrink: 0; }
+  .activity-title { font-size: 1.15rem; font-weight: 700; line-height: 1.3; color: var(--text-heading); }
+  .activity-meta { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 16px 0; }
+  .badge-type {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  .badge-nature { background: var(--badge-nature-bg); color: var(--badge-nature-text); border: 1px solid var(--badge-nature-border); }
+  .badge-culture { background: var(--badge-culture-bg); color: var(--badge-culture-text); border: 1px solid var(--badge-culture-border); }
+  .badge-duration { background: var(--badge-duration-bg); color: var(--badge-duration-text); border: 1px solid var(--badge-duration-border); }
+  .badge-budget { background: var(--badge-budget-bg); color: var(--text-body); border: 1px solid var(--badge-budget-border); }
+  .activity-description { font-size: 0.9rem; color: var(--text-body); line-height: 1.5; margin-bottom: 10px; }
+  .activity-link {
+    display: inline-block;
+    margin-bottom: 16px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--primary);
+    text-decoration: none;
+  }
+  .activity-link:hover { text-decoration: underline; color: var(--primary-hover); }
+  .activity-points {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: auto;
+    background: var(--points-bg);
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid var(--points-border);
+  }
+  .activity-points li { position: relative; padding-left: 20px; font-size: 0.85rem; color: var(--text-body); opacity: 0.9; }
+  .activity-points li::before { content: "✓"; position: absolute; left: 0; color: var(--primary); font-weight: bold; }
+  footer { text-align: center; margin-top: 50px; font-size: 0.85rem; color: var(--text-body); opacity: 0.75; }
+  footer a { color: var(--primary); }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="swiss-badge">🇨🇭 Suisse 2026</div>
+    <h1>🧭 Activités & Loisirs</h1>
+    <p>19 activités et sorties à proximité du Camping Bella-Tola (Susten, Valais) — du plus proche au plus lointain, avec un lien vers le site officiel de chacune.</p>
+  </header>
+
+  <div class="activities-grid">
+    <!-- Activité 1 -->
+    <div class="activity-card">
+      <div>
+        <div class="activity-header">
+          <span class="activity-icon">🌊</span>
+          <h3 class="activity-title">Bains thermaux de Leukerbad</h3>
+        </div>
+        <div class="activity-meta">
+          <span class="badge-type badge-nature">🌲 Détente & Fun</span>
+          <span class="badge-type badge-duration">⏱️ 1/2 Journée</span>
+          <span class="badge-type badge-budget">💰 Payant</span>
+        </div>
+        <p class="activity-description">Les plus célèbres et grands thermes des Alpes. Bassins chauds extérieurs au pied de vertigineuses falaises et espace aquatique moderne.</p>
+        <a class="activity-link" href="https://alpentherme.ch/" target="_blank" rel="noopener">🔗 alpentherme.ch ↗</a>
+      </div>
+      <ul class="activity-points">
+        <li><strong>Pour les ados :</strong> Les grands toboggans couverts et les plongeoirs pour s'amuser.</li>
+        <li><strong>Pour les adultes :</strong> Les bains de vapeur à 37°C et la relaxation face au col de la Gemmi.</li>
+        <li><strong>Logistique :</strong> À seulement 20 min en voiture (15 km) au-dessus de Loèche/Susten.</li>
+      </ul>
+    </div>
+
+    <!-- Activité 2 -->
+    <div class="activity-card">
+      <div>
+        <div class="activity-header">
+          <span class="activity-icon">🌉</span>
+          <h3 class="activity-title">Pont du Bhoutan & Illgraben</h3>
+        </div>
+        <div class="activity-meta">
+          <span class="badge-type badge-nature">🌲 Nature & Rando</span>
+          <span class="badge-type badge-duration">⏱️ 1/2 Journée</span>
+          <span class="badge-type badge-budget">🎁 Gratuit</span>
+        </div>
+        <p class="activity-description">Une randonnée spectaculaire traversant un pont suspendu de 134m de long qui relie le Haut et le Bas-Valais au-dessus du grand canyon de l'Illgraben.</p>
+        <a class="activity-link" href="https://www.sierretourisme.ch/fr/V4366/a-faire/sport-et-loisirs/randonnees-balades/sierre-illgraben-pont-bouthanais-leuk-susten" target="_blank" rel="noopener">🔗 Sierre Tourisme ↗</a>
+      </div>
+      <ul class="activity-points">
+        <li><strong>Pour les ados :</strong> Les sensations de hauteur sur le pont suspendu.</li>
+        <li><strong>Pour les adultes :</strong> Le panorama géologique unique du cirque d'érosion de l'Illgraben.</li>
+        <li><strong>Logistique :</strong> Accès facile à pied depuis le camping Bella Tola (Parc Pfyn-Finges).</li>
+      </ul>
+    </div>
+
+    <!-- Activité 3 -->
+    <div class="activity-card">
+      <div>
+        <div class="activity-header">
+          <span class="activity-icon">🚣</span>
+          <h3 class="activity-title">Lac Souterrain de St-Léonard</h3>
+        </div>
+        <div class="activity-meta">
+          <span class="badge-type badge-culture">🏛️ Grotte & Culture</span>
+          <span class="badge-type badge-duration">⏱️ 1/2 Journée</span>
+          <span class="badge-type badge-budget">💰 Payant</span>
+        </div>
+        <p class="activity-description">Une traversée magique de 30 minutes sur le plus grand lac souterrain navigable d'Europe, logé dans une grotte de gypse éclairée.</p>
+        <a class="activity-link" href="https://lac-souterrain.com/en/" target="_blank" rel="noopener">🔗 lac-souterrain.com ↗</a>
+      </div>
+      <ul class="activity-points">
+        <li><strong>Pour les ados :</strong> Explorer une grotte mystique en barque géante et le wifi à l'entrée.</li>
+        <li><strong>Pour les adultes :</strong> Les commentaires historiques et la fraîcheur naturelle de la grotte (15°C).</li>
+        <li><strong>Logistique :</strong> À 20 min en voiture (28 km) en direction de Sion. Réservation obligatoire.</li>
+      </ul>
+    </div>
+
+    <!-- Activité 4 -->
+    <div class="activity-card">
+      <div>
+        <div class="activity-header">
+          <span class="activity-icon">🧗</span>
+          <h3 class="activity-title">Pont Spinelle de Niouc</h3>
+        </div>
+        <div class="activity-meta">
+          <span class="badge-type badge-nature">🌲 Aventure / Sensations</span>
+          <span class="badge-type badge-duration">⏱️ 1/2 Journée</span>
+          <span class="badge-type badge-budget">💰 Moyen</span>
+        </div>
+        <p class="activity-description">Un pont suspendu piéton historique surnommé le « Pont Araignée » perché à 190m de hauteur dans le Val d'Anniviers.</p>
+        <a class="activity-link" href="https://pontsuspendu.ch/la-region/" target="_blank" rel="noopener">🔗 pontsuspendu.ch ↗</a>
+      </div>
+      <ul class="activity-points">
+        <li><strong>Pour les ados :</strong> Les sensations fortes : tyrolienne géante de 220m ou saut à l'élastique.</li>
+        <li><strong>Pour les adultes :</strong> Randonnée forestière et pont vertigineux surplombant la Navizence.</li>
+        <li><strong>Logistique :</strong> À 25 min de route vers le Val d'Anniviers. Accès au pont payant (5 CHF).</li>
+      </ul>
+    </div>
+
+    <!-- Activité 5 -->
+    <div class="activity-card">
+      <div>
+        <div class="activity-header">
+          <span class="activity-icon">🏰</span>
+          <h3 class="activity-title">Château de Loèche (Leuk-Stadt)</h3>
+        </div>
+        <div class="activity-meta">
+          <span class="badge-type badge-culture">🏛️ Culture & Art</span>
+          <span class="badge-type badge-duration">⏱️ 2h</span>
+          <span class="badge-type badge-budget">🎁 Gratuit</span>
+        </div>
+        <p class="activity-description">Visite du bourg médiéval pavé de Loèche et de son château fort abritant une magnifique coupole en verre dessinée par le célèbre architecte Mario Botta.</p>
+        <a class="activity-link" href="https://www.pfyn-finges.ch/fr/experience/carte-du-parc/offer-detail/chateau-loeche-2151" target="_blank" rel="noopener">🔗 pfyn-finges.ch ↗</a>
+      </div>
+      <ul class="activity-points">
+        <li><strong>Pour les ados :</strong> Monter dans la coupole moderne de verre et de métal futuriste.</li>
+        <li><strong>Pour les adultes :</strong> L'architecture pittoresque, l'arbre de justice et la chapelle de Ringacker.</li>
+        <li><strong>Logistique :</strong> À 5 min du camping en voiture ou accessible par un sentier pédestre montant de Susten.</li>
+      </ul>
+    </div>
+
+    <!-- Activité 6 -->
+    <div class="activity-card">
+      <div>
+        <div class="activity-header">
+          <span class="activity-icon">🚲</span>
+          <h3 class="activity-title">Pfynwald - Bois de Finges</h3>
+        </div>
+        <div class="activity-meta">
+          <span class="badge-type badge-nature">🌲 Nature Sauvage</span>
+          <span class="badge-type badge-duration">⏱️ 1/2 Journée</span>
+          <span class="badge-type badge-budget">🎁 Gratuit</span>
+        </div>
+        <p class="activity-description">L'une des plus grandes forêts de pins des Alpes et une réserve naturelle protégée où le fleuve Rhône coule encore de façon totalement sauvage.</p>
+        <a class="activity-link" href="https://www.pfyn-finges.ch/fr/decouvrir-le-parc/decouvrir-par-soi-meme/exceptionelle/reserve-naturelle-du-bois-de-finges-3" target="_blank" rel="noopener">🔗 pfyn-finges.ch ↗</a>
+      </div>
+      <ul class="activity-points">
+        <li><strong>Pour les ados :</strong> Louer un VTT et explorer les sentiers forestiers et les étangs secrets.</li>
+        <li><strong>Pour les adultes :</strong> Sentier d'interprétation sonore et observation ornithologique.</li>
+        <li><strong>Logistique :</strong> En accès direct à pied/vélo depuis le camping Bella Tola.</li>
+      </ul>
+    </div>
+
+    <!-- Activité 7 -->
+    <div class="activity-card">
+      <div>
+        <div class="activity-header">
+          <span class="activity-icon">🥾</span>
+          <h3 class="activity-title">Rando Col de la Gemmi (10 km)</h3>
+        </div>
+        <div class="activity-meta">
+          <span class="badge-type badge-nature">🌲 Randonnée Montagne</span>
+          <span class="badge-type badge-duration">⏱️ Journée</span>
+          <span class="badge-type badge-budget">💰 Pas Cher</span>
+        </div>
+        <p class="activity-description">Une traversée légendaire de haute montagne à 2300m d'altitude reliant Leukerbad à Kandersteg, longeant le lac glaciaire Daubensee au milieu de paysages lunaires.</p>
+        <a class="activity-link" href="https://leukerbad.ch/fr/tour/chemin-du-col-de-la-gemmi-57718545" target="_blank" rel="noopener">🔗 leukerbad.ch ↗</a>
+      </div>
+      <ul class="activity-points">
+        <li><strong>Pour les ados :</strong> L'arrivée impressionnante en téléphérique et les pierriers alpins de haute montagne.</li>
+        <li><strong>Pour les adultes :</strong> Sentier historique spectaculaire creusé dans la falaise et vue sur les sommets.</li>
+        <li><strong>Rando & Logistique :</strong> Départ de Leukerbad. 10 km (3h30), dénivelé doux (+350m / -550m). Retour en train de Kandersteg à Susten.</li>
+      </ul>
+    </div>
+
+    <!-- Activité 8 -->
+    <div class="activity-card">
+      <div>
+        <div class="activity-header">
+          <span class="activity-icon">🥾</span>
+          <h3 class="activity-title">Sentier Panoramique de Torrent (11 km)</h3>
+        </div>
+        <div class="activity-meta">
+          <span class="badge-type badge-nature">🌲 Randonnée Crête</span>
+          <span class="badge-type badge-duration">⏱️ 1/2 Journée</span>
+          <span class="badge-type badge-budget">🎁 Gratuit</span>
+        </div>
+        <p class="activity-description">Une boucle à couper le souffle au-dessus de Leukerbad / Albinen avec un panorama à 360° permanent sur la chaîne des 4000m du Valais (Mont Rose, Cervin, Dent Blanche).</p>
+        <a class="activity-link" href="https://www.leukerbad.ch/fr/tour/chemin-panoramique-du-torrent-57523502" target="_blank" rel="noopener">🔗 leukerbad.ch ↗</a>
+      </div>
+      <ul class="activity-points">
+        <li><strong>Pour les ados :</strong> Une rando active avec des points de vue photo incroyables au-dessus des nuages.</li>
+        <li><strong>Pour les adultes :</strong> Flore alpine d'altitude exceptionnelle et calme majestueux de la montagne.</li>
+        <li><strong>Rando & Logistique :</strong> Départ de Torrentalp (téléphérique ou montée à pied). 11 km en boucle, dénivelé moyen (+480m / -480m). À 20 min du camping.</li>
+      </ul>
+    </div>
+
+    <!-- Activité 9 -->
+    <div class="activity-card">
+      <div>
+        <div class="activity-header">
+          <span class="activity-icon">🥾</span>
+          <h3 class="activity-title">Rando de la cabane de Turtmann (12 km)</h3>
+        </div>
+        <div class="activity-meta">
+          <span class="badge-type badge-nature">🌲 Haute Montagne</span>
+          <span class="badge-type badge-duration">⏱️ Journée</span>
+          <span class="badge-type badge-budget">🎁 Gratuit</span>
+        </div>
+        <p class="activity-description">Une incursion sauvage dans la vallée voisine de Tourtemagne. Randonnée en boucle montant du barrage jusqu'à la cabane CAS (2519m) au pied immédiat du glacier et de ses séracs.</p>
+        <a class="activity-link" href="https://www.cas-prevotoise.ch/cabanes/cabane-de-tourtemagne.php" target="_blank" rel="noopener">🔗 CAS Prévôtoise ↗</a>
+      </div>
+      <ul class="activity-points">
+        <li><strong>Pour les ados :</strong> Approcher le gigantesque front de glace et les crevasses du glacier de Turtmann.</li>
+        <li><strong>Pour les adultes :</strong> L'ambiance isolée d'une vallée 100% sauvage et une tarte maison à la cabane de montagne.</li>
+        <li><strong>Rando & Logistique :</strong> Départ de Senntum (Turtmanntal - 25 min de route). 12 km en boucle, dénivelé +650m / -650m. Chaussures robustes indispensables.</li>
+      </ul>
+    </div>
+
+    <!-- Activité 10 -->
+    <div class="activity-card">
+      <div>
+        <div class="activity-header">
+          <span class="activity-icon">🚠</span>
+          <h3 class="activity-title">Zermatt & Cervin (Gornergrat)</h3>
+        </div>
+        <div class="activity-meta">
+          <span class="badge-type badge-nature">🌲 Panorama Alpin</span>
+          <span class="badge-type badge-duration">⏱️ Journée</span>
+          <span class="badge-type badge-budget">💰 Payant</span>
+        </div>
+        <p class="activity-description">Village sans voitures au pied du Cervin. Montée en train à crémaillère au Gornergrat ou en téléphérique au Matterhorn Glacier Paradise, le plus haut téléphérique d'Europe.</p>
+        <a class="activity-link" href="https://www.gornergrat.ch/en/" target="_blank" rel="noopener">🔗 gornergrat.ch ↗</a>
+      </div>
+      <ul class="activity-points">
+        <li><strong>Pour les ados :</strong> Le pont suspendu le plus haut du monde et le glacier du Matterhorn Glacier Paradise, avec neige toute l'année.</li>
+        <li><strong>Pour les adultes :</strong> Le panorama à 360° sur 29 sommets de plus de 4000m depuis le Gornergrat.</li>
+        <li><strong>Logistique :</strong> Stationnement obligatoire à Täsch (~48 km, 45 min), puis navette/train (12 min) jusqu'à Zermatt.</li>
+      </ul>
+    </div>
+
+    <!-- Activité 11 -->
+    <div class="activity-card">
+      <div>
+        <div class="activity-header">
+          <span class="activity-icon">🏔️</span>
+          <h3 class="activity-title">Aletsch Arena - Glacier d'Aletsch</h3>
+        </div>
+        <div class="activity-meta">
+          <span class="badge-type badge-nature">🌲 Nature Sauvage</span>
+          <span class="badge-type badge-duration">⏱️ Journée</span>
+          <span class="badge-type badge-budget">💰 Payant</span>
+        </div>
+        <p class="activity-description">Le plus long glacier des Alpes (23 km), site classé à l'UNESCO, visible depuis les balcons panoramiques de Bettmerhorn ou Eggishorn au-dessus de la vallée de Conches.</p>
+        <a class="activity-link" href="https://www.aletscharena.ch/en/about-the-region/destination" target="_blank" rel="noopener">🔗 aletscharena.ch ↗</a>
+      </div>
+      <ul class="activity-points">
+        <li><strong>Pour les ados :</strong> Le sentier suspendu et les via ferrata légères sur les crêtes autour du glacier.</li>
+        <li><strong>Pour les adultes :</strong> Le point de vue mythique de l'Eggishorn, l'un des plus beaux panoramas des Alpes suisses.</li>
+        <li><strong>Logistique :</strong> ~55 km jusqu'à Betten/Fiesch (50 min), village sans voitures de Bettmeralp accessible en funiculaire.</li>
+      </ul>
+    </div>
+
+    <!-- Activité 12 -->
+    <div class="activity-card">
+      <div>
+        <div class="activity-header">
+          <span class="activity-icon">🌊</span>
+          <h3 class="activity-title">Aquaparc Le Bouveret</h3>
+        </div>
+        <div class="activity-meta">
+          <span class="badge-type badge-nature">🌲 Détente & Fun</span>
+          <span class="badge-type badge-duration">⏱️ Journée</span>
+          <span class="badge-type badge-budget">💰 Payant</span>
+        </div>
+        <p class="activity-description">Le plus grand parc aquatique couvert et extérieur de Suisse, au bord du lac Léman, avec toboggans géants, rivière à bouées et espace bien-être.</p>
+        <a class="activity-link" href="https://www.aquaparc.ch/en" target="_blank" rel="noopener">🔗 aquaparc.ch ↗</a>
+      </div>
+      <ul class="activity-points">
+        <li><strong>Pour les ados :</strong> Les toboggans à sensations (Space Boarding, Kamikaze) et le simulateur de surf.</li>
+        <li><strong>Pour les adultes :</strong> Le spa extérieur avec vue sur le lac Léman et les Alpes.</li>
+        <li><strong>Logistique :</strong> ~85 km (1h05) via l'autoroute A9 direction Lausanne/Bouveret. Trajet le plus long de la liste.</li>
+      </ul>
+    </div>
+
+    <!-- Activité 13 -->
+    <div class="activity-card">
+      <div>
+        <div class="activity-header">
+          <span class="activity-icon">🏞️</span>
+          <h3 class="activity-title">Lac d'Oeschinen (Oeschinensee)</h3>
+        </div>
+        <div class="activity-meta">
+          <span class="badge-type badge-nature">🌲 Nature & Rando</span>
+          <span class="badge-type badge-duration">⏱️ 1/2 Journée</span>
+          <span class="badge-type badge-budget">💰 Payant</span>
+        </div>
+        <p class="activity-description">Lac de montagne turquoise à 1580m d'altitude, encerclé de parois rocheuses et de glaciers, considéré comme l'un des plus beaux lacs alpins de Suisse.</p>
+        <a class="activity-link" href="https://www.oeschinensee.ch/en/" target="_blank" rel="noopener">🔗 oeschinensee.ch ↗</a>
+      </div>
+      <ul class="activity-points">
+        <li><strong>Pour les ados :</strong> La luge d'été et les bouées à pédales sur le lac.</li>
+        <li><strong>Pour les adultes :</strong> La randonnée facile autour du lac avec vue sur le massif du Blüemlisalp.</li>
+        <li><strong>Logistique :</strong> Accès à Kandersteg (~35 km) via le train-auto BLS depuis Goppenstein, puis télécabine ou 45 min de marche.</li>
+      </ul>
+    </div>
+
+    <!-- Activité 14 -->
+    <div class="activity-card">
+      <div>
+        <div class="activity-header">
+          <span class="activity-icon">🏰</span>
+          <h3 class="activity-title">Château de Chillon (Montreux)</h3>
+        </div>
+        <div class="activity-meta">
+          <span class="badge-type badge-culture">🏛️ Culture & Art</span>
+          <span class="badge-type badge-duration">⏱️ 1/2 Journée</span>
+          <span class="badge-type badge-budget">💰 Payant</span>
+        </div>
+        <p class="activity-description">Le monument historique le plus visité de Suisse, forteresse médiévale posée sur un îlot rocheux au bord du lac Léman, immortalisée par Lord Byron.</p>
+        <a class="activity-link" href="https://www.chillon.ch/en/" target="_blank" rel="noopener">🔗 chillon.ch ↗</a>
+      </div>
+      <ul class="activity-points">
+        <li><strong>Pour les ados :</strong> Les cachots, oubliettes et passages secrets du château.</li>
+        <li><strong>Pour les adultes :</strong> Les salles d'apparat meublées et la vue sur les Alpes vaudoises depuis les tours.</li>
+        <li><strong>Logistique :</strong> ~95 km (1h10) via l'A9 direction Lausanne. Parking à proximité immédiate du château.</li>
+      </ul>
+    </div>
+
+    <!-- Activité 15 -->
+    <div class="activity-card">
+      <div>
+        <div class="activity-header">
+          <span class="activity-icon">🛷</span>
+          <h3 class="activity-title">Luge d'été de Nendaz</h3>
+        </div>
+        <div class="activity-meta">
+          <span class="badge-type badge-nature">🌲 Aventure / Sensations</span>
+          <span class="badge-type badge-duration">⏱️ 2h</span>
+          <span class="badge-type badge-budget">💰 Payant</span>
+        </div>
+        <p class="activity-description">L'une des plus longues pistes de luge sur rail de Suisse (3,5 km), qui dévale la montagne avec virages relevés et sauts.</p>
+        <a class="activity-link" href="https://nendaz.ch/fr/fppoi-piste-de-luge-siviez-39727.html" target="_blank" rel="noopener">🔗 nendaz.ch ↗</a>
+      </div>
+      <ul class="activity-points">
+        <li><strong>Pour les ados :</strong> La vitesse et les virages en banking de la piste, avec plusieurs descentes possibles.</li>
+        <li><strong>Pour les adultes :</strong> Le parc de loisirs de montagne alentour (trottinettes, tyrolienne) pour prolonger la sortie.</li>
+        <li><strong>Logistique :</strong> ~50 km jusqu'à Siviez (50 min), accès en télécabine. Billets à la journée avantageux pour une famille.</li>
+      </ul>
+    </div>
+
+    <!-- Activité 16 -->
+    <div class="activity-card">
+      <div>
+        <div class="activity-header">
+          <span class="activity-icon">🚡</span>
+          <h3 class="activity-title">Crans-Montana & Lac Grenon</h3>
+        </div>
+        <div class="activity-meta">
+          <span class="badge-type badge-nature">🌲 Détente & Fun</span>
+          <span class="badge-type badge-duration">⏱️ 1/2 Journée</span>
+          <span class="badge-type badge-budget">💰 Moyen</span>
+        </div>
+        <p class="activity-description">Station panoramique perchée à 1500m au-dessus de la plaine du Rhône, avec un plan d'eau familial, plages et jeux au bord du lac Grenon.</p>
+        <a class="activity-link" href="https://www.crans-montana.ch/en/beach" target="_blank" rel="noopener">🔗 crans-montana.ch ↗</a>
+      </div>
+      <ul class="activity-points">
+        <li><strong>Pour les ados :</strong> La baignade et le stand-up paddle sur le lac Grenon, ou le bike park.</li>
+        <li><strong>Pour les adultes :</strong> La promenade sur les greens du golf historique et la vue dégagée sur la vallée du Rhône.</li>
+        <li><strong>Logistique :</strong> ~35 km (40 min) via une route de montagne sinueuse depuis Sierre. Parking payant au centre de la station.</li>
+      </ul>
+    </div>
+
+    <!-- Activité 17 -->
+    <div class="activity-card">
+      <div>
+        <div class="activity-header">
+          <span class="activity-icon">🏛️</span>
+          <h3 class="activity-title">Sion - Valère & Tourbillon</h3>
+        </div>
+        <div class="activity-meta">
+          <span class="badge-type badge-culture">🏛️ Culture & Art</span>
+          <span class="badge-type badge-duration">⏱️ 1/2 Journée</span>
+          <span class="badge-type badge-budget">🎁 Gratuit</span>
+        </div>
+        <p class="activity-description">La capitale du Valais est dominée par deux collines jumelles fortifiées : la basilique de Valère, plus vieil orgue jouable au monde, et les ruines du château de Tourbillon.</p>
+        <a class="activity-link" href="https://siontourisme.ch/fr/les-chateaux" target="_blank" rel="noopener">🔗 siontourisme.ch ↗</a>
+      </div>
+      <ul class="activity-points">
+        <li><strong>Pour les ados :</strong> Grimper jusqu'aux ruines de Tourbillon et explorer les remparts.</li>
+        <li><strong>Pour les adultes :</strong> Le musée d'histoire de Valère et le panorama sur la vieille ville et les vignobles.</li>
+        <li><strong>Logistique :</strong> ~30 km (25 min). Parking en ville puis montée à pied (15-20 min). Château de Tourbillon fermé le lundi.</li>
+      </ul>
+    </div>
+
+    <!-- Activité 18 -->
+    <div class="activity-card">
+      <div>
+        <div class="activity-header">
+          <span class="activity-icon">🌉</span>
+          <h3 class="activity-title">Glacier 3000 & Peak Walk</h3>
+        </div>
+        <div class="activity-meta">
+          <span class="badge-type badge-nature">🌲 Aventure / Sensations</span>
+          <span class="badge-type badge-duration">⏱️ Journée</span>
+          <span class="badge-type badge-budget">💰 Payant</span>
+        </div>
+        <p class="activity-description">Le premier pont suspendu au monde reliant deux sommets, à 3000m d'altitude, avec vue sur les Alpes bernoises, valaisannes et le Mont-Blanc.</p>
+        <a class="activity-link" href="https://www.glacier3000.ch/en" target="_blank" rel="noopener">🔗 glacier3000.ch ↗</a>
+      </div>
+      <ul class="activity-points">
+        <li><strong>Pour les ados :</strong> Traverser le Peak Walk by Tissot au-dessus du vide et la luge sur neige toute l'année.</li>
+        <li><strong>Pour les adultes :</strong> Le panorama à 360° sur plus de 24 glaciers et le télésiège suspendu au-dessus des chamois.</li>
+        <li><strong>Logistique :</strong> ~75 km jusqu'au Col du Pillon (1h15), téléphérique en 3 tronçons. Prévoir des vêtements chauds même en été.</li>
+      </ul>
+    </div>
+
+    <!-- Activité 19 -->
+    <div class="activity-card">
+      <div>
+        <div class="activity-header">
+          <span class="activity-icon">🚶</span>
+          <h3 class="activity-title">Bisse du Ro (Savièse)</h3>
+        </div>
+        <div class="activity-meta">
+          <span class="badge-type badge-nature">🌲 Nature & Rando</span>
+          <span class="badge-type badge-duration">⏱️ 1/2 Journée</span>
+          <span class="badge-type badge-budget">🎁 Gratuit</span>
+        </div>
+        <p class="activity-description">Randonnée familiale le long d'un bisse historique (canal d'irrigation valaisan), en partie creusé à flanc de falaise, surplombant les gorges de la Morge.</p>
+        <a class="activity-link" href="https://torrent-neuf.ch/" target="_blank" rel="noopener">🔗 torrent-neuf.ch ↗</a>
+      </div>
+      <ul class="activity-points">
+        <li><strong>Pour les ados :</strong> Longer le canal au bord du vide sur les passerelles en bois accrochées à la paroi.</li>
+        <li><strong>Pour les adultes :</strong> L'ingéniosité de ces canaux séculaires et les points de vue sur la vallée du Rhône.</li>
+        <li><strong>Logistique :</strong> ~35 km (35 min). Départ du parking de Roumaz. Boucle familiale de 2-3h, chaussures de marche recommandées.</li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>
+    Camping Bella-Tola · Susten, Valais — 22 juillet → 1er août 2026<br>
+    Envie de planifier ces activités jour par jour ? Voir le <a href="../planning-activites-semaine/">Planning des activités</a>.
+  </footer>
+</div>
+</body>
+</html>

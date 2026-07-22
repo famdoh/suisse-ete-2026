@@ -1,3 +1,3 @@
-Claude Artifact: https://claude.ai/code/artifact/328ad614-bc1e-45f2-8758-c4a1be0ed7fd
+Claude Artifact: https://claude.ai/code/artifact/1576101c-1513-494e-befb-6357d218d939
 
 Redeploy by republishing `index.html` from this folder (same file path) to keep this URL.
