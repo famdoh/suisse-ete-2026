@@ -1,102 +1,114 @@
 # AGENTS.md
 
-## Purpose
+## Objectif
 
-This repository hosts a collection of standalone HTML mini-apps for the
-"Suisse Été 2026" trip, published as a static site via GitHub Pages.
-Every app built in this project exists to help organize the Switzerland
-trip taking place from July 22 to August 1, 2026.
+Ce dépôt héberge une collection de mini-applications HTML autonomes pour
+le séjour « Suisse Été 2026 », publiées sous forme de site statique via
+GitHub Pages. Chaque application créée dans le cadre de ce projet vise à
+organiser le voyage en Suisse qui se déroule du 22 juillet au 1er août
+2026.
 
-Every mini-app must take the following trip context into account:
+Chaque mini-app doit tenir compte du contexte de voyage suivant :
 
-- **Location**: the stay takes place at Camping Bella-Tola, Waldstrasse
-  57, 3952 Susten, Valais, Switzerland — near Leuk/Loèche, in the Pfyn
-  ("Finges") forest / Rhône valley area.
-- **Travelers**: 4 adults and 4 children (aged 8 to 13).
+- **Localisation** : le séjour se déroule au Camping Bella-Tola,
+  Waldstrasse 57, 3952 Susten, Valais, Suisse — près de Loèche
+  (Leuk), dans la région de la forêt de Finges (Pfyn) / vallée du
+  Rhône.
+- **Voyageurs** : 4 adultes et 4 enfants (entre 8 et 13 ans).
 
 ## Architecture
 
-- `index.html` (repo root) — the hub page. It lists every mini-app in
-  `./apps` with a link and a short description. Update this file whenever
-  an app is added, renamed, or removed.
-- `apps/<app-name>/` — one folder per mini-app. The folder name is the
-  app's slug (kebab-case, e.g. `menus-camping-suisse`).
-  - `apps/<app-name>/index.html` is the app itself, so it's reachable at
-    `https://<user>.github.io/<repo>/apps/<app-name>/`.
-  - Any supporting files for that app (source markdown, data, images)
-    live in the same folder, not at the repo root.
-  - `apps/<app-name>/description.md` — required metadata file for the
-    app, containing at least its name and a short description (see
-    below).
-- `datasource/` — shared data sources common to all apps.
-  - `datasource/activites.md` — list of tourist activities near the
-    campsite that mini-apps can propose to the traveler. Any app
-    proposing tourist activities must source them from this file.
-- `.github/workflows/pages.yml` — GitHub Actions workflow that deploys the
-  whole repo root as the Pages site on every push to `main`.
-- `.nojekyll` — disables Jekyll processing so files/folders are served
-  as-is.
+- `index.html` (racine du dépôt) — la page d'accueil. Elle liste toutes
+  les mini-apps du dossier `./apps` avec un lien et une courte
+  description. Mettre à jour ce fichier à chaque ajout, renommage ou
+  suppression d'une app.
+- `apps/<nom-app>/` — un dossier par mini-app. Le nom du dossier est le
+  slug de l'app (kebab-case, ex. `menus-camping-suisse`).
+  - `apps/<nom-app>/index.html` est l'app elle-même, accessible à
+    `https://<user>.github.io/<repo>/apps/<nom-app>/`.
+  - Tout fichier de support de cette app (markdown source, données,
+    images) vit dans le même dossier, jamais à la racine du dépôt.
+  - `apps/<nom-app>/description.md` — fichier de métadonnées obligatoire
+    pour l'app, contenant au minimum son nom et une courte description
+    (voir ci-dessous).
+- `datasource/` — sources de données communes à toutes les apps.
+  - `datasource/activites.md` — liste des activités touristiques à
+    proximité du camping que les mini-apps peuvent proposer au
+    voyageur. Toute app proposant des activités touristiques doit les
+    puiser dans ce fichier.
+- `.github/workflows/pages.yml` — workflow GitHub Actions qui déploie
+  l'ensemble du dépôt comme site Pages à chaque push sur `main`.
+- `.nojekyll` — désactive le traitement Jekyll pour que les
+  fichiers/dossiers soient servis tels quels.
 
-## Rules for adding a new mini-app
+## Règles pour ajouter une nouvelle mini-app
 
-1. Create `apps/<app-name>/` (kebab-case slug) and put the app's
-   `index.html` inside it. Never put a mini-app's HTML directly at the
-   repo root or loose inside `apps/`.
-2. Add a `description.md` file in the same folder with the app's
-   metadata: at minimum its name and a short description, and — if the
-   app consumes a shared datasource (e.g. `datasource/activites.md`) —
-   an explicit mention of that dependency, e.g.:
+1. Créer `apps/<nom-app>/` (slug kebab-case) et y placer le fichier
+   `index.html` de l'app. Ne jamais placer le HTML d'une mini-app
+   directement à la racine du dépôt ni en vrac dans `apps/`.
+2. Ajouter un fichier `description.md` dans le même dossier avec les
+   métadonnées de l'app : au minimum son nom et une courte description,
+   et — si l'app consomme une datasource partagée (ex.
+   `datasource/activites.md`) — une mention explicite de cette
+   dépendance, par exemple :
 
    ```markdown
-   # <App Name>
+   # <Nom de l'app>
 
-   <One or two sentence description of what the app does.>
+   <Une ou deux phrases décrivant ce que fait l'app.>
 
-   ## Datasource dependencies
+   ## Dépendances datasource
    - datasource/activites.md
    ```
 
-3. Add a card/link for it in the root `index.html` hub page.
-4. Publish the app as a Claude Artifact (see below) and, optionally, note
-   the artifact URL in a comment or the app's own README for reference.
-5. No build step, bundler, or framework — these are self-contained static
-   HTML files (inline CSS/JS). Keep it that way unless an app genuinely
-   needs otherwise.
+3. Ajouter une carte/lien pour cette app dans la page d'accueil
+   `index.html` à la racine.
+4. Publier l'app en tant qu'Artifact Claude (voir ci-dessous) et,
+   optionnellement, noter l'URL de l'artifact dans un commentaire ou
+   dans le README de l'app pour référence.
+5. Aucune étape de build, ni bundler, ni framework — ce sont des
+   fichiers HTML autonomes (CSS/JS inline). Garder cette approche sauf
+   si une app en a réellement besoin autrement.
 
-## Evolving an existing mini-app
+## Faire évoluer une mini-app existante
 
-Any request to evolve/update and regenerate an existing app must:
+Toute demande d'évolution/mise à jour et de régénération d'une app
+existante doit :
 
-1. Read `apps/<app-name>/description.md` first, to know that app's
-   constraints and dependencies (including any datasource it consumes).
-2. Take the relevant files in `datasource/` (e.g. `activites.md`) into
-   account when the app relates to tourist activities, so the app stays
-   consistent with the shared data.
-3. Update `description.md` if the evolution changes the app's
-   description or its datasource dependencies.
-4. Once the change is pushed to `main`, re-share the app's GitHub Pages
-   link with the user for review:
-   `https://famdoh.github.io/suisse-ete-2026/apps/<app-name>/`, and
-   mention that deployment takes about 1 minute, so they should wait
-   ~1mn before opening the link.
+1. Lire d'abord `apps/<nom-app>/description.md`, pour connaître les
+   contraintes et dépendances de cette app (y compris toute datasource
+   qu'elle consomme).
+2. Prendre en compte les fichiers pertinents de `datasource/` (ex.
+   `activites.md`) lorsque l'app concerne des activités touristiques,
+   afin que l'app reste cohérente avec les données partagées.
+3. Mettre à jour `description.md` si l'évolution change la description
+   de l'app ou ses dépendances datasource.
+4. Une fois le changement poussé sur `main`, réafficher à l'utilisateur
+   le lien GitHub Pages de l'app pour consultation :
+   `https://famdoh.github.io/suisse-ete-2026/apps/<nom-app>/`, en
+   précisant que le déploiement prend environ 1 minute, donc attendre
+   ~1mn avant d'ouvrir le lien.
 
-## Claude Artifacts
+## Artifacts Claude
 
-Every mini-app in `./apps` must also be published as a Claude Artifact
-(via the Artifact tool), in addition to living in this repo. The repo is
-the source of truth and version history; the Artifact gives a
-shareable, directly-viewable link. When an app's HTML changes, redeploy
-its Artifact from the same file path so the existing Artifact URL is
-updated in place rather than creating a new one.
+Chaque mini-app de `./apps` doit également être publiée en tant
+qu'Artifact Claude (via l'outil Artifact), en plus de vivre dans ce
+dépôt. Le dépôt est la source de vérité et l'historique de versions ;
+l'Artifact offre un lien partageable et directement consultable.
+Lorsque le HTML d'une app change, redéployer son Artifact depuis le
+même chemin de fichier afin que l'URL de l'Artifact existant soit mise
+à jour sur place plutôt que d'en créer un nouveau.
 
-## Git Workflow
+## Workflow Git
 
-All changes made during a session must be merged directly into the
-`dev` branch (no pull request required).
+Tous les changements effectués lors d'une session doivent être
+directement mergés sur la branche `dev` (pas de pull request
+nécessaire).
 
-## Deployment
+## Déploiement
 
-GitHub Pages is served via GitHub Actions (see
-`.github/workflows/pages.yml`), deploying the repository root on every
-push to `main`. In the repo settings, Pages' source must be set to
-"GitHub Actions" (Settings → Pages → Build and deployment → Source).
+GitHub Pages est servi via GitHub Actions (voir
+`.github/workflows/pages.yml`), qui déploie la racine du dépôt à chaque
+push sur `main`. Dans les réglages du dépôt, la source de Pages doit
+être configurée sur « GitHub Actions » (Settings → Pages → Build and
+deployment → Source).
