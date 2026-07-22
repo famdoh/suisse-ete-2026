@@ -38,19 +38,35 @@
   h1 { font-size: 2rem; margin-bottom: 0.25rem; }
   p.subtitle { color: var(--muted); margin-top: 0; margin-bottom: 2.5rem; }
   .apps { display: grid; gap: 1rem; }
-  a.card {
+  .card {
     display: block;
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 1.25rem 1.5rem;
-    text-decoration: none;
-    color: inherit;
     transition: border-color 0.15s ease;
   }
-  a.card:hover { border-color: var(--accent); }
+  .card:hover { border-color: var(--accent); }
+  .card a.card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
   .card h2 { margin: 0 0 0.35rem; font-size: 1.15rem; color: var(--accent); }
   .card p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+  .card .card-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+  }
+  .card .card-links a {
+    font-size: 0.85rem;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .card .card-links a:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -58,10 +74,16 @@
   <h1>🏔️ Suisse Été 2026</h1>
   <p class="subtitle">Portail des mini-applications du séjour.</p>
   <div class="apps">
-    <a class="card" href="apps/menus-camping-suisse/">
-      <h2>CampMenu Suisse 2026</h2>
-      <p>Planification interactive des menus de camping sur 10 jours : recettes adaptées aux réchauds, liste de courses dynamique et astuces.</p>
-    </a>
+    <div class="card">
+      <a class="card-link" href="apps/menus-camping-suisse/">
+        <h2>CampMenu Suisse 2026</h2>
+        <p>Planification interactive des menus de camping sur 10 jours : recettes adaptées aux réchauds, liste de courses dynamique et astuces.</p>
+      </a>
+      <div class="card-links">
+        <a href="apps/menus-camping-suisse/">App ↗</a>
+        <a href="https://claude.ai/code/artifact/328ad614-bc1e-45f2-8758-c4a1be0ed7fd" target="_blank" rel="noopener">Artifact Claude ↗</a>
+      </div>
+    </div>
   </div>
 </main>
 </body>

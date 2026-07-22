@@ -62,10 +62,12 @@ Chaque mini-app doit tenir compte du contexte de voyage suivant :
    ```
 
 3. Ajouter une carte/lien pour cette app dans la page d'accueil
-   `index.html` à la racine.
-4. Publier l'app en tant qu'Artifact Claude (voir ci-dessous) et,
-   optionnellement, noter l'URL de l'artifact dans un commentaire ou
-   dans le README de l'app pour référence.
+   `index.html` à la racine, avec deux liens : un vers l'app (`apps/<nom-app>/`)
+   et un vers son Artifact Claude.
+4. Publier l'app en tant qu'Artifact Claude (voir ci-dessous) et noter
+   son URL dans un fichier `apps/<nom-app>/ARTIFACT.md`, pour pouvoir la
+   reporter dans le hub `index.html` et la redéployer au même chemin
+   par la suite.
 5. Aucune étape de build, ni bundler, ni framework — ce sont des
    fichiers HTML autonomes (CSS/JS inline). Garder cette approche sauf
    si une app en a réellement besoin autrement.
