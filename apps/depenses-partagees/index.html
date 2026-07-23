@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Dépenses partagées - Suisse Été 2026</title>
+<meta name="description" content="Notez vos dépenses du séjour et découvrez qui doit combien à qui en fin de voyage.">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f7f5f0;
+    --card-bg: #ffffff;
+    --text: #1f2a24;
+    --muted: #5b6b62;
+    --accent: #2f7a4f;
+    --accent-hover: #256240;
+    --border: #e2ddd0;
+    --chip-bg: #eef4ef;
+    --danger: #b3453a;
+    --positive: #2f7a4f;
+    --overlay: rgba(20, 24, 20, 0.55);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12160f;
+      --card-bg: #1b2119;
+      --text: #eef1ea;
+      --muted: #a8b3a4;
+      --accent: #6fbf8f;
+      --accent-hover: #8ad1a8;
+      --border: #2b332a;
+      --chip-bg: #232b21;
+      --danger: #e08277;
+      --positive: #6fbf8f;
+      --overlay: rgba(0, 0, 0, 0.65);
+    }
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    padding-bottom: 3rem;
+  }
+  main {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 1.25rem 1rem 2rem;
+    display: none;
+  }
+  body.unlocked main { display: block; }
+  header.top { text-align: center; margin-bottom: 1.25rem; }
+  header.top h1 { font-size: 1.5rem; margin: 0 0 0.2rem; }
+  header.top p.subtitle { color: var(--muted); margin: 0; font-size: 0.9rem; }
+
+  .voter-banner {
+    text-align: center;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin: 0 0 1.25rem;
+  }
+  .voter-banner strong { color: var(--text); }
+  .voter-banner button {
+    border: none;
+    background: transparent;
+    color: var(--accent);
+    font-size: 0.78rem;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 0.3rem;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  .card h2 {
+    font-size: 1rem;
+    margin: 0 0 0.75rem;
+  }
+  .card h2 .sub {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--muted);
+    margin-top: 0.15rem;
+  }
+
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+  }
+  .total-row .label { color: var(--muted); }
+  .total-row .value { font-weight: 700; }
+
+  .balance-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .balance-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--chip-bg);
+    border-radius: 10px;
+    padding: 0.55rem 0.75rem;
+    font-size: 0.88rem;
+  }
+  .balance-row .name { font-weight: 600; }
+  .balance-row .amount.positive { color: var(--positive); font-weight: 700; }
+  .balance-row .amount.negative { color: var(--danger); font-weight: 700; }
+  .balance-row .amount.zero { color: var(--muted); }
+
+  .settle-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .settle-row {
+    font-size: 0.88rem;
+    background: var(--chip-bg);
+    border-radius: 10px;
+    padding: 0.55rem 0.75rem;
+  }
+  .settle-row strong { color: var(--accent); }
+  .empty-note {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-style: italic;
+    padding: 0.3rem 0.1rem;
+  }
+
+  .members-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.75rem; }
+  .member-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: var(--chip-bg);
+    border-radius: 999px;
+    padding: 0.3rem 0.4rem 0.3rem 0.7rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+  .member-chip button {
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 0.1rem 0.3rem;
+    line-height: 1;
+  }
+  .member-chip button:hover { color: var(--danger); }
+  .add-member-row { display: flex; gap: 0.5rem; }
+  .add-member-row input { flex: 1; }
+
+  input[type="text"], input[type="number"], select {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--card-bg);
+    color: var(--text);
+    font-size: 0.9rem;
+  }
+  label.field-label {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin: 0.75rem 0 0.3rem;
+  }
+  .checkbox-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.3rem; }
+  .checkbox-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: var(--chip-bg);
+    border-radius: 999px;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.82rem;
+    cursor: pointer;
+    user-select: none;
+  }
+  .checkbox-pill input { width: auto; padding: 0; }
+
+  .btn {
+    border: none;
+    border-radius: 10px;
+    padding: 0.65rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .btn-primary { background: var(--accent); color: #fff; width: 100%; margin-top: 1rem; }
+  .btn-primary:active { background: var(--accent-hover); }
+  .btn-secondary {
+    background: transparent;
+    border: 1px dashed var(--accent);
+    color: var(--accent);
+    width: 100%;
+  }
+
+  .expense-list { display: flex; flex-direction: column; gap: 0.6rem; }
+  .expense-row {
+    background: var(--chip-bg);
+    border-radius: 10px;
+    padding: 0.65rem 0.75rem;
+  }
+  .expense-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .expense-motif { font-weight: 700; font-size: 0.9rem; }
+  .expense-amount { font-weight: 700; font-size: 0.95rem; white-space: nowrap; }
+  .expense-meta { font-size: 0.75rem; color: var(--muted); margin-top: 0.25rem; }
+  .expense-actions { text-align: right; margin-top: 0.35rem; }
+  .expense-actions button {
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-size: 0.75rem;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0.15rem 0;
+  }
+  .expense-actions button:hover { color: var(--danger); }
+
+  /* Password gate */
+  .gate-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 1.5rem;
+  }
+  body.unlocked .gate-overlay { display: none; }
+  .gate-box {
+    max-width: 360px;
+    width: 100%;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+  }
+  .gate-box .emoji { font-size: 2rem; margin-bottom: 0.5rem; }
+  .gate-box h1 { font-size: 1.15rem; margin: 0 0 0.3rem; }
+  .gate-box p { font-size: 0.85rem; color: var(--muted); margin: 0 0 1rem; }
+  .gate-box input { margin-bottom: 0.5rem; text-align: center; }
+  .gate-error { color: var(--danger); font-size: 0.8rem; min-height: 1.1em; margin-bottom: 0.3rem; }
+
+  /* Modal / bottom sheet */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--overlay);
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 50;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-sheet {
+    background: var(--bg);
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 18px 18px 0 0;
+    padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom, 0px));
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.2s ease;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0.5; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .modal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+  .modal-head h2 { font-size: 1rem; margin: 0; }
+  .modal-close {
+    border: none;
+    background: var(--chip-bg);
+    color: var(--text);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<div class="gate-overlay" id="gateOverlay">
+  <div class="gate-box">
+    <div class="emoji">🔒</div>
+    <h1>Accès protégé</h1>
+    <p>Entrez le mot de passe du séjour pour accéder aux dépenses partagées.</p>
+    <input type="text" id="gatePasswordInput" placeholder="Mot de passe" autocomplete="off">
+    <div class="gate-error" id="gateError"></div>
+    <button class="btn btn-primary" id="gateSubmitBtn" type="button" style="margin-top:0">Déverrouiller</button>
+  </div>
+</div>
+
+<main>
+  <header class="top">
+    <h1>💰 Dépenses partagées</h1>
+    <p class="subtitle">Camping Bella-Tola · 22 juillet - 1er août 2026</p>
+  </header>
+
+  <div class="voter-banner" id="voterBanner"></div>
+
+  <div class="card">
+    <h2>Résumé</h2>
+    <div class="total-row"><span class="label">Total des dépenses du séjour</span><span class="value" id="totalAmount">0,00 CHF</span></div>
+    <div class="total-row"><span class="label">Nombre de dépenses</span><span class="value" id="totalCount">0</span></div>
+  </div>
+
+  <div class="card">
+    <h2>Soldes par personne<span class="sub">Positif = on lui doit de l'argent · négatif = elle doit de l'argent</span></h2>
+    <div class="balance-list" id="balanceList"></div>
+  </div>
+
+  <div class="card">
+    <h2>Qui doit combien à qui<span class="sub">Nombre minimal de remboursements pour tout régler</span></h2>
+    <div class="settle-list" id="settleList"></div>
+  </div>
+
+  <div class="card">
+    <h2>Participants du séjour</h2>
+    <div class="members-chips" id="membersChips"></div>
+    <div class="add-member-row">
+      <input type="text" id="newMemberInput" placeholder="Ajouter un prénom">
+      <button class="btn btn-secondary" id="addMemberBtn" type="button" style="width:auto;">Ajouter</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Dépenses<span class="sub">Les plus récentes en premier</span></h2>
+    <div class="expense-list" id="expenseList"></div>
+    <button class="btn btn-primary" id="openAddExpenseBtn" type="button">+ Ajouter une dépense</button>
+  </div>
+</main>
+
+<div class="modal-overlay" id="expenseModalOverlay">
+  <div class="modal-sheet">
+    <div class="modal-head">
+      <h2>Nouvelle dépense</h2>
+      <button class="modal-close" id="expenseModalCloseBtn" type="button" aria-label="Fermer">✕</button>
+    </div>
+    <label class="field-label" for="expenseMotifInput">Motif</label>
+    <input type="text" id="expenseMotifInput" placeholder="Ex : Courses Migros, essence, piscine...">
+    <label class="field-label" for="expenseAmountInput">Montant (CHF)</label>
+    <input type="number" id="expenseAmountInput" placeholder="0.00" step="0.05" min="0.01" inputmode="decimal">
+    <label class="field-label" for="expensePayerSelect">Payé par</label>
+    <select id="expensePayerSelect"></select>
+    <label class="field-label">Réparti entre</label>
+    <div class="checkbox-list" id="expenseParticipantsList"></div>
+    <div class="gate-error" id="expenseFormError"></div>
+    <button class="btn btn-primary" id="submitExpenseBtn" type="button">Ajouter la dépense</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="nameModalOverlay">
+  <div class="modal-sheet">
+    <div class="modal-head">
+      <h2>Qui es-tu ?</h2>
+      <button class="modal-close" id="nameModalCloseBtn" type="button" aria-label="Fermer">✕</button>
+    </div>
+    <input type="text" class="search-input" id="voterNameInput" placeholder="Ton prénom">
+    <button class="btn btn-primary" id="voterNameSaveBtn" type="button">Valider</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function () {
+  var GATE_KEY = 'depenses_partagees_unlocked_suisse_2026';
+  var GATE_PASSWORD = 'biere';
+  var VOTER_KEY = 'planning_activites_voter_suisse_2026';
+  var CACHE_KEY = 'depenses_partagees_cache_suisse_2026';
+  var SUPABASE_URL = 'https://hmpiluotdcympkihvnlt.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_osU_bo7QNJVg3yjxJObUSg_Y7So1lZZ';
+  var sb = (window.supabase && window.supabase.createClient)
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+    : null;
+
+  var members = [];
+  var expenses = [];
+  var pendingAction = null;
+
+  function normalize(s) {
+    return (s || '').trim().toLowerCase().normalize('NFD').replace(new RegExp('[\\u0300-\\u036f]', 'g'), '');
+  }
+
+  function getVoterName() {
+    try { return localStorage.getItem(VOTER_KEY) || ''; } catch (e) { return ''; }
+  }
+  function setVoterName(name) {
+    try { localStorage.setItem(VOTER_KEY, name); } catch (e) { /* stockage indisponible */ }
+  }
+
+  function isUnlocked() {
+    try { return localStorage.getItem(GATE_KEY) === '1'; } catch (e) { return false; }
+  }
+  function setUnlocked() {
+    try { localStorage.setItem(GATE_KEY, '1'); } catch (e) { /* stockage indisponible */ }
+  }
+
+  function loadCache() {
+    try {
+      var raw = localStorage.getItem(CACHE_KEY);
+      if (!raw) return;
+      var parsed = JSON.parse(raw);
+      members = parsed.members || [];
+      expenses = parsed.expenses || [];
+    } catch (e) { /* pas de cache */ }
+  }
+  function saveCache() {
+    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ members: members, expenses: expenses })); } catch (e) { /* stockage indisponible */ }
+  }
+
+  function fmtCHF(n) {
+    return n.toLocaleString('fr-CH', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' CHF';
+  }
+
+  // --- Gate password ---
+  var gateOverlay = document.getElementById('gateOverlay');
+  var gatePasswordInput = document.getElementById('gatePasswordInput');
+  var gateError = document.getElementById('gateError');
+  var gateSubmitBtn = document.getElementById('gateSubmitBtn');
+
+  function tryUnlock() {
+    if (normalize(gatePasswordInput.value) === normalize(GATE_PASSWORD)) {
+      setUnlocked();
+      document.body.classList.add('unlocked');
+      gateError.textContent = '';
+      init();
+    } else {
+      gateError.textContent = 'Mot de passe incorrect.';
+    }
+  }
+  gateSubmitBtn.addEventListener('click', tryUnlock);
+  gatePasswordInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') tryUnlock(); });
+
+  if (isUnlocked()) {
+    document.body.classList.add('unlocked');
+  } else {
+    setTimeout(function () { gatePasswordInput.focus(); }, 50);
+  }
+
+  // --- Voter identity (identique aux autres mini-apps du voyage) ---
+  var voterBanner = document.getElementById('voterBanner');
+  var nameModalOverlay = document.getElementById('nameModalOverlay');
+  var voterNameInput = document.getElementById('voterNameInput');
+  var nameModalCloseBtn = document.getElementById('nameModalCloseBtn');
+  var voterNameSaveBtn = document.getElementById('voterNameSaveBtn');
+
+  function renderVoterBanner() {
+    var name = getVoterName();
+    voterBanner.innerHTML = '';
+    var span = document.createElement('span');
+    if (name) {
+      span.appendChild(document.createTextNode('Tu es identifié comme '));
+      var strong = document.createElement('strong');
+      strong.textContent = name;
+      span.appendChild(strong);
+    } else {
+      span.textContent = 'Choisis ton prénom pour ajouter des dépenses';
+    }
+    voterBanner.appendChild(span);
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = name ? 'changer' : 'choisir';
+    btn.addEventListener('click', openNameModal);
+    voterBanner.appendChild(btn);
+  }
+
+  function openNameModal() {
+    voterNameInput.value = getVoterName() || '';
+    nameModalOverlay.classList.add('open');
+    setTimeout(function () { voterNameInput.focus(); }, 50);
+  }
+  function closeNameModal() {
+    nameModalOverlay.classList.remove('open');
+    pendingAction = null;
+  }
+  nameModalCloseBtn.addEventListener('click', closeNameModal);
+  nameModalOverlay.addEventListener('click', function (e) { if (e.target === nameModalOverlay) closeNameModal(); });
+  voterNameSaveBtn.addEventListener('click', function () {
+    var name = voterNameInput.value.trim();
+    if (!name) { voterNameInput.focus(); return; }
+    setVoterName(name);
+    addMember(name);
+    nameModalOverlay.classList.remove('open');
+    renderVoterBanner();
+    var action = pendingAction;
+    pendingAction = null;
+    if (action) action();
+    else render();
+  });
+
+  function requireVoter(action) {
+    if (getVoterName()) { action(); return; }
+    pendingAction = action;
+    openNameModal();
+  }
+
+  // --- Supabase sync ---
+  function loadMembersFromSupabase() {
+    if (!sb) return;
+    sb.from('expense_members').select('name').order('name').then(function (res) {
+      if (res.error) { console.warn('Erreur en chargeant les participants :', res.error.message); return; }
+      members = res.data.map(function (r) { return r.name; });
+      saveCache();
+      render();
+    });
+  }
+
+  function loadExpensesFromSupabase() {
+    if (!sb) return;
+    sb.from('expenses').select('id, created_at, payer_name, amount, motif, participants, added_by').order('created_at', { ascending: false }).then(function (res) {
+      if (res.error) { console.warn('Erreur en chargeant les dépenses :', res.error.message); return; }
+      expenses = res.data;
+      saveCache();
+      render();
+    });
+  }
+
+  function addMember(name) {
+    name = (name || '').trim();
+    if (!name) return;
+    if (members.indexOf(name) !== -1) return;
+    members.push(name);
+    members.sort();
+    saveCache();
+    render();
+    if (sb) {
+      sb.from('expense_members').insert({ name: name }).then(function (res) {
+        if (res.error && res.error.code !== '23505') console.warn('Erreur en ajoutant le participant :', res.error.message);
+      });
+    }
+  }
+
+  function removeMember(name) {
+    members = members.filter(function (m) { return m !== name; });
+    saveCache();
+    render();
+    if (sb) {
+      sb.from('expense_members').delete().eq('name', name).then(function (res) {
+        if (res.error) console.warn('Erreur en retirant le participant :', res.error.message);
+      });
+    }
+  }
+
+  function addExpense(payload) {
+    var optimistic = {
+      id: 'tmp-' + Date.now(),
+      created_at: new Date().toISOString(),
+      payer_name: payload.payer_name,
+      amount: payload.amount,
+      motif: payload.motif,
+      participants: payload.participants,
+      added_by: payload.added_by
+    };
+    expenses.unshift(optimistic);
+    saveCache();
+    render();
+    if (!sb) return;
+    sb.from('expenses').insert(payload).select().then(function (res) {
+      if (res.error) { console.warn('Erreur en ajoutant la dépense :', res.error.message); return; }
+      loadExpensesFromSupabase();
+    });
+  }
+
+  function deleteExpense(id) {
+    expenses = expenses.filter(function (e) { return e.id !== id; });
+    saveCache();
+    render();
+    if (sb && typeof id === 'string' && id.indexOf('tmp-') !== 0) {
+      sb.from('expenses').delete().eq('id', id).then(function (res) {
+        if (res.error) console.warn('Erreur en supprimant la dépense :', res.error.message);
+      });
+    }
+  }
+
+  // --- Rendering ---
+  var totalAmount = document.getElementById('totalAmount');
+  var totalCount = document.getElementById('totalCount');
+  var balanceList = document.getElementById('balanceList');
+  var settleList = document.getElementById('settleList');
+  var membersChips = document.getElementById('membersChips');
+  var newMemberInput = document.getElementById('newMemberInput');
+  var addMemberBtn = document.getElementById('addMemberBtn');
+  var expenseList = document.getElementById('expenseList');
+  var openAddExpenseBtn = document.getElementById('openAddExpenseBtn');
+
+  var expenseModalOverlay = document.getElementById('expenseModalOverlay');
+  var expenseModalCloseBtn = document.getElementById('expenseModalCloseBtn');
+  var expenseMotifInput = document.getElementById('expenseMotifInput');
+  var expenseAmountInput = document.getElementById('expenseAmountInput');
+  var expensePayerSelect = document.getElementById('expensePayerSelect');
+  var expenseParticipantsList = document.getElementById('expenseParticipantsList');
+  var expenseFormError = document.getElementById('expenseFormError');
+  var submitExpenseBtn = document.getElementById('submitExpenseBtn');
+
+  function computeBalances() {
+    var balance = {};
+    members.forEach(function (m) { balance[m] = 0; });
+    expenses.forEach(function (e) {
+      if (!(e.payer_name in balance)) balance[e.payer_name] = 0;
+      balance[e.payer_name] += Number(e.amount);
+      var parts = e.participants || [];
+      if (parts.length === 0) return;
+      var share = Number(e.amount) / parts.length;
+      parts.forEach(function (p) {
+        if (!(p in balance)) balance[p] = 0;
+        balance[p] -= share;
+      });
+    });
+    return balance;
+  }
+
+  function computeSettlements(balance) {
+    var creditors = [];
+    var debtors = [];
+    Object.keys(balance).forEach(function (name) {
+      var v = balance[name];
+      if (v > 0.005) creditors.push({ name: name, amount: v });
+      else if (v < -0.005) debtors.push({ name: name, amount: -v });
+    });
+    creditors.sort(function (a, b) { return b.amount - a.amount; });
+    debtors.sort(function (a, b) { return b.amount - a.amount; });
+    var result = [];
+    var i = 0, j = 0;
+    while (i < debtors.length && j < creditors.length) {
+      var d = debtors[i], c = creditors[j];
+      var amt = Math.min(d.amount, c.amount);
+      if (amt > 0.005) result.push({ from: d.name, to: c.name, amount: amt });
+      d.amount -= amt;
+      c.amount -= amt;
+      if (d.amount <= 0.005) i++;
+      if (c.amount <= 0.005) j++;
+    }
+    return result;
+  }
+
+  function render() {
+    renderVoterBanner();
+    renderSummary();
+    renderBalances();
+    renderSettlements();
+    renderMembers();
+    renderExpenses();
+    if (expenseModalOverlay.classList.contains('open')) renderExpenseForm();
+  }
+
+  function renderSummary() {
+    var total = expenses.reduce(function (sum, e) { return sum + Number(e.amount); }, 0);
+    totalAmount.textContent = fmtCHF(total);
+    totalCount.textContent = expenses.length;
+  }
+
+  function renderBalances() {
+    var balance = computeBalances();
+    var names = Object.keys(balance).sort(function (a, b) { return balance[b] - balance[a]; });
+    balanceList.innerHTML = '';
+    if (names.length === 0) {
+      var empty = document.createElement('div');
+      empty.className = 'empty-note';
+      empty.textContent = 'Ajoute des participants et des dépenses pour voir les soldes.';
+      balanceList.appendChild(empty);
+      return;
+    }
+    names.forEach(function (name) {
+      var v = balance[name];
+      var row = document.createElement('div');
+      row.className = 'balance-row';
+      var nameEl = document.createElement('span');
+      nameEl.className = 'name';
+      nameEl.textContent = name;
+      var amountEl = document.createElement('span');
+      amountEl.className = 'amount ' + (v > 0.005 ? 'positive' : (v < -0.005 ? 'negative' : 'zero'));
+      amountEl.textContent = (v > 0.005 ? '+' : '') + fmtCHF(v);
+      row.appendChild(nameEl);
+      row.appendChild(amountEl);
+      balanceList.appendChild(row);
+    });
+  }
+
+  function renderSettlements() {
+    var balance = computeBalances();
+    var settlements = computeSettlements(balance);
+    settleList.innerHTML = '';
+    if (settlements.length === 0) {
+      var empty = document.createElement('div');
+      empty.className = 'empty-note';
+      empty.textContent = 'Rien à régler pour le moment.';
+      settleList.appendChild(empty);
+      return;
+    }
+    settlements.forEach(function (s) {
+      var row = document.createElement('div');
+      row.className = 'settle-row';
+      row.innerHTML = s.from + ' doit <strong>' + fmtCHF(s.amount) + '</strong> à ' + s.to;
+      settleList.appendChild(row);
+    });
+  }
+
+  function renderMembers() {
+    membersChips.innerHTML = '';
+    if (members.length === 0) {
+      var empty = document.createElement('div');
+      empty.className = 'empty-note';
+      empty.textContent = 'Aucun participant pour le moment.';
+      membersChips.appendChild(empty);
+      return;
+    }
+    members.forEach(function (name) {
+      var chip = document.createElement('div');
+      chip.className = 'member-chip';
+      var span = document.createElement('span');
+      span.textContent = name;
+      chip.appendChild(span);
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = '✕';
+      btn.setAttribute('aria-label', 'Retirer ' + name);
+      btn.addEventListener('click', function () {
+        if (window.confirm('Retirer ' + name + ' des participants du séjour ?')) removeMember(name);
+      });
+      chip.appendChild(btn);
+      membersChips.appendChild(chip);
+    });
+  }
+
+  function renderExpenses() {
+    expenseList.innerHTML = '';
+    if (expenses.length === 0) {
+      var empty = document.createElement('div');
+      empty.className = 'empty-note';
+      empty.textContent = 'Aucune dépense enregistrée pour le moment.';
+      expenseList.appendChild(empty);
+      return;
+    }
+    expenses.forEach(function (e) {
+      var row = document.createElement('div');
+      row.className = 'expense-row';
+
+      var top = document.createElement('div');
+      top.className = 'expense-top';
+      var motif = document.createElement('div');
+      motif.className = 'expense-motif';
+      motif.textContent = e.motif;
+      var amount = document.createElement('div');
+      amount.className = 'expense-amount';
+      amount.textContent = fmtCHF(Number(e.amount));
+      top.appendChild(motif);
+      top.appendChild(amount);
+      row.appendChild(top);
+
+      var meta = document.createElement('div');
+      meta.className = 'expense-meta';
+      var parts = e.participants || [];
+      var date = new Date(e.created_at);
+      meta.textContent = 'Payé par ' + e.payer_name + ' · partagé entre ' + parts.join(', ') + ' · ' + date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+      row.appendChild(meta);
+
+      var actions = document.createElement('div');
+      actions.className = 'expense-actions';
+      var delBtn = document.createElement('button');
+      delBtn.type = 'button';
+      delBtn.textContent = 'Supprimer';
+      delBtn.addEventListener('click', function () {
+        if (window.confirm('Supprimer cette dépense (' + e.motif + ', ' + fmtCHF(Number(e.amount)) + ') ?')) deleteExpense(e.id);
+      });
+      actions.appendChild(delBtn);
+      row.appendChild(actions);
+
+      expenseList.appendChild(row);
+    });
+  }
+
+  // --- Add member ---
+  addMemberBtn.addEventListener('click', function () {
+    var name = newMemberInput.value.trim();
+    if (!name) { newMemberInput.focus(); return; }
+    addMember(name);
+    newMemberInput.value = '';
+  });
+  newMemberInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') addMemberBtn.click(); });
+
+  // --- Add expense modal ---
+  function openExpenseModal() {
+    requireVoter(function () {
+      expenseMotifInput.value = '';
+      expenseAmountInput.value = '';
+      expenseFormError.textContent = '';
+      expenseModalOverlay.classList.add('open');
+      renderExpenseForm();
+      setTimeout(function () { expenseMotifInput.focus(); }, 50);
+    });
+  }
+  function closeExpenseModal() {
+    expenseModalOverlay.classList.remove('open');
+  }
+  function renderExpenseForm() {
+    var voter = getVoterName();
+    expensePayerSelect.innerHTML = '';
+    members.forEach(function (m) {
+      var opt = document.createElement('option');
+      opt.value = m;
+      opt.textContent = m;
+      expensePayerSelect.appendChild(opt);
+    });
+    if (voter && members.indexOf(voter) !== -1) expensePayerSelect.value = voter;
+
+    expenseParticipantsList.innerHTML = '';
+    members.forEach(function (m) {
+      var label = document.createElement('label');
+      label.className = 'checkbox-pill';
+      var input = document.createElement('input');
+      input.type = 'checkbox';
+      input.value = m;
+      input.checked = true;
+      var span = document.createElement('span');
+      span.textContent = m;
+      label.appendChild(input);
+      label.appendChild(span);
+      expenseParticipantsList.appendChild(label);
+    });
+  }
+
+  openAddExpenseBtn.addEventListener('click', openExpenseModal);
+  expenseModalCloseBtn.addEventListener('click', closeExpenseModal);
+  expenseModalOverlay.addEventListener('click', function (e) { if (e.target === expenseModalOverlay) closeExpenseModal(); });
+
+  submitExpenseBtn.addEventListener('click', function () {
+    var motif = expenseMotifInput.value.trim();
+    var amount = parseFloat(expenseAmountInput.value);
+    var payer = expensePayerSelect.value;
+    var participants = Array.prototype.slice.call(expenseParticipantsList.querySelectorAll('input[type=checkbox]:checked')).map(function (i) { return i.value; });
+
+    if (!motif) { expenseFormError.textContent = 'Indique un motif.'; expenseMotifInput.focus(); return; }
+    if (!amount || amount <= 0) { expenseFormError.textContent = 'Indique un montant valide.'; expenseAmountInput.focus(); return; }
+    if (!payer) { expenseFormError.textContent = 'Aucun participant disponible : ajoute-en un d\'abord.'; return; }
+    if (participants.length === 0) { expenseFormError.textContent = 'Sélectionne au moins un participant.'; return; }
+
+    addExpense({
+      motif: motif,
+      amount: Math.round(amount * 100) / 100,
+      payer_name: payer,
+      participants: participants,
+      added_by: getVoterName()
+    });
+    closeExpenseModal();
+  });
+
+  // --- Init ---
+  function init() {
+    loadCache();
+    render();
+    if (getVoterName()) addMember(getVoterName());
+    loadMembersFromSupabase();
+    loadExpensesFromSupabase();
+    setInterval(function () {
+      loadMembersFromSupabase();
+      loadExpensesFromSupabase();
+    }, 10000);
+  }
+
+  renderVoterBanner();
+  if (isUnlocked()) init();
+})();
+</script>
+</body>
+</html>
