@@ -184,11 +184,16 @@
     -webkit-backdrop-filter: blur(10px);
     position: relative;
     overflow: hidden;
+    scroll-margin-top: 20px;
   }
   .activity-card:hover {
     transform: translateY(-5px);
     border-color: var(--primary);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+  }
+  .activity-card:target {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary);
   }
   .activity-card::before {
     content: '';
@@ -200,7 +205,20 @@
   }
   .activity-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
   .activity-icon { font-size: 2rem; flex-shrink: 0; }
-  .activity-title { font-size: 1.15rem; font-weight: 700; line-height: 1.3; color: var(--text-heading); }
+  .activity-title { font-size: 1.15rem; font-weight: 700; line-height: 1.3; color: var(--text-heading); flex: 1; }
+  .copy-link-btn {
+    flex-shrink: 0;
+    border: 1px solid var(--card-border);
+    background: transparent;
+    color: var(--text-body);
+    font-size: 0.85rem;
+    line-height: 1;
+    padding: 6px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .copy-link-btn:hover { border-color: var(--primary); color: var(--primary); }
+  .copy-link-btn.copied { border-color: var(--primary); color: var(--primary); }
   .activity-meta { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 16px 0; }
   .badge-type {
     font-size: 0.72rem;
@@ -357,11 +375,74 @@
     cursor: pointer;
   }
   .modal-done:active { background: var(--primary-hover); }
+
+  /* App switcher */
+  .app-switcher { position: relative; display: inline-block; margin-bottom: 14px; }
+  .app-switcher-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text-heading);
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .app-switcher-toggle:hover { border-color: var(--primary); }
+  .app-switcher-chevron { font-size: 0.7rem; color: var(--text-body); transition: transform 0.15s ease; }
+  .app-switcher.open .app-switcher-chevron { transform: rotate(180deg); }
+  .app-switcher-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    min-width: 240px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 80;
+    text-align: left;
+  }
+  .app-switcher.open .app-switcher-menu { display: flex; }
+  .app-switcher-menu a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    color: var(--text-heading);
+    text-decoration: none;
+  }
+  .app-switcher-menu a:hover { background: rgba(127, 127, 127, 0.1); }
+  .app-switcher-menu a.is-current { color: var(--primary); font-weight: 700; }
+  .app-switcher-menu a.app-switcher-home { border-top: 1px solid var(--card-border); color: var(--text-body); }
 </style>
 </head>
 <body>
 <div class="container">
   <header>
+    <nav class="app-switcher" id="appSwitcher">
+      <button type="button" class="app-switcher-toggle" id="appSwitcherToggle" aria-haspopup="true" aria-expanded="false">
+        <span aria-hidden="true">🔀</span> Mini-apps <span class="app-switcher-chevron" aria-hidden="true">▾</span>
+      </button>
+      <div class="app-switcher-menu" id="appSwitcherMenu" role="menu">
+        <a role="menuitem" href="../repas-en-suisse/">🍽️ Repas en Suisse</a>
+        <a role="menuitem" href="../planning-activites-semaine/">🗓️ Planning des activités</a>
+        <a role="menuitem" href="./" class="is-current" aria-current="page">🧭 Activités &amp; Loisirs</a>
+        <a role="menuitem" href="../depenses-partagees/">💰 Dépenses partagées</a>
+        <a role="menuitem" href="../../" class="app-switcher-home">🏠 Accueil</a>
+      </div>
+    </nav>
     <div class="swiss-badge">🇨🇭 Suisse 2026</div>
     <h1>🧭 Activités & Loisirs</h1>
     <p>19 activités et sorties à proximité du Camping Bella-Tola (Susten, Valais) — du plus proche au plus lointain, avec un lien vers le site officiel de chacune.</p>
@@ -392,11 +473,12 @@
 
   <div class="activities-grid">
     <!-- Activité 1 -->
-    <div class="activity-card mustsee" data-activity-id="bains-leukerbad" data-distance-km="15">
+    <div class="activity-card mustsee" id="act-bains-leukerbad" data-activity-id="bains-leukerbad" data-distance-km="15">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🌊</span>
           <h3 class="activity-title">Bains thermaux de Leukerbad</h3>
+          <button type="button" class="copy-link-btn" data-copy-id="bains-leukerbad" aria-label="Copier le lien vers cette activité" title="Copier le lien vers cette activité">📋</button>
         </div>
         <span class="badge-mustsee">🌟 Incontournable</span>
         <div class="activity-meta">
@@ -418,11 +500,12 @@
     </div>
 
     <!-- Activité 2 -->
-    <div class="activity-card" data-activity-id="pont-bhoutan-illgraben" data-distance-km="1.5">
+    <div class="activity-card" id="act-pont-bhoutan-illgraben" data-activity-id="pont-bhoutan-illgraben" data-distance-km="1.5">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🌉</span>
           <h3 class="activity-title">Pont du Bhoutan & Illgraben</h3>
+          <button type="button" class="copy-link-btn" data-copy-id="pont-bhoutan-illgraben" aria-label="Copier le lien vers cette activité" title="Copier le lien vers cette activité">📋</button>
         </div>
         <div class="activity-meta">
           <span class="badge-type badge-nature">🌲 Nature & Rando</span>
@@ -443,11 +526,12 @@
     </div>
 
     <!-- Activité 3 -->
-    <div class="activity-card" data-activity-id="lac-souterrain-st-leonard" data-distance-km="28">
+    <div class="activity-card" id="act-lac-souterrain-st-leonard" data-activity-id="lac-souterrain-st-leonard" data-distance-km="28">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🚣</span>
           <h3 class="activity-title">Lac Souterrain de St-Léonard</h3>
+          <button type="button" class="copy-link-btn" data-copy-id="lac-souterrain-st-leonard" aria-label="Copier le lien vers cette activité" title="Copier le lien vers cette activité">📋</button>
         </div>
         <div class="activity-meta">
           <span class="badge-type badge-culture">🏛️ Grotte & Culture</span>
@@ -468,11 +552,12 @@
     </div>
 
     <!-- Activité 4 -->
-    <div class="activity-card" data-activity-id="pont-spinelle-niouc" data-distance-km="20">
+    <div class="activity-card" id="act-pont-spinelle-niouc" data-activity-id="pont-spinelle-niouc" data-distance-km="20">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🧗</span>
           <h3 class="activity-title">Pont Spinelle de Niouc</h3>
+          <button type="button" class="copy-link-btn" data-copy-id="pont-spinelle-niouc" aria-label="Copier le lien vers cette activité" title="Copier le lien vers cette activité">📋</button>
         </div>
         <div class="activity-meta">
           <span class="badge-type badge-nature">🌲 Aventure / Sensations</span>
@@ -493,11 +578,12 @@
     </div>
 
     <!-- Activité 5 -->
-    <div class="activity-card" data-activity-id="chateau-loeche" data-distance-km="3">
+    <div class="activity-card" id="act-chateau-loeche" data-activity-id="chateau-loeche" data-distance-km="3">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🏰</span>
           <h3 class="activity-title">Château de Loèche (Leuk-Stadt)</h3>
+          <button type="button" class="copy-link-btn" data-copy-id="chateau-loeche" aria-label="Copier le lien vers cette activité" title="Copier le lien vers cette activité">📋</button>
         </div>
         <div class="activity-meta">
           <span class="badge-type badge-culture">🏛️ Culture & Art</span>
@@ -518,11 +604,12 @@
     </div>
 
     <!-- Activité 6 -->
-    <div class="activity-card" data-activity-id="pfynwald-finges" data-distance-km="1">
+    <div class="activity-card" id="act-pfynwald-finges" data-activity-id="pfynwald-finges" data-distance-km="1">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🚲</span>
           <h3 class="activity-title">Pfynwald - Bois de Finges</h3>
+          <button type="button" class="copy-link-btn" data-copy-id="pfynwald-finges" aria-label="Copier le lien vers cette activité" title="Copier le lien vers cette activité">📋</button>
         </div>
         <div class="activity-meta">
           <span class="badge-type badge-nature">🌲 Nature Sauvage</span>
@@ -543,11 +630,12 @@
     </div>
 
     <!-- Activité 7 -->
-    <div class="activity-card" data-activity-id="rando-col-gemmi" data-distance-km="15">
+    <div class="activity-card" id="act-rando-col-gemmi" data-activity-id="rando-col-gemmi" data-distance-km="15">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🥾</span>
           <h3 class="activity-title">Rando Col de la Gemmi (10 km)</h3>
+          <button type="button" class="copy-link-btn" data-copy-id="rando-col-gemmi" aria-label="Copier le lien vers cette activité" title="Copier le lien vers cette activité">📋</button>
         </div>
         <div class="activity-meta">
           <span class="badge-type badge-nature">🌲 Randonnée Montagne</span>
@@ -568,11 +656,12 @@
     </div>
 
     <!-- Activité 8 -->
-    <div class="activity-card" data-activity-id="sentier-torrent" data-distance-km="16">
+    <div class="activity-card" id="act-sentier-torrent" data-activity-id="sentier-torrent" data-distance-km="16">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🥾</span>
           <h3 class="activity-title">Sentier Panoramique de Torrent (11 km)</h3>
+          <button type="button" class="copy-link-btn" data-copy-id="sentier-torrent" aria-label="Copier le lien vers cette activité" title="Copier le lien vers cette activité">📋</button>
         </div>
         <div class="activity-meta">
           <span class="badge-type badge-nature">🌲 Randonnée Crête</span>
@@ -593,11 +682,12 @@
     </div>
 
     <!-- Activité 9 -->
-    <div class="activity-card" data-activity-id="cabane-turtmann" data-distance-km="20">
+    <div class="activity-card" id="act-cabane-turtmann" data-activity-id="cabane-turtmann" data-distance-km="20">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🥾</span>
           <h3 class="activity-title">Rando de la cabane de Turtmann (12 km)</h3>
+          <button type="button" class="copy-link-btn" data-copy-id="cabane-turtmann" aria-label="Copier le lien vers cette activité" title="Copier le lien vers cette activité">📋</button>
         </div>
         <div class="activity-meta">
           <span class="badge-type badge-nature">🌲 Haute Montagne</span>
@@ -618,11 +708,12 @@
     </div>
 
     <!-- Activité 10 -->
-    <div class="activity-card mustsee" data-activity-id="zermatt-cervin" data-distance-km="48">
+    <div class="activity-card mustsee" id="act-zermatt-cervin" data-activity-id="zermatt-cervin" data-distance-km="48">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🚠</span>
           <h3 class="activity-title">Zermatt & Cervin (Gornergrat)</h3>
+          <button type="button" class="copy-link-btn" data-copy-id="zermatt-cervin" aria-label="Copier le lien vers cette activité" title="Copier le lien vers cette activité">📋</button>
         </div>
         <span class="badge-mustsee">🌟 Incontournable</span>
         <div class="activity-meta">
@@ -644,11 +735,12 @@
     </div>
 
     <!-- Activité 11 -->
-    <div class="activity-card mustsee" data-activity-id="aletsch-arena" data-distance-km="55">
+    <div class="activity-card mustsee" id="act-aletsch-arena" data-activity-id="aletsch-arena" data-distance-km="55">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🏔️</span>
           <h3 class="activity-title">Aletsch Arena - Glacier d'Aletsch</h3>
+          <button type="button" class="copy-link-btn" data-copy-id="aletsch-arena" aria-label="Copier le lien vers cette activité" title="Copier le lien vers cette activité">📋</button>
         </div>
         <span class="badge-mustsee">🌟 Incontournable</span>
         <div class="activity-meta">
@@ -670,11 +762,12 @@
     </div>
 
     <!-- Activité 12 -->
-    <div class="activity-card" data-activity-id="aquaparc-bouveret" data-distance-km="85">
+    <div class="activity-card" id="act-aquaparc-bouveret" data-activity-id="aquaparc-bouveret" data-distance-km="85">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🌊</span>
           <h3 class="activity-title">Aquaparc Le Bouveret</h3>
+          <button type="button" class="copy-link-btn" data-copy-id="aquaparc-bouveret" aria-label="Copier le lien vers cette activité" title="Copier le lien vers cette activité">📋</button>
         </div>
         <div class="activity-meta">
           <span class="badge-type badge-nature">🌲 Détente & Fun</span>
@@ -695,11 +788,12 @@
     </div>
 
     <!-- Activité 13 -->
-    <div class="activity-card mustsee" data-activity-id="lac-oeschinen" data-distance-km="35">
+    <div class="activity-card mustsee" id="act-lac-oeschinen" data-activity-id="lac-oeschinen" data-distance-km="35">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🏞️</span>
           <h3 class="activity-title">Lac d'Oeschinen (Oeschinensee)</h3>
+          <button type="button" class="copy-link-btn" data-copy-id="lac-oeschinen" aria-label="Copier le lien vers cette activité" title="Copier le lien vers cette activité">📋</button>
         </div>
         <span class="badge-mustsee">🌟 Incontournable</span>
         <div class="activity-meta">
@@ -721,11 +815,12 @@
     </div>
 
     <!-- Activité 14 -->
-    <div class="activity-card mustsee" data-activity-id="chateau-chillon" data-distance-km="95">
+    <div class="activity-card mustsee" id="act-chateau-chillon" data-activity-id="chateau-chillon" data-distance-km="95">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🏰</span>
           <h3 class="activity-title">Château de Chillon (Montreux)</h3>
+          <button type="button" class="copy-link-btn" data-copy-id="chateau-chillon" aria-label="Copier le lien vers cette activité" title="Copier le lien vers cette activité">📋</button>
         </div>
         <span class="badge-mustsee">🌟 Incontournable</span>
         <div class="activity-meta">
@@ -747,11 +842,12 @@
     </div>
 
     <!-- Activité 15 -->
-    <div class="activity-card" data-activity-id="luge-ete-nendaz" data-distance-km="50">
+    <div class="activity-card" id="act-luge-ete-nendaz" data-activity-id="luge-ete-nendaz" data-distance-km="50">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🛷</span>
           <h3 class="activity-title">Luge d'été de Nendaz</h3>
+          <button type="button" class="copy-link-btn" data-copy-id="luge-ete-nendaz" aria-label="Copier le lien vers cette activité" title="Copier le lien vers cette activité">📋</button>
         </div>
         <div class="activity-meta">
           <span class="badge-type badge-nature">🌲 Aventure / Sensations</span>
@@ -772,11 +868,12 @@
     </div>
 
     <!-- Activité 16 -->
-    <div class="activity-card" data-activity-id="crans-montana" data-distance-km="35">
+    <div class="activity-card" id="act-crans-montana" data-activity-id="crans-montana" data-distance-km="35">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🚡</span>
           <h3 class="activity-title">Crans-Montana & Lac Grenon</h3>
+          <button type="button" class="copy-link-btn" data-copy-id="crans-montana" aria-label="Copier le lien vers cette activité" title="Copier le lien vers cette activité">📋</button>
         </div>
         <div class="activity-meta">
           <span class="badge-type badge-nature">🌲 Détente & Fun</span>
@@ -797,11 +894,12 @@
     </div>
 
     <!-- Activité 17 -->
-    <div class="activity-card" data-activity-id="sion-valere-tourbillon" data-distance-km="30">
+    <div class="activity-card" id="act-sion-valere-tourbillon" data-activity-id="sion-valere-tourbillon" data-distance-km="30">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🏛️</span>
           <h3 class="activity-title">Sion - Valère & Tourbillon</h3>
+          <button type="button" class="copy-link-btn" data-copy-id="sion-valere-tourbillon" aria-label="Copier le lien vers cette activité" title="Copier le lien vers cette activité">📋</button>
         </div>
         <div class="activity-meta">
           <span class="badge-type badge-culture">🏛️ Culture & Art</span>
@@ -822,11 +920,12 @@
     </div>
 
     <!-- Activité 18 -->
-    <div class="activity-card mustsee" data-activity-id="glacier-3000-diablerets" data-distance-km="75">
+    <div class="activity-card mustsee" id="act-glacier-3000-diablerets" data-activity-id="glacier-3000-diablerets" data-distance-km="75">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🌉</span>
           <h3 class="activity-title">Glacier 3000 & Peak Walk</h3>
+          <button type="button" class="copy-link-btn" data-copy-id="glacier-3000-diablerets" aria-label="Copier le lien vers cette activité" title="Copier le lien vers cette activité">📋</button>
         </div>
         <span class="badge-mustsee">🌟 Incontournable</span>
         <div class="activity-meta">
@@ -848,11 +947,12 @@
     </div>
 
     <!-- Activité 19 -->
-    <div class="activity-card" data-activity-id="bisse-du-ro-saviese" data-distance-km="35">
+    <div class="activity-card" id="act-bisse-du-ro-saviese" data-activity-id="bisse-du-ro-saviese" data-distance-km="35">
       <div>
         <div class="activity-header">
           <span class="activity-icon">🚶</span>
           <h3 class="activity-title">Bisse du Ro (Savièse)</h3>
+          <button type="button" class="copy-link-btn" data-copy-id="bisse-du-ro-saviese" aria-label="Copier le lien vers cette activité" title="Copier le lien vers cette activité">📋</button>
         </div>
         <div class="activity-meta">
           <span class="badge-type badge-nature">🌲 Nature & Rando</span>
@@ -1187,10 +1287,61 @@
 
   sortSelect.addEventListener('change', applySort);
 
+  function fallbackCopyText(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) { /* copie impossible */ }
+    document.body.removeChild(ta);
+  }
+
+  function initCopyLinkButtons() {
+    Array.prototype.slice.call(document.querySelectorAll('.copy-link-btn')).forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var url = location.origin + location.pathname + '#act-' + btn.getAttribute('data-copy-id');
+        var showCopied = function () {
+          var original = btn.textContent;
+          btn.textContent = '✅';
+          btn.classList.add('copied');
+          setTimeout(function () { btn.textContent = original; btn.classList.remove('copied'); }, 1500);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(showCopied, function () { fallbackCopyText(url); showCopied(); });
+        } else {
+          fallbackCopyText(url);
+          showCopied();
+        }
+      });
+    });
+  }
+
+  var appSwitcher = document.getElementById('appSwitcher');
+  var appSwitcherToggle = document.getElementById('appSwitcherToggle');
+  if (appSwitcher && appSwitcherToggle) {
+    appSwitcherToggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var willOpen = !appSwitcher.classList.contains('open');
+      appSwitcher.classList.toggle('open', willOpen);
+      appSwitcherToggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+    });
+    document.addEventListener('click', function (e) {
+      if (appSwitcher.classList.contains('open') && !appSwitcher.contains(e.target)) {
+        appSwitcher.classList.remove('open');
+        appSwitcherToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
   renderDistanceBadges();
   renderVoterBanner();
   loadRatings();
   applySort();
+  initCopyLinkButtons();
 })();
 </script>
 </body>
