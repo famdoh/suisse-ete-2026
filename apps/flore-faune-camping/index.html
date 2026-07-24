@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flore & Faune - Suisse Été 2026</title>
+<meta name="description" content="Guide des essences et espèces visibles l'été aux abords du Camping Bella-Tola (Susten, Valais) : arbres, arbustes et papillons, avec leur habitat et la nature du sol qu'ils préfèrent.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light dark;
+    --primary: #2d6a4f;
+    --primary-hover: #1b4332;
+    --swiss-red: #D52B1E;
+    --bg-gradient: linear-gradient(135deg, #f2faf6 0%, #dcf0e4 100%);
+    --card-bg: rgba(255, 255, 255, 0.75);
+    --card-border: rgba(45, 106, 79, 0.12);
+    --text-heading: #1C2E24;
+    --text-body: #485c52;
+    --badge-tree-bg: rgba(35, 169, 93, 0.1);
+    --badge-tree-text: #1e7e46;
+    --badge-tree-border: rgba(35, 169, 93, 0.18);
+    --badge-shrub-bg: rgba(148, 111, 40, 0.1);
+    --badge-shrub-text: #7a5a1f;
+    --badge-shrub-border: rgba(148, 111, 40, 0.2);
+    --badge-butterfly-bg: rgba(217, 93, 57, 0.1);
+    --badge-butterfly-text: #b54221;
+    --badge-butterfly-border: rgba(217, 93, 57, 0.18);
+    --soil-bg: rgba(148, 111, 40, 0.08);
+    --soil-border: rgba(148, 111, 40, 0.18);
+    --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --primary: #5fb98a;
+      --primary-hover: #7fd0a4;
+      --bg-gradient: linear-gradient(135deg, #0f1712 0%, #142019 100%);
+      --card-bg: rgba(255, 255, 255, 0.04);
+      --card-border: rgba(95, 185, 138, 0.18);
+      --text-heading: #eef4f0;
+      --text-body: #aebdb4;
+      --badge-tree-bg: rgba(95, 185, 138, 0.12);
+      --badge-tree-text: #7fd0a4;
+      --badge-tree-border: rgba(95, 185, 138, 0.25);
+      --badge-shrub-bg: rgba(216, 172, 98, 0.14);
+      --badge-shrub-text: #d8ac62;
+      --badge-shrub-border: rgba(216, 172, 98, 0.28);
+      --badge-butterfly-bg: rgba(226, 133, 92, 0.14);
+      --badge-butterfly-text: #e2855c;
+      --badge-butterfly-border: rgba(226, 133, 92, 0.28);
+      --soil-bg: rgba(216, 172, 98, 0.08);
+      --soil-border: rgba(216, 172, 98, 0.2);
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg-gradient);
+    background-attachment: fixed;
+    color: var(--text-body);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+  h1, h2, h3 { font-family: 'Outfit', sans-serif; color: var(--text-heading); font-weight: 700; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+  header { text-align: center; padding: 60px 0 40px; }
+  .swiss-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--swiss-red);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 8px 20px rgba(213, 43, 30, 0.3);
+  }
+  header h1 { font-size: 2.6rem; letter-spacing: -0.5px; margin-bottom: 12px; text-wrap: balance; }
+  header p { font-size: 1.05rem; max-width: 680px; margin: 0 auto; opacity: 0.9; }
+
+  /* App switcher */
+  .app-switcher { position: relative; display: inline-block; margin-bottom: 14px; }
+  .app-switcher-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text-heading);
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .app-switcher-toggle:hover { border-color: var(--primary); }
+  .app-switcher-chevron { font-size: 0.7rem; color: var(--text-body); transition: transform 0.15s ease; }
+  .app-switcher.open .app-switcher-chevron { transform: rotate(180deg); }
+  .app-switcher-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    min-width: 240px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 80;
+    text-align: left;
+  }
+  .app-switcher.open .app-switcher-menu { display: flex; }
+  .app-switcher-menu a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    color: var(--text-heading);
+    text-decoration: none;
+  }
+  .app-switcher-menu a:hover { background: rgba(127, 127, 127, 0.1); }
+  .app-switcher-menu a.is-current { color: var(--primary); font-weight: 700; }
+  .app-switcher-menu a.app-switcher-home { border-top: 1px solid var(--card-border); color: var(--text-body); }
+
+  /* Filter tabs */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+  .filter-btn {
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text-heading);
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .filter-btn:hover { border-color: var(--primary); }
+  .filter-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+  .species-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 24px;
+  }
+  .species-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+    scroll-margin-top: 20px;
+  }
+  .species-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+  }
+  .species-card:target {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary);
+  }
+  .species-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 4px;
+    background: var(--primary);
+    opacity: 0.8;
+  }
+  .species-header { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
+  .species-icon { font-size: 2rem; flex-shrink: 0; }
+  .species-titles { flex: 1; }
+  .species-title { font-size: 1.15rem; font-weight: 700; line-height: 1.3; color: var(--text-heading); }
+  .species-latin { font-size: 0.82rem; font-style: italic; color: var(--text-body); opacity: 0.85; }
+  .copy-link-btn {
+    flex-shrink: 0;
+    border: 1px solid var(--card-border);
+    background: transparent;
+    color: var(--text-body);
+    font-size: 0.85rem;
+    line-height: 1;
+    padding: 6px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    align-self: flex-start;
+  }
+  .copy-link-btn:hover { border-color: var(--primary); color: var(--primary); }
+  .copy-link-btn.copied { border-color: var(--primary); color: var(--primary); }
+  .species-meta { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 14px 0; }
+  .badge-type {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  .badge-tree { background: var(--badge-tree-bg); color: var(--badge-tree-text); border: 1px solid var(--badge-tree-border); }
+  .badge-shrub { background: var(--badge-shrub-bg); color: var(--badge-shrub-text); border: 1px solid var(--badge-shrub-border); }
+  .badge-butterfly { background: var(--badge-butterfly-bg); color: var(--badge-butterfly-text); border: 1px solid var(--badge-butterfly-border); }
+  .species-section { margin-bottom: 12px; }
+  .species-section:last-child { margin-bottom: 0; }
+  .species-section h3 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--primary);
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+  .species-section p { font-size: 0.9rem; color: var(--text-body); }
+  .soil-box {
+    background: var(--soil-bg);
+    border: 1px solid var(--soil-border);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+  }
+  .soil-box h3 { color: var(--badge-shrub-text); }
+  .soil-box p { font-size: 0.88rem; }
+  footer {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 0.85rem;
+    color: var(--text-body);
+    opacity: 0.75;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <nav class="app-switcher" id="appSwitcher">
+      <button type="button" class="app-switcher-toggle" id="appSwitcherToggle" aria-haspopup="true" aria-expanded="false">
+        <span aria-hidden="true">🔀</span> Mini-apps <span class="app-switcher-chevron" aria-hidden="true">▾</span>
+      </button>
+      <div class="app-switcher-menu" id="appSwitcherMenu" role="menu">
+        <a role="menuitem" href="../repas-en-suisse/">🍽️ Repas en Suisse</a>
+        <a role="menuitem" href="../planning-activites-semaine/">🗓️ Planning des activités</a>
+        <a role="menuitem" href="../activites-loisirs/">🧭 Activités &amp; Loisirs</a>
+        <a role="menuitem" href="../depenses-partagees/">💰 Dépenses partagées</a>
+        <a role="menuitem" href="./" class="is-current" aria-current="page">🌿 Flore &amp; Faune</a>
+        <a role="menuitem" href="../../" class="app-switcher-home">🏠 Accueil</a>
+      </div>
+    </nav>
+    <div class="swiss-badge">🇨🇭 Suisse 2026</div>
+    <h1>🌿 Flore & Faune du camping</h1>
+    <p>Essences et espèces visibles l'été aux abords du Camping Bella-Tola (Susten, Valais), à la lisière de la forêt de Finges (Pfynwald) — avec leur habitat et la nature du sol qu'elles préfèrent.</p>
+  </header>
+
+  <div class="filter-bar" id="filterBar">
+    <button type="button" class="filter-btn active" data-filter="all">🌍 Tout</button>
+    <button type="button" class="filter-btn" data-filter="tree">🌳 Arbres</button>
+    <button type="button" class="filter-btn" data-filter="shrub">🌿 Arbustes</button>
+    <button type="button" class="filter-btn" data-filter="butterfly">🦋 Papillons</button>
+  </div>
+
+  <div class="species-grid" id="speciesGrid">
+
+    <!-- Alisier blanc -->
+    <div class="species-card" id="act-alisier-blanc" data-category="tree">
+      <div class="species-header">
+        <span class="species-icon" aria-hidden="true">🌳</span>
+        <div class="species-titles">
+          <div class="species-title">Alisier blanc</div>
+          <div class="species-latin">Sorbus aria · Rosacées</div>
+        </div>
+        <button type="button" class="copy-link-btn" data-copy-id="alisier-blanc" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+      </div>
+      <div class="species-meta">
+        <span class="badge-type badge-tree">Arbre</span>
+      </div>
+      <div class="soil-box">
+        <h3>🌱 Habitat &amp; sol préférés</h3>
+        <p>Coteaux secs et rocailleux, lisières ensoleillées ; affectionne les <strong>sols calcaires, pauvres et bien drainés</strong>, souvent superficiels. Bonne tolérance à la sécheresse estivale et au plein soleil.</p>
+      </div>
+      <div class="species-section">
+        <h3>🔎 Le reconnaître en été</h3>
+        <p>Feuilles ovales, simples, dentées, vert sombre dessus mais <strong>blanches et duveteuses dessous</strong> : elles scintillent dès qu'un souffle de vent les retourne. En fin d'été, petites baies orangé-rouge en grappes.</p>
+      </div>
+      <div class="species-section">
+        <h3>📍 Où le voir</h3>
+        <p>Sur les pentes sèches et pierreuses en lisière de la forêt de Finges, mêlé aux pins et aux chênes pubescents.</p>
+      </div>
+    </div>
+
+    <!-- Peuplier tremble -->
+    <div class="species-card" id="act-peuplier-tremble" data-category="tree">
+      <div class="species-header">
+        <span class="species-icon" aria-hidden="true">🌳</span>
+        <div class="species-titles">
+          <div class="species-title">Peuplier tremble</div>
+          <div class="species-latin">Populus tremula · Salicacées</div>
+        </div>
+        <button type="button" class="copy-link-btn" data-copy-id="peuplier-tremble" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+      </div>
+      <div class="species-meta">
+        <span class="badge-type badge-tree">Arbre</span>
+      </div>
+      <div class="soil-box">
+        <h3>🌱 Habitat &amp; sol préférés</h3>
+        <p>Essence pionnière peu exigeante : s'installe aussi bien sur <strong>sols sablonneux et pauvres</strong> que sur sols frais, calcaires ou acides. Apprécie la pleine lumière et colonise volontiers les clairières et lisières.</p>
+      </div>
+      <div class="species-section">
+        <h3>🔎 Le reconnaître en été</h3>
+        <p>Écorce lisse gris-vert marquée de losanges. Feuilles presque rondes, à long pétiole aplati qui les fait <strong>trembler au moindre souffle d'air</strong> — d'où son nom. Le bruissement caractéristique s'entend de loin.</p>
+      </div>
+      <div class="species-section">
+        <h3>📍 Où le voir</h3>
+        <p>En bosquets clairsemés dans la forêt de Finges, notamment le long des chemins et des zones plus fraîches proches du Rhône.</p>
+      </div>
+    </div>
+
+    <!-- Viorne lantane -->
+    <div class="species-card" id="act-viorne-lantane" data-category="shrub">
+      <div class="species-header">
+        <span class="species-icon" aria-hidden="true">🌿</span>
+        <div class="species-titles">
+          <div class="species-title">Viorne lantane</div>
+          <div class="species-latin">Viburnum lantana · Adoxacées</div>
+        </div>
+        <button type="button" class="copy-link-btn" data-copy-id="viorne-lantane" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+      </div>
+      <div class="species-meta">
+        <span class="badge-type badge-shrub">Arbuste</span>
+      </div>
+      <div class="soil-box">
+        <h3>🌱 Habitat &amp; sol préférés</h3>
+        <p>Arbuste calcicole typique des <strong>sols calcaires, secs et caillouteux</strong>. Pousse en plein soleil dans les haies, broussailles et lisières thermophiles.</p>
+      </div>
+      <div class="species-section">
+        <h3>🔎 Le reconnaître en été</h3>
+        <p>Feuilles ovales opposées, gaufrées, duveteuses au revers. En été, les grappes de baies passent du <strong>vert au rouge puis au noir</strong>, souvent plusieurs couleurs présentes en même temps sur la même grappe.</p>
+      </div>
+      <div class="species-section">
+        <h3>📍 Où le voir</h3>
+        <p>Dans les haies et fourrés secs en bordure des sentiers de la forêt de Finges, autour du camping.</p>
+      </div>
+    </div>
+
+    <!-- Chèvrefeuille à balais -->
+    <div class="species-card" id="act-chevrefeuille-balais" data-category="shrub">
+      <div class="species-header">
+        <span class="species-icon" aria-hidden="true">🌿</span>
+        <div class="species-titles">
+          <div class="species-title">Chèvrefeuille à balais</div>
+          <div class="species-latin">Lonicera xylosteum · Caprifoliacées</div>
+        </div>
+        <button type="button" class="copy-link-btn" data-copy-id="chevrefeuille-balais" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+      </div>
+      <div class="species-meta">
+        <span class="badge-type badge-shrub">Arbuste</span>
+      </div>
+      <div class="soil-box">
+        <h3>🌱 Habitat &amp; sol préférés</h3>
+        <p>Sous-bois clair et lisières sur <strong>sols calcaires, secs à frais</strong>, souvent caillouteux ; tolère l'ombre partielle des pinèdes mais fleurit et fructifie mieux en situation lumineuse.</p>
+      </div>
+      <div class="species-section">
+        <h3>🔎 Le reconnaître en été</h3>
+        <p>Feuilles opposées, duveteuses, vert grisâtre. En été, petites baies rouges portées par paires, bien visibles — <strong>toxiques, à ne pas consommer</strong>. Rameaux fins et raides utilisés autrefois pour fabriquer des balais.</p>
+      </div>
+      <div class="species-section">
+        <h3>📍 Où le voir</h3>
+        <p>En sous-étage des pinèdes claires de la forêt de Finges, le long des sentiers ombragés proches du camping.</p>
+      </div>
+    </div>
+
+    <!-- Chêne pubescent -->
+    <div class="species-card" id="act-chene-pubescent" data-category="tree">
+      <div class="species-header">
+        <span class="species-icon" aria-hidden="true">🌳</span>
+        <div class="species-titles">
+          <div class="species-title">Chêne pubescent</div>
+          <div class="species-latin">Quercus pubescens · Fagacées</div>
+        </div>
+        <button type="button" class="copy-link-btn" data-copy-id="chene-pubescent" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+      </div>
+      <div class="species-meta">
+        <span class="badge-type badge-tree">Arbre</span>
+      </div>
+      <div class="soil-box">
+        <h3>🌱 Habitat &amp; sol préférés</h3>
+        <p>L'essence emblématique des coteaux secs valaisans : <strong>sols calcaires, superficiels, caillouteux et bien drainés</strong>, en plein soleil. Extrêmement résistant à la sécheresse et à la chaleur estivale.</p>
+      </div>
+      <div class="species-section">
+        <h3>🔎 Le reconnaître en été</h3>
+        <p>Feuilles lobées, duveteuses (« pubescentes ») au toucher, surtout sur les jeunes pousses et le revers du limbe. Écorce épaisse et crevassée. Glands en cours de formation à leur base.</p>
+      </div>
+      <div class="species-section">
+        <h3>📍 Où le voir</h3>
+        <p>Sur les pentes ensoleillées et pierreuses en lisière de la forêt de Finges, dans la végétation de type steppique typique du Valais central.</p>
+      </div>
+    </div>
+
+    <!-- Amaryllis -->
+    <div class="species-card" id="act-amaryllis" data-category="butterfly">
+      <div class="species-header">
+        <span class="species-icon" aria-hidden="true">🦋</span>
+        <div class="species-titles">
+          <div class="species-title">Amaryllis</div>
+          <div class="species-latin">Pyronia tithonus · Nymphalidés</div>
+        </div>
+        <button type="button" class="copy-link-btn" data-copy-id="amaryllis" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+      </div>
+      <div class="species-meta">
+        <span class="badge-type badge-butterfly">Papillon</span>
+      </div>
+      <div class="soil-box">
+        <h3>🌱 Habitat préféré</h3>
+        <p>Prairies sèches, lisières et haies buissonnantes, sur <strong>sols secs à mi-secs</strong> où poussent les graminées dont se nourrissent ses chenilles. Recherche les zones ensoleillées abritées du vent.</p>
+      </div>
+      <div class="species-section">
+        <h3>🔎 Le reconnaître en été</h3>
+        <p>Ailes orangées bordées de brun. Ocelle sombre à <strong>deux points blancs</strong> sur chaque aile antérieure (contrairement au Myrtil, qui n'en a qu'un). Vole de juillet à septembre, actif même par forte chaleur.</p>
+      </div>
+      <div class="species-section">
+        <h3>📍 Où le voir</h3>
+        <p>Le long des haies et des lisières herbeuses autour du camping et de la forêt de Finges, souvent posé sur les fleurs de ronce ou d'origan.</p>
+      </div>
+    </div>
+
+    <!-- Demi-deuil -->
+    <div class="species-card" id="act-demi-deuil" data-category="butterfly">
+      <div class="species-header">
+        <span class="species-icon" aria-hidden="true">🦋</span>
+        <div class="species-titles">
+          <div class="species-title">Demi-deuil</div>
+          <div class="species-latin">Melanargia galathea · Nymphalidés</div>
+        </div>
+        <button type="button" class="copy-link-btn" data-copy-id="demi-deuil" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+      </div>
+      <div class="species-meta">
+        <span class="badge-type badge-butterfly">Papillon</span>
+      </div>
+      <div class="soil-box">
+        <h3>🌱 Habitat préféré</h3>
+        <p>Prairies fleuries et pelouses sèches sur <strong>sols calcaires, pauvres et bien drainés</strong>, typiques des coteaux valaisans — mêmes milieux que le chêne pubescent et la viorne lantane.</p>
+      </div>
+      <div class="species-section">
+        <h3>🔎 Le reconnaître en été</h3>
+        <p>Motif <strong>noir et blanc en damier</strong>, unique parmi les papillons de la région : impossible à confondre. Vol assez lent et flottant. Actif de juin à août, butinant scabieuses et centaurées.</p>
+      </div>
+      <div class="species-section">
+        <h3>📍 Où le voir</h3>
+        <p>Dans les prairies sèches et les clairières ensoleillées de la forêt de Finges, en lisière des zones steppiques.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    🏔️ Camping Bella-Tola, Waldstrasse 57, 3952 Susten (Valais) — forêt de Finges (Pfynwald)
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  function fallbackCopyText(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) { /* copie impossible */ }
+    document.body.removeChild(ta);
+  }
+
+  function initCopyLinkButtons() {
+    Array.prototype.slice.call(document.querySelectorAll('.copy-link-btn')).forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var url = location.origin + location.pathname + '#act-' + btn.getAttribute('data-copy-id');
+        var showCopied = function () {
+          var original = btn.textContent;
+          btn.textContent = '✅';
+          btn.classList.add('copied');
+          setTimeout(function () { btn.textContent = original; btn.classList.remove('copied'); }, 1500);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(showCopied, function () { fallbackCopyText(url); showCopied(); });
+        } else {
+          fallbackCopyText(url);
+          showCopied();
+        }
+      });
+    });
+  }
+
+  function initAppSwitcher() {
+    var appSwitcher = document.getElementById('appSwitcher');
+    var appSwitcherToggle = document.getElementById('appSwitcherToggle');
+    if (appSwitcher && appSwitcherToggle) {
+      appSwitcherToggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var willOpen = !appSwitcher.classList.contains('open');
+        appSwitcher.classList.toggle('open', willOpen);
+        appSwitcherToggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      });
+      document.addEventListener('click', function (e) {
+        if (appSwitcher.classList.contains('open') && !appSwitcher.contains(e.target)) {
+          appSwitcher.classList.remove('open');
+          appSwitcherToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+  }
+
+  function initFilterBar() {
+    var filterBar = document.getElementById('filterBar');
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.species-card'));
+    if (!filterBar) return;
+    filterBar.addEventListener('click', function (e) {
+      var btn = e.target.closest('.filter-btn');
+      if (!btn) return;
+      Array.prototype.slice.call(filterBar.querySelectorAll('.filter-btn')).forEach(function (b) {
+        b.classList.toggle('active', b === btn);
+      });
+      var filter = btn.getAttribute('data-filter');
+      cards.forEach(function (card) {
+        var show = filter === 'all' || card.getAttribute('data-category') === filter;
+        card.style.display = show ? '' : 'none';
+      });
+    });
+  }
+
+  function scrollToHashOnLoad() {
+    if (location.hash) {
+      var target = document.querySelector(location.hash);
+      if (target) {
+        setTimeout(function () { target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
+      }
+    }
+  }
+
+  initCopyLinkButtons();
+  initAppSwitcher();
+  initFilterBar();
+  scrollToHashOnLoad();
+})();
+</script>
+</body>
+</html>
