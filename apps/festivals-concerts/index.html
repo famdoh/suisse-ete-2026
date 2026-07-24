@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Festivals, spectacles & concerts - Suisse Été 2026</title>
+<meta name="description" content="Festivals, spectacles et concerts ayant lieu en Valais entre le 22 juillet et le 1er août 2026, à proximité du Camping Bella-Tola (Susten).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light dark;
+    --primary: #2d6a4f;
+    --primary-hover: #1b4332;
+    --swiss-red: #D52B1E;
+    --bg-gradient: linear-gradient(135deg, #f2faf6 0%, #dcf0e4 100%);
+    --card-bg: rgba(255, 255, 255, 0.75);
+    --card-border: rgba(45, 106, 79, 0.12);
+    --text-heading: #1C2E24;
+    --text-body: #485c52;
+    --badge-classique-bg: rgba(29, 78, 216, 0.1);
+    --badge-classique-text: #1d4ed8;
+    --badge-classique-border: rgba(29, 78, 216, 0.18);
+    --badge-concert-bg: rgba(217, 93, 57, 0.1);
+    --badge-concert-text: #b54221;
+    --badge-concert-border: rgba(217, 93, 57, 0.18);
+    --badge-folklore-bg: rgba(148, 111, 40, 0.1);
+    --badge-folklore-text: #7a5a1f;
+    --badge-folklore-border: rgba(148, 111, 40, 0.2);
+    --badge-fete-bg: rgba(213, 43, 30, 0.1);
+    --badge-fete-text: #b3271c;
+    --badge-fete-border: rgba(213, 43, 30, 0.2);
+    --badge-distance-bg: rgba(72, 92, 82, 0.08);
+    --badge-distance-text: #485c52;
+    --badge-distance-border: rgba(72, 92, 82, 0.16);
+    --badge-date-bg: rgba(0, 0, 0, 0.04);
+    --badge-date-text: #1C2E24;
+    --badge-date-border: rgba(0, 0, 0, 0.08);
+    --notice-bg: rgba(201, 143, 15, 0.1);
+    --notice-border: rgba(201, 143, 15, 0.28);
+    --notice-text: #8a5f0a;
+    --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --primary: #5fb98a;
+      --primary-hover: #7fd0a4;
+      --bg-gradient: linear-gradient(135deg, #0f1712 0%, #142019 100%);
+      --card-bg: rgba(255, 255, 255, 0.04);
+      --card-border: rgba(95, 185, 138, 0.18);
+      --text-heading: #eef4f0;
+      --text-body: #aebdb4;
+      --badge-classique-bg: rgba(96, 140, 255, 0.14);
+      --badge-classique-text: #93b1ff;
+      --badge-classique-border: rgba(96, 140, 255, 0.28);
+      --badge-concert-bg: rgba(226, 133, 92, 0.14);
+      --badge-concert-text: #e2855c;
+      --badge-concert-border: rgba(226, 133, 92, 0.28);
+      --badge-folklore-bg: rgba(216, 172, 98, 0.14);
+      --badge-folklore-text: #d8ac62;
+      --badge-folklore-border: rgba(216, 172, 98, 0.28);
+      --badge-fete-bg: rgba(255, 107, 92, 0.16);
+      --badge-fete-text: #ff8f82;
+      --badge-fete-border: rgba(255, 107, 92, 0.3);
+      --badge-distance-bg: rgba(174, 189, 180, 0.1);
+      --badge-distance-text: #aebdb4;
+      --badge-distance-border: rgba(174, 189, 180, 0.2);
+      --badge-date-bg: rgba(255, 255, 255, 0.06);
+      --badge-date-text: #eef4f0;
+      --badge-date-border: rgba(255, 255, 255, 0.12);
+      --notice-bg: rgba(216, 172, 98, 0.1);
+      --notice-border: rgba(216, 172, 98, 0.25);
+      --notice-text: #d8ac62;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg-gradient);
+    background-attachment: fixed;
+    color: var(--text-body);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+  h1, h2, h3 { font-family: 'Outfit', sans-serif; color: var(--text-heading); font-weight: 700; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+  header { text-align: center; padding: 60px 0 40px; }
+  .swiss-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--swiss-red);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 8px 20px rgba(213, 43, 30, 0.3);
+  }
+  header h1 { font-size: 2.6rem; letter-spacing: -0.5px; margin-bottom: 12px; text-wrap: balance; }
+  header p { font-size: 1.05rem; max-width: 680px; margin: 0 auto; opacity: 0.9; }
+
+  /* App switcher */
+  .app-switcher { position: relative; display: inline-block; margin-bottom: 14px; }
+  .app-switcher-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text-heading);
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .app-switcher-toggle:hover { border-color: var(--primary); }
+  .app-switcher-chevron { font-size: 0.7rem; color: var(--text-body); transition: transform 0.15s ease; }
+  .app-switcher.open .app-switcher-chevron { transform: rotate(180deg); }
+  .app-switcher-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    min-width: 240px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 80;
+    text-align: left;
+  }
+  .app-switcher.open .app-switcher-menu { display: flex; }
+  .app-switcher-menu a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    color: var(--text-heading);
+    text-decoration: none;
+  }
+  .app-switcher-menu a:hover { background: rgba(127, 127, 127, 0.1); }
+  .app-switcher-menu a.is-current { color: var(--primary); font-weight: 700; }
+  .app-switcher-menu a.app-switcher-home { border-top: 1px solid var(--card-border); color: var(--text-body); }
+
+  .notice {
+    background: var(--notice-bg);
+    border: 1px solid var(--notice-border);
+    color: var(--notice-text);
+    border-radius: 14px;
+    padding: 14px 18px;
+    font-size: 0.88rem;
+    max-width: 780px;
+    margin: 0 auto 32px;
+    text-align: left;
+  }
+  .notice strong { color: inherit; }
+
+  /* Filter tabs */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 32px;
+  }
+  .filter-btn {
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text-heading);
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .filter-btn:hover { border-color: var(--primary); }
+  .filter-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+  .event-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 24px;
+  }
+  .event-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+    scroll-margin-top: 20px;
+  }
+  .event-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+  }
+  .event-card:target {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary);
+  }
+  .event-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 4px;
+    background: var(--primary);
+    opacity: 0.8;
+  }
+  .event-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 4px; }
+  .event-icon { font-size: 2rem; flex-shrink: 0; }
+  .event-titles { flex: 1; }
+  .event-title { font-size: 1.15rem; font-weight: 700; line-height: 1.3; color: var(--text-heading); }
+  .event-place { font-size: 0.85rem; color: var(--text-body); opacity: 0.9; margin-top: 2px; }
+  .copy-link-btn {
+    flex-shrink: 0;
+    border: 1px solid var(--card-border);
+    background: transparent;
+    color: var(--text-body);
+    font-size: 0.85rem;
+    line-height: 1;
+    padding: 6px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    align-self: flex-start;
+  }
+  .copy-link-btn:hover { border-color: var(--primary); color: var(--primary); }
+  .copy-link-btn.copied { border-color: var(--primary); color: var(--primary); }
+  .event-meta { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 14px 0; }
+  .badge-type {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+  .badge-classique { background: var(--badge-classique-bg); color: var(--badge-classique-text); border: 1px solid var(--badge-classique-border); }
+  .badge-concert { background: var(--badge-concert-bg); color: var(--badge-concert-text); border: 1px solid var(--badge-concert-border); }
+  .badge-folklore { background: var(--badge-folklore-bg); color: var(--badge-folklore-text); border: 1px solid var(--badge-folklore-border); }
+  .badge-fete { background: var(--badge-fete-bg); color: var(--badge-fete-text); border: 1px solid var(--badge-fete-border); }
+  .badge-date { background: var(--badge-date-bg); color: var(--badge-date-text); border: 1px solid var(--badge-date-border); text-transform: none; }
+  .badge-distance { background: var(--badge-distance-bg); color: var(--badge-distance-text); border: 1px solid var(--badge-distance-border); text-transform: none; }
+  .event-section { margin-bottom: 14px; }
+  .event-section:last-of-type { margin-bottom: 0; }
+  .event-section p { font-size: 0.92rem; color: var(--text-body); }
+  .event-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: auto;
+    align-self: flex-start;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 999px;
+    transition: var(--transition);
+  }
+  .event-link:hover { background: var(--primary-hover); }
+  footer {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 0.85rem;
+    color: var(--text-body);
+    opacity: 0.75;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <nav class="app-switcher" id="appSwitcher">
+      <button type="button" class="app-switcher-toggle" id="appSwitcherToggle" aria-haspopup="true" aria-expanded="false">
+        <span aria-hidden="true">🔀</span> Mini-apps <span class="app-switcher-chevron" aria-hidden="true">▾</span>
+      </button>
+      <div class="app-switcher-menu" id="appSwitcherMenu" role="menu">
+        <a role="menuitem" href="../repas-en-suisse/">🍽️ Repas en Suisse</a>
+        <a role="menuitem" href="../planning-activites-semaine/">🗓️ Planning des activités</a>
+        <a role="menuitem" href="../activites-loisirs/">🧭 Activités &amp; Loisirs</a>
+        <a role="menuitem" href="../depenses-partagees/">💰 Dépenses partagées</a>
+        <a role="menuitem" href="../flore-faune-camping/">🌿 Flore &amp; Faune</a>
+        <a role="menuitem" href="./" class="is-current" aria-current="page">🎉 Festivals &amp; Concerts</a>
+        <a role="menuitem" href="../../" class="app-switcher-home">🏠 Accueil</a>
+      </div>
+    </nav>
+    <div class="swiss-badge">🇨🇭 Suisse 2026</div>
+    <h1>🎉 Festivals, spectacles & concerts</h1>
+    <p>Ce qui se joue en Valais pendant le séjour au Camping Bella-Tola (Susten), entre le 22 juillet et le 1er août 2026 — du plus proche au plus lointain.</p>
+  </header>
+
+  <div class="notice">
+    ⚠️ <strong>Dates et programmations vérifiées via les sites officiels courant juillet 2026</strong>, mais un festival peut modifier son horaire, sa billetterie ou sa météo de dernière minute : reconfirmez toujours sur le site officiel (bouton « 🔗 Site officiel » de chaque carte) avant de vous déplacer.
+  </div>
+
+  <div class="filter-bar" id="filterBar">
+    <button type="button" class="filter-btn active" data-filter="all">🌍 Tout</button>
+    <button type="button" class="filter-btn" data-filter="classique">🎻 Classique</button>
+    <button type="button" class="filter-btn" data-filter="concert">🎤 Concerts &amp; chansons</button>
+    <button type="button" class="filter-btn" data-filter="folklore">🪗 Folklore</button>
+    <button type="button" class="filter-btn" data-filter="fete">🎆 Fête nationale (1er août)</button>
+  </div>
+
+  <div class="event-grid" id="eventGrid">
+
+    <!-- Chansons sur scène - Sierre -->
+    <div class="event-card" id="act-chansons-sur-scene" data-category="concert">
+      <div class="event-header">
+        <span class="event-icon" aria-hidden="true">🎤</span>
+        <div class="event-titles">
+          <div class="event-title">Chansons sur scène</div>
+          <div class="event-place">Sierre — L'Hacienda (Route de la Mondérêche 7)</div>
+        </div>
+        <button type="button" class="copy-link-btn" data-copy-id="chansons-sur-scene" aria-label="Copier le lien vers cet événement" title="Copier le lien vers cet événement">📋</button>
+      </div>
+      <div class="event-meta">
+        <span class="badge-type badge-concert">Concert / chanson</span>
+        <span class="badge-type badge-date">📅 25–26 juillet 2026</span>
+        <span class="badge-type badge-distance">📍 ~14 km · 15 min en voiture</span>
+      </div>
+      <div class="event-section">
+        <p>Deux soirées de restitution scénique portées par des artistes amateurs, semi-pros et pros de tous âges, sous la direction de Célina Ramsauer (en collaboration avec l'EJMA Valais) : de l'écriture de la chanson à la scène, dans un esprit collectif et bienveillant.</p>
+      </div>
+      <a class="event-link" href="https://hacienda-sierre.ch/" target="_blank" rel="noopener">🔗 Site officiel</a>
+    </div>
+
+    <!-- Festival Schlösser (PALP Festival) - Sion -->
+    <div class="event-card" id="act-schlosser-palp-sion" data-category="classique">
+      <div class="event-header">
+        <span class="event-icon" aria-hidden="true">🏰</span>
+        <div class="event-titles">
+          <div class="event-title">Schlösser (PALP Festival)</div>
+          <div class="event-place">Sion — au pied des châteaux de Valère et Tourbillon</div>
+        </div>
+        <button type="button" class="copy-link-btn" data-copy-id="schlosser-palp-sion" aria-label="Copier le lien vers cet événement" title="Copier le lien vers cet événement">📋</button>
+      </div>
+      <div class="event-meta">
+        <span class="badge-type badge-classique">Concerts éclectiques</span>
+        <span class="badge-type badge-date">📅 21–25 juillet 2026 (dans la fenêtre : 22–25 juillet)</span>
+        <span class="badge-type badge-distance">📍 ~28 km · 25 min en voiture</span>
+      </div>
+      <div class="event-section">
+        <p>Volet du PALP Festival au pied des deux châteaux emblématiques de Sion : programmation pluridisciplinaire avec, entre autres, Patrick Watson, Raul Paz et une rencontre inédite entre la pianiste valaisanne Béatrice Berrut et Skye Edwards (Morcheeba).</p>
+      </div>
+      <a class="event-link" href="https://palpfestival.ch/en/evenements/schlosser/" target="_blank" rel="noopener">🔗 Site officiel</a>
+    </div>
+
+    <!-- Verbier Festival -->
+    <div class="event-card" id="act-verbier-festival" data-category="classique">
+      <div class="event-header">
+        <span class="event-icon" aria-hidden="true">🎻</span>
+        <div class="event-titles">
+          <div class="event-title">Verbier Festival</div>
+          <div class="event-place">Verbier — Salle des Combins &amp; église de Verbier</div>
+        </div>
+        <button type="button" class="copy-link-btn" data-copy-id="verbier-festival" aria-label="Copier le lien vers cet événement" title="Copier le lien vers cet événement">📋</button>
+      </div>
+      <div class="event-meta">
+        <span class="badge-type badge-classique">Musique classique</span>
+        <span class="badge-type badge-date">📅 16 juillet–2 août 2026 (actif toute la fenêtre du séjour)</span>
+        <span class="badge-type badge-distance">📍 ~65 km · 1h15 en voiture</span>
+      </div>
+      <div class="event-section">
+        <p>33e édition de ce grand rendez-vous de musique classique international : plus de 60 concerts et 100 masterclasses sur 19 jours, avec des places de CHF 30 à 220. Le festival est en cours pendant tout le séjour au camping.</p>
+      </div>
+      <a class="event-link" href="https://verbierfestival.com/en/programme/" target="_blank" rel="noopener">🔗 Site officiel</a>
+    </div>
+
+    <!-- Festival Classique des Haudères -->
+    <div class="event-card" id="act-festival-hauderes" data-category="classique">
+      <div class="event-header">
+        <span class="event-icon" aria-hidden="true">🎻</span>
+        <div class="event-titles">
+          <div class="event-title">Festival classique des Haudères</div>
+          <div class="event-place">Les Haudères (Val d'Hérens) — chapelle des Haudères</div>
+        </div>
+        <button type="button" class="copy-link-btn" data-copy-id="festival-hauderes" aria-label="Copier le lien vers cet événement" title="Copier le lien vers cet événement">📋</button>
+      </div>
+      <div class="event-meta">
+        <span class="badge-type badge-classique">Musique classique</span>
+        <span class="badge-type badge-date">📅 25 juillet–2 août 2026 (dans la fenêtre : 25 juillet–1er août)</span>
+        <span class="badge-type badge-distance">📍 ~50 km · 55 min en voiture</span>
+      </div>
+      <div class="event-section">
+        <p>24e édition : dix concerts dans l'acoustique intimiste de la chapelle des Haudères, avec de jeunes interprètes remarqués sur les scènes internationales et des fidèles du festival comme le Quatuor Terpsycordes ou le pianiste Cédric Pescia — de Bach à Chostakovitch en passant par Liszt.</p>
+      </div>
+      <a class="event-link" href="https://festivalhauderes.ch/programme/" target="_blank" rel="noopener">🔗 Site officiel</a>
+    </div>
+
+    <!-- Zermatt Folklore Music Weeks -->
+    <div class="event-card" id="act-zermatt-folklore" data-category="folklore">
+      <div class="event-header">
+        <span class="event-icon" aria-hidden="true">🪗</span>
+        <div class="event-titles">
+          <div class="event-title">Zermatt Folklore Music Weeks</div>
+          <div class="event-place">Zermatt — place du musée (Kirchplatz), tous les jours à 16h</div>
+        </div>
+        <button type="button" class="copy-link-btn" data-copy-id="zermatt-folklore" aria-label="Copier le lien vers cet événement" title="Copier le lien vers cet événement">📋</button>
+      </div>
+      <div class="event-meta">
+        <span class="badge-type badge-folklore">Folklore / cors des Alpes</span>
+        <span class="badge-type badge-date">📅 25 juillet–1er août 2026 (groupe « Henusode »)</span>
+        <span class="badge-type badge-distance">📍 ~55 km · env. 1h15 (train obligatoire depuis Täsch)</span>
+      </div>
+      <div class="event-section">
+        <p>Concerts en plein air gratuits en fin d'après-midi sur la place du musée, en plein cœur du village : yodel, cors des Alpes et costumes traditionnels, dans un cadre familial avec le Cervin en toile de fond.</p>
+      </div>
+      <a class="event-link" href="https://zermatt.swiss/en/p/folklore-music-weeks-2026-01tVj000005EKVYIA4" target="_blank" rel="noopener">🔗 Site officiel</a>
+    </div>
+
+    <!-- Fête nationale suisse - Sierre -->
+    <div class="event-card" id="act-fete-nationale-sierre" data-category="fete">
+      <div class="event-header">
+        <span class="event-icon" aria-hidden="true">🎆</span>
+        <div class="event-titles">
+          <div class="event-title">Fête nationale suisse — Sierre</div>
+          <div class="event-place">Sierre — Place de l'Hôtel de Ville</div>
+        </div>
+        <button type="button" class="copy-link-btn" data-copy-id="fete-nationale-sierre" aria-label="Copier le lien vers cet événement" title="Copier le lien vers cet événement">📋</button>
+      </div>
+      <div class="event-meta">
+        <span class="badge-type badge-fete">Fête nationale</span>
+        <span class="badge-type badge-date">📅 1er août 2026 · 10h–16h</span>
+        <span class="badge-type badge-distance">📍 ~14 km · 15 min en voiture</span>
+      </div>
+      <div class="event-section">
+        <p>La place de l'Hôtel de Ville se transforme en grand parc d'attractions pour l'après-midi du 1er août, avec animations pour petits et grands, concerts et spectacles de rue — une option de journée, complémentaire d'un feu d'artifice en soirée ailleurs dans la région.</p>
+      </div>
+      <a class="event-link" href="https://www.sierre.ch/fr/calendrier-manifestations-1738.html" target="_blank" rel="noopener">🔗 Site officiel</a>
+    </div>
+
+    <!-- Fête nationale suisse - Loèche-les-Bains -->
+    <div class="event-card" id="act-fete-nationale-leukerbad" data-category="fete">
+      <div class="event-header">
+        <span class="event-icon" aria-hidden="true">🎆</span>
+        <div class="event-titles">
+          <div class="event-title">Fête nationale suisse — Loèche-les-Bains</div>
+          <div class="event-place">Loèche-les-Bains (Leukerbad)</div>
+        </div>
+        <button type="button" class="copy-link-btn" data-copy-id="fete-nationale-leukerbad" aria-label="Copier le lien vers cet événement" title="Copier le lien vers cet événement">📋</button>
+      </div>
+      <div class="event-meta">
+        <span class="badge-type badge-fete">Fête nationale</span>
+        <span class="badge-type badge-date">📅 1er août 2026 · dès 9h, feu d'artifice à 22h15</span>
+        <span class="badge-type badge-distance">📍 ~16 km · 20 min en voiture</span>
+      </div>
+      <div class="event-section">
+        <p>Journée complète pensée pour les familles : brunch du 1er août à la Rinderhütte (9h–12h), culte festif à l'église paroissiale (9h30), fête sur la place de l'Ancienne École avec animations (11h–18h), puis feu d'artifice près de la Gemmiwand à 22h15.</p>
+      </div>
+      <a class="event-link" href="https://www.tempslibre.ch/valais/manifestations/435620-le-1er-ao-t-lo-che-les-bains" target="_blank" rel="noopener">🔗 Site officiel</a>
+    </div>
+
+  </div>
+
+  <footer>
+    🏔️ Camping Bella-Tola, Waldstrasse 57, 3952 Susten (Valais) — distances et temps de trajet approximatifs depuis le camping
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  function fallbackCopyText(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) { /* copie impossible */ }
+    document.body.removeChild(ta);
+  }
+
+  function initCopyLinkButtons() {
+    Array.prototype.slice.call(document.querySelectorAll('.copy-link-btn')).forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var url = location.origin + location.pathname + '#act-' + btn.getAttribute('data-copy-id');
+        var showCopied = function () {
+          var original = btn.textContent;
+          btn.textContent = '✅';
+          btn.classList.add('copied');
+          setTimeout(function () { btn.textContent = original; btn.classList.remove('copied'); }, 1500);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(showCopied, function () { fallbackCopyText(url); showCopied(); });
+        } else {
+          fallbackCopyText(url);
+          showCopied();
+        }
+      });
+    });
+  }
+
+  function initAppSwitcher() {
+    var appSwitcher = document.getElementById('appSwitcher');
+    var appSwitcherToggle = document.getElementById('appSwitcherToggle');
+    if (appSwitcher && appSwitcherToggle) {
+      appSwitcherToggle.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var willOpen = !appSwitcher.classList.contains('open');
+        appSwitcher.classList.toggle('open', willOpen);
+        appSwitcherToggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      });
+      document.addEventListener('click', function (e) {
+        if (appSwitcher.classList.contains('open') && !appSwitcher.contains(e.target)) {
+          appSwitcher.classList.remove('open');
+          appSwitcherToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+  }
+
+  function initFilterBar() {
+    var filterBar = document.getElementById('filterBar');
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.event-card'));
+    if (!filterBar) return;
+    filterBar.addEventListener('click', function (e) {
+      var btn = e.target.closest('.filter-btn');
+      if (!btn) return;
+      Array.prototype.slice.call(filterBar.querySelectorAll('.filter-btn')).forEach(function (b) {
+        b.classList.toggle('active', b === btn);
+      });
+      var filter = btn.getAttribute('data-filter');
+      cards.forEach(function (card) {
+        var show = filter === 'all' || card.getAttribute('data-category') === filter;
+        card.style.display = show ? '' : 'none';
+      });
+    });
+  }
+
+  function scrollToHashOnLoad() {
+    if (location.hash) {
+      var target = document.querySelector(location.hash);
+      if (target) {
+        setTimeout(function () { target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 100);
+      }
+    }
+  }
+
+  initCopyLinkButtons();
+  initAppSwitcher();
+  initFilterBar();
+  scrollToHashOnLoad();
+})();
+</script>
+</body>
+</html>
