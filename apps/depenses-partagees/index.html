@@ -300,6 +300,54 @@
     font-size: 1rem;
     cursor: pointer;
   }
+
+  /* App switcher */
+  .app-switcher { position: relative; display: inline-block; margin-top: 0.5rem; }
+  .app-switcher-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.4rem 0.7rem;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .app-switcher-toggle:hover { border-color: var(--accent); }
+  .app-switcher-chevron { font-size: 0.7rem; color: var(--muted); transition: transform 0.15s ease; }
+  .app-switcher.open .app-switcher-chevron { transform: rotate(180deg); }
+  .app-switcher-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    min-width: 230px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 80;
+    text-align: left;
+  }
+  .app-switcher.open .app-switcher-menu { display: flex; }
+  .app-switcher-menu a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .app-switcher-menu a:hover { background: var(--chip-bg); }
+  .app-switcher-menu a.is-current { color: var(--accent); font-weight: 700; background: var(--chip-bg); }
+  .app-switcher-menu a.app-switcher-home { border-top: 1px solid var(--border); color: var(--muted); }
 </style>
 </head>
 <body>
@@ -317,6 +365,18 @@
 
 <main>
   <header class="top">
+    <nav class="app-switcher" id="appSwitcher">
+      <button type="button" class="app-switcher-toggle" id="appSwitcherToggle" aria-haspopup="true" aria-expanded="false">
+        <span aria-hidden="true">🔀</span> Mini-apps <span class="app-switcher-chevron" aria-hidden="true">▾</span>
+      </button>
+      <div class="app-switcher-menu" id="appSwitcherMenu" role="menu">
+        <a role="menuitem" href="../repas-en-suisse/">🍽️ Repas en Suisse</a>
+        <a role="menuitem" href="../planning-activites-semaine/">🗓️ Planning des activités</a>
+        <a role="menuitem" href="../activites-loisirs/">🧭 Activités &amp; Loisirs</a>
+        <a role="menuitem" href="./" class="is-current" aria-current="page">💰 Dépenses partagées</a>
+        <a role="menuitem" href="../../" class="app-switcher-home">🏠 Accueil</a>
+      </div>
+    </nav>
     <h1>💰 Dépenses partagées</h1>
     <p class="subtitle">Camping Bella-Tola · 22 juillet - 1er août 2026</p>
   </header>
@@ -914,6 +974,23 @@
       loadMembersFromSupabase();
       loadExpensesFromSupabase();
     }, 10000);
+  }
+
+  var appSwitcher = document.getElementById('appSwitcher');
+  var appSwitcherToggle = document.getElementById('appSwitcherToggle');
+  if (appSwitcher && appSwitcherToggle) {
+    appSwitcherToggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var willOpen = !appSwitcher.classList.contains('open');
+      appSwitcher.classList.toggle('open', willOpen);
+      appSwitcherToggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+    });
+    document.addEventListener('click', function (e) {
+      if (appSwitcher.classList.contains('open') && !appSwitcher.contains(e.target)) {
+        appSwitcher.classList.remove('open');
+        appSwitcherToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
   }
 
   renderVoterBanner();

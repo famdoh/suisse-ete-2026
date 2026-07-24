@@ -75,8 +75,8 @@ ses choix de conception, ses dépendances) doit être documenté dans le
    ```
 
 3. Ajouter une carte/lien pour cette app dans la page d'accueil
-   `index.html` à la racine, avec deux liens : un vers l'app (`apps/<nom-app>/`)
-   et un vers son Artifact Claude.
+   `index.html` à la racine, pointant vers l'app (`apps/<nom-app>/`). Ne pas
+   lier l'Artifact Claude depuis la page d'accueil.
 4. Publier l'app en tant qu'Artifact Claude (voir ci-dessous) et noter
    son URL dans un fichier `apps/<nom-app>/ARTIFACT.md`, pour pouvoir la
    reporter dans le hub `index.html` et la redéployer au même chemin
@@ -84,6 +84,36 @@ ses choix de conception, ses dépendances) doit être documenté dans le
 5. Aucune étape de build, ni bundler, ni framework — ce sont des
    fichiers HTML autonomes (CSS/JS inline). Garder cette approche sauf
    si une app en a réellement besoin autrement.
+6. Ajouter le menu « 🔀 Mini-apps » (voir « Navigation entre mini-apps »
+   ci-dessous) et, si l'app affiche des cartes d'activités touristiques,
+   les ancres et boutons de copie de lien (voir « Ancres et partage de
+   lien vers une activité » ci-dessous).
+
+## Navigation entre mini-apps
+
+Chaque page de mini-app (y compris les pages secondaires comme
+`classement.html`) inclut, en haut de son `<header>`, un menu
+déroulant « 🔀 Mini-apps » listant les 4 mini-apps de `./apps` ainsi
+qu'un lien de retour à l'accueil (`../../`). La page courante y est
+marquée (`class="is-current"`, `aria-current="page"`). Ce menu est un
+bloc HTML/CSS/JS auto-suffisant dupliqué dans chaque app (pas de
+fichier partagé, conformément à l'absence de build), stylé avec les
+variables CSS déjà utilisées par l'app pour rester cohérent avec son
+thème. En ajoutant une mini-app, mettre à jour la liste de ce menu dans
+toutes les apps existantes.
+
+## Ancres et partage de lien vers une activité
+
+Dans toute mini-app affichant des cartes d'activités touristiques
+(catalogue, planning d'un jour, classement, etc.), chaque carte reçoit
+un identifiant d'ancre unique sur la page (`id="act-<identifiant>"`,
+préfixé par le jour ou le contexte quand une même activité peut
+apparaître plusieurs fois) et un bouton « 📋 » qui copie dans le
+presse-papiers l'URL de la page suivie de `#act-<identifiant>`, pour
+partager un lien direct vers cette carte. Une règle CSS `:target` met
+la carte en évidence à l'arrivée sur ce lien ; pour les cartes générées
+en JavaScript, un défilement automatique vers l'ancre est déclenché
+après le premier rendu si l'URL contient déjà ce hash.
 
 ## Convention Supabase
 
