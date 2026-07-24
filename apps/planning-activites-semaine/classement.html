@@ -121,11 +121,91 @@
     color: var(--muted);
     font-style: italic;
   }
+  .rank-card {
+    scroll-margin-top: 16px;
+  }
+  .rank-card:target {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .copy-link-btn {
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1;
+    padding: 0.2rem 0.35rem;
+    border-radius: 8px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .copy-link-btn:hover { background: var(--chip-bg); }
+  .copy-link-btn.copied { color: var(--accent); }
+
+  /* App switcher */
+  .app-switcher { position: relative; display: inline-block; margin-top: 0.5rem; }
+  .app-switcher-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.4rem 0.7rem;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .app-switcher-toggle:hover { border-color: var(--accent); }
+  .app-switcher-chevron { font-size: 0.7rem; color: var(--muted); transition: transform 0.15s ease; }
+  .app-switcher.open .app-switcher-chevron { transform: rotate(180deg); }
+  .app-switcher-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    min-width: 230px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 80;
+    text-align: left;
+  }
+  .app-switcher.open .app-switcher-menu { display: flex; }
+  .app-switcher-menu a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .app-switcher-menu a:hover { background: var(--chip-bg); }
+  .app-switcher-menu a.is-current { color: var(--accent); font-weight: 700; background: var(--chip-bg); }
+  .app-switcher-menu a.app-switcher-home { border-top: 1px solid var(--border); color: var(--muted); }
 </style>
 </head>
 <body>
 <main>
   <header class="top">
+    <nav class="app-switcher" id="appSwitcher">
+      <button type="button" class="app-switcher-toggle" id="appSwitcherToggle" aria-haspopup="true" aria-expanded="false">
+        <span aria-hidden="true">🔀</span> Mini-apps <span class="app-switcher-chevron" aria-hidden="true">▾</span>
+      </button>
+      <div class="app-switcher-menu" id="appSwitcherMenu" role="menu">
+        <a role="menuitem" href="../repas-en-suisse/">🍽️ Repas en Suisse</a>
+        <a role="menuitem" href="index.html" class="is-current" aria-current="page">🗓️ Planning des activités</a>
+        <a role="menuitem" href="../activites-loisirs/">🧭 Activités &amp; Loisirs</a>
+        <a role="menuitem" href="../depenses-partagees/">💰 Dépenses partagées</a>
+        <a role="menuitem" href="../../" class="app-switcher-home">🏠 Accueil</a>
+      </div>
+    </nav>
     <h1>🏆 Classement des activités</h1>
     <p class="subtitle">Moyenne des notes données par chaque voyageur</p>
     <a class="back-link" href="index.html">← Retour au planning</a>
@@ -176,6 +256,59 @@
     return s;
   }
 
+  function fallbackCopyText(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) { /* copie impossible */ }
+    document.body.removeChild(ta);
+  }
+
+  function copyRankLink(anchorId, btn) {
+    var url = location.origin + location.pathname + '#' + anchorId;
+    var showCopied = function () {
+      var original = btn.textContent;
+      btn.textContent = '✅';
+      btn.classList.add('copied');
+      setTimeout(function () { btn.textContent = original; btn.classList.remove('copied'); }, 1500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(showCopied, function () { fallbackCopyText(url); showCopied(); });
+    } else {
+      fallbackCopyText(url);
+      showCopied();
+    }
+  }
+
+  function scrollToHashTarget() {
+    if (!location.hash) return;
+    var id = decodeURIComponent(location.hash.slice(1));
+    var el = document.getElementById(id);
+    if (!el) return;
+    setTimeout(function () { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 60);
+  }
+
+  var appSwitcher = document.getElementById('appSwitcher');
+  var appSwitcherToggle = document.getElementById('appSwitcherToggle');
+  if (appSwitcher && appSwitcherToggle) {
+    appSwitcherToggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var willOpen = !appSwitcher.classList.contains('open');
+      appSwitcher.classList.toggle('open', willOpen);
+      appSwitcherToggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+    });
+    document.addEventListener('click', function (e) {
+      if (appSwitcher.classList.contains('open') && !appSwitcher.contains(e.target)) {
+        appSwitcher.classList.remove('open');
+        appSwitcherToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
   function render(ratingsByActivity) {
     var ranked = ACTIVITIES.map(function (a) {
       var r = ratingsByActivity[a.id];
@@ -197,6 +330,7 @@
     ranked.forEach(function (entry, idx) {
       var card = document.createElement('div');
       card.className = 'rank-card';
+      card.id = 'act-' + entry.activity.id;
 
       var head = document.createElement('div');
       head.className = 'rank-head';
@@ -209,9 +343,17 @@
       var name = document.createElement('span');
       name.className = 'rank-name';
       name.textContent = entry.activity.name;
+      var copyBtn = document.createElement('button');
+      copyBtn.type = 'button';
+      copyBtn.className = 'copy-link-btn';
+      copyBtn.setAttribute('aria-label', 'Copier le lien vers cette activité');
+      copyBtn.title = 'Copier le lien vers cette activité';
+      copyBtn.textContent = '📋';
+      copyBtn.addEventListener('click', function () { copyRankLink(card.id, copyBtn); });
       head.appendChild(num);
       head.appendChild(emoji);
       head.appendChild(name);
+      head.appendChild(copyBtn);
       card.appendChild(head);
 
       var summary = document.createElement('div');
@@ -242,6 +384,7 @@
 
       content.appendChild(card);
     });
+    scrollToHashTarget();
   }
 
   if (!sb) {
