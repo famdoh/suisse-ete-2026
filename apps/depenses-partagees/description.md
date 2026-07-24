@@ -6,7 +6,11 @@ participant et propose, en fin de séjour, le nombre minimal de
 remboursements pour que tout le monde soit à l'équilibre (« qui doit
 combien à qui »). Chaque dépense peut être modifiée ou supprimée après
 coup (bouton « Modifier »/« Supprimer » sur chaque ligne), pour corriger
-une erreur de saisie. Les dépenses et la liste des participants sont
+une erreur de saisie. Une date (optionnelle, entre le 22 juillet et le
+1er août 2026) peut être associée manuellement à une dépense pour noter
+le jour réel où elle a eu lieu, indépendamment de la date de saisie dans
+l'app ; sans date renseignée, la date d'ajout est affichée à la place.
+Les dépenses et la liste des participants sont
 **partagées entre tous les voyageurs** (stockées dans Supabase, voir
 ci-dessous) ; un cache localStorage permet un premier affichage instantané
 et un usage hors-ligne dégradé. Le front repolle toutes les 10 secondes

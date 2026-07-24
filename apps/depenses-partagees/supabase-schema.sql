@@ -47,8 +47,13 @@ create table if not exists public.expenses (
   amount numeric(10,2) not null check (amount > 0),
   motif text not null,
   participants jsonb not null default '[]'::jsonb,
-  added_by text
+  added_by text,
+  expense_date date
 );
+
+-- Ajout rétroactif pour les bases créées avant l'introduction de la date
+-- manuelle optionnelle (sans effet si la colonne existe déjà).
+alter table public.expenses add column if not exists expense_date date;
 
 alter table public.expenses enable row level security;
 

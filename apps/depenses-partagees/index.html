@@ -425,6 +425,8 @@
     <input type="text" id="expenseMotifInput" placeholder="Ex : Courses Migros, essence, piscine...">
     <label class="field-label" for="expenseAmountInput">Montant (CHF)</label>
     <input type="number" id="expenseAmountInput" placeholder="0.00" step="0.05" min="0.01" inputmode="decimal">
+    <label class="field-label" for="expenseDateInput">Date (optionnelle)</label>
+    <input type="date" id="expenseDateInput" min="2026-07-22" max="2026-08-01">
     <label class="field-label" for="expensePayerSelect">Payé par</label>
     <select id="expensePayerSelect"></select>
     <label class="field-label">Réparti entre</label>
@@ -495,6 +497,11 @@
 
   function fmtCHF(n) {
     return n.toLocaleString('fr-CH', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' CHF';
+  }
+
+  function parseDateOnly(s) {
+    var parts = s.split('-');
+    return new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
   }
 
   // --- Gate password ---
@@ -592,7 +599,7 @@
 
   function loadExpensesFromSupabase() {
     if (!sb) return;
-    sb.from('expenses').select('id, created_at, payer_name, amount, motif, participants, added_by').order('created_at', { ascending: false }).then(function (res) {
+    sb.from('expenses').select('id, created_at, payer_name, amount, motif, participants, added_by, expense_date').order('created_at', { ascending: false }).then(function (res) {
       if (res.error) { console.warn('Erreur en chargeant les dépenses :', res.error.message); return; }
       expenses = res.data;
       saveCache();
@@ -634,7 +641,8 @@
       amount: payload.amount,
       motif: payload.motif,
       participants: payload.participants,
-      added_by: payload.added_by
+      added_by: payload.added_by,
+      expense_date: payload.expense_date
     };
     expenses.unshift(optimistic);
     saveCache();
@@ -685,6 +693,7 @@
   var expenseModalCloseBtn = document.getElementById('expenseModalCloseBtn');
   var expenseMotifInput = document.getElementById('expenseMotifInput');
   var expenseAmountInput = document.getElementById('expenseAmountInput');
+  var expenseDateInput = document.getElementById('expenseDateInput');
   var expensePayerSelect = document.getElementById('expensePayerSelect');
   var expenseParticipantsList = document.getElementById('expenseParticipantsList');
   var expenseFormError = document.getElementById('expenseFormError');
@@ -848,8 +857,10 @@
       var meta = document.createElement('div');
       meta.className = 'expense-meta';
       var parts = e.participants || [];
-      var date = new Date(e.created_at);
-      meta.textContent = 'Payé par ' + e.payer_name + ' · partagé entre ' + parts.join(', ') + ' · ' + date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+      var dateLabel = e.expense_date
+        ? '📅 ' + parseDateOnly(e.expense_date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })
+        : 'ajouté le ' + new Date(e.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
+      meta.textContent = 'Payé par ' + e.payer_name + ' · partagé entre ' + parts.join(', ') + ' · ' + dateLabel;
       row.appendChild(meta);
 
       var actions = document.createElement('div');
@@ -893,6 +904,7 @@
       submitExpenseBtn.textContent = expense ? 'Enregistrer les modifications' : 'Ajouter la dépense';
       expenseMotifInput.value = expense ? expense.motif : '';
       expenseAmountInput.value = expense ? Number(expense.amount) : '';
+      expenseDateInput.value = expense && expense.expense_date ? expense.expense_date : '';
       expenseFormError.textContent = '';
       expenseModalOverlay.classList.add('open');
       renderExpenseForm();
@@ -952,7 +964,8 @@
       motif: motif,
       amount: Math.round(amount * 100) / 100,
       payer_name: payer,
-      participants: participants
+      participants: participants,
+      expense_date: expenseDateInput.value || null
     };
 
     if (editingExpenseId) {
