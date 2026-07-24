@@ -4,7 +4,9 @@ Chacun note ses dépenses du séjour (montant, motif, qui a payé, entre qui
 elle est partagée) ; l'app calcule en temps réel le solde de chaque
 participant et propose, en fin de séjour, le nombre minimal de
 remboursements pour que tout le monde soit à l'équilibre (« qui doit
-combien à qui »). Les dépenses et la liste des participants sont
+combien à qui »). Chaque dépense peut être modifiée ou supprimée après
+coup (bouton « Modifier »/« Supprimer » sur chaque ligne), pour corriger
+une erreur de saisie. Les dépenses et la liste des participants sont
 **partagées entre tous les voyageurs** (stockées dans Supabase, voir
 ci-dessous) ; un cache localStorage permet un premier affichage instantané
 et un usage hors-ligne dégradé. Le front repolle toutes les 10 secondes

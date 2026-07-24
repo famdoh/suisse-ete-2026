@@ -217,7 +217,7 @@
   .expense-motif { font-weight: 700; font-size: 0.9rem; }
   .expense-amount { font-weight: 700; font-size: 0.95rem; white-space: nowrap; }
   .expense-meta { font-size: 0.75rem; color: var(--muted); margin-top: 0.25rem; }
-  .expense-actions { text-align: right; margin-top: 0.35rem; }
+  .expense-actions { display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 0.35rem; }
   .expense-actions button {
     border: none;
     background: transparent;
@@ -358,7 +358,7 @@
 <div class="modal-overlay" id="expenseModalOverlay">
   <div class="modal-sheet">
     <div class="modal-head">
-      <h2>Nouvelle dépense</h2>
+      <h2 id="expenseModalTitle">Nouvelle dépense</h2>
       <button class="modal-close" id="expenseModalCloseBtn" type="button" aria-label="Fermer">✕</button>
     </div>
     <label class="field-label" for="expenseMotifInput">Motif</label>
@@ -586,6 +586,18 @@
     });
   }
 
+  function updateExpense(id, payload) {
+    var idx = expenses.findIndex(function (e) { return e.id === id; });
+    if (idx !== -1) expenses[idx] = Object.assign({}, expenses[idx], payload);
+    saveCache();
+    render();
+    if (!sb || typeof id !== 'string' || id.indexOf('tmp-') === 0) return;
+    sb.from('expenses').update(payload).eq('id', id).then(function (res) {
+      if (res.error) { console.warn('Erreur en modifiant la dépense :', res.error.message); return; }
+      loadExpensesFromSupabase();
+    });
+  }
+
   function deleteExpense(id) {
     expenses = expenses.filter(function (e) { return e.id !== id; });
     saveCache();
@@ -609,6 +621,7 @@
   var openAddExpenseBtn = document.getElementById('openAddExpenseBtn');
 
   var expenseModalOverlay = document.getElementById('expenseModalOverlay');
+  var expenseModalTitle = document.getElementById('expenseModalTitle');
   var expenseModalCloseBtn = document.getElementById('expenseModalCloseBtn');
   var expenseMotifInput = document.getElementById('expenseMotifInput');
   var expenseAmountInput = document.getElementById('expenseAmountInput');
@@ -781,6 +794,11 @@
 
       var actions = document.createElement('div');
       actions.className = 'expense-actions';
+      var editBtn = document.createElement('button');
+      editBtn.type = 'button';
+      editBtn.textContent = 'Modifier';
+      editBtn.addEventListener('click', function () { openExpenseModal(e); });
+      actions.appendChild(editBtn);
       var delBtn = document.createElement('button');
       delBtn.type = 'button';
       delBtn.textContent = 'Supprimer';
@@ -803,11 +821,18 @@
   });
   newMemberInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') addMemberBtn.click(); });
 
-  // --- Add expense modal ---
-  function openExpenseModal() {
+  // --- Add / edit expense modal ---
+  var editingExpenseId = null;
+  var editingExpenseData = null;
+
+  function openExpenseModal(expense) {
     requireVoter(function () {
-      expenseMotifInput.value = '';
-      expenseAmountInput.value = '';
+      editingExpenseId = expense ? expense.id : null;
+      editingExpenseData = expense ? { payer_name: expense.payer_name, participants: (expense.participants || []).slice() } : null;
+      expenseModalTitle.textContent = expense ? 'Modifier la dépense' : 'Nouvelle dépense';
+      submitExpenseBtn.textContent = expense ? 'Enregistrer les modifications' : 'Ajouter la dépense';
+      expenseMotifInput.value = expense ? expense.motif : '';
+      expenseAmountInput.value = expense ? Number(expense.amount) : '';
       expenseFormError.textContent = '';
       expenseModalOverlay.classList.add('open');
       renderExpenseForm();
@@ -816,9 +841,12 @@
   }
   function closeExpenseModal() {
     expenseModalOverlay.classList.remove('open');
+    editingExpenseId = null;
+    editingExpenseData = null;
   }
   function renderExpenseForm() {
     var voter = getVoterName();
+    var preselectedPayer = editingExpenseData ? editingExpenseData.payer_name : voter;
     expensePayerSelect.innerHTML = '';
     members.forEach(function (m) {
       var opt = document.createElement('option');
@@ -826,8 +854,9 @@
       opt.textContent = m;
       expensePayerSelect.appendChild(opt);
     });
-    if (voter && members.indexOf(voter) !== -1) expensePayerSelect.value = voter;
+    if (preselectedPayer && members.indexOf(preselectedPayer) !== -1) expensePayerSelect.value = preselectedPayer;
 
+    var preselectedParticipants = editingExpenseData ? editingExpenseData.participants : null;
     expenseParticipantsList.innerHTML = '';
     members.forEach(function (m) {
       var label = document.createElement('label');
@@ -835,7 +864,7 @@
       var input = document.createElement('input');
       input.type = 'checkbox';
       input.value = m;
-      input.checked = true;
+      input.checked = preselectedParticipants ? preselectedParticipants.indexOf(m) !== -1 : true;
       var span = document.createElement('span');
       span.textContent = m;
       label.appendChild(input);
@@ -844,7 +873,7 @@
     });
   }
 
-  openAddExpenseBtn.addEventListener('click', openExpenseModal);
+  openAddExpenseBtn.addEventListener('click', function () { openExpenseModal(null); });
   expenseModalCloseBtn.addEventListener('click', closeExpenseModal);
   expenseModalOverlay.addEventListener('click', function (e) { if (e.target === expenseModalOverlay) closeExpenseModal(); });
 
@@ -859,13 +888,18 @@
     if (!payer) { expenseFormError.textContent = 'Aucun participant disponible : ajoute-en un d\'abord.'; return; }
     if (participants.length === 0) { expenseFormError.textContent = 'Sélectionne au moins un participant.'; return; }
 
-    addExpense({
+    var basePayload = {
       motif: motif,
       amount: Math.round(amount * 100) / 100,
       payer_name: payer,
-      participants: participants,
-      added_by: getVoterName()
-    });
+      participants: participants
+    };
+
+    if (editingExpenseId) {
+      updateExpense(editingExpenseId, basePayload);
+    } else {
+      addExpense(Object.assign({ added_by: getVoterName() }, basePayload));
+    }
     closeExpenseModal();
   });
 
