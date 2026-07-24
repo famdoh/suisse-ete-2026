@@ -85,6 +85,23 @@ ses choix de conception, ses dépendances) doit être documenté dans le
    fichiers HTML autonomes (CSS/JS inline). Garder cette approche sauf
    si une app en a réellement besoin autrement.
 
+## Convention Supabase
+
+Toute mini-app qui stocke des données partagées dans Supabase fournit un
+fichier `apps/<nom-app>/supabase-schema.sql` à exécuter dans le SQL
+Editor Supabase. Ce script doit toujours pouvoir être rejoué sans erreur,
+que les tables/colonnes/policies qu'il crée existent déjà ou non (schéma
+initial ou évolution d'un schéma existant) :
+
+- `create table if not exists ...` pour les tables.
+- `alter table ... add column if not exists ...` pour ajouter une colonne
+  à une table existante.
+- `drop policy if exists "<nom>" on ...` juste avant chaque
+  `create policy`, Postgres n'ayant pas de `create policy if not exists`.
+- Plus généralement, préférer toute variante idempotente disponible
+  (`if not exists`, `or replace`, etc.) plutôt qu'une instruction qui
+  échoue si l'objet visé existe déjà.
+
 ## Faire évoluer une mini-app existante
 
 Toute demande d'évolution/mise à jour et de régénération d'une app
