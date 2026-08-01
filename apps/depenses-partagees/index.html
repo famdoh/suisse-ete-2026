@@ -465,6 +465,7 @@
   var members = [];
   var expenses = [];
   var pendingAction = null;
+  var pendingSyncIds = {};
 
   function normalize(s) {
     return (s || '').trim().toLowerCase().normalize('NFD').replace(new RegExp('[\\u0300-\\u036f]', 'g'), '');
@@ -599,14 +600,60 @@
     });
   }
 
+  function isPendingId(id) {
+    return typeof id === 'string' && id.indexOf('tmp-') === 0;
+  }
+
+  // Pousse vers Supabase les dépenses ajoutées localement dont l'enregistrement
+  // avait échoué (ex : incident de schéma côté serveur) et qui sont donc restées
+  // uniquement dans ce navigateur, avant toute resynchronisation depuis la base.
+  // Sans ça, un simple rechargement écraserait ces dépenses non encore
+  // sauvegardées par la liste "officielle" venant du serveur.
+  function pushPendingExpenses(callback) {
+    if (!sb) { callback(); return; }
+    var pending = expenses.filter(function (e) { return isPendingId(e.id) && !pendingSyncIds[e.id]; });
+    if (pending.length === 0) { callback(); return; }
+    var remaining = pending.length;
+    function done() { remaining--; if (remaining <= 0) callback(); }
+    pending.forEach(function (e) {
+      pendingSyncIds[e.id] = true;
+      var payload = {
+        motif: e.motif,
+        amount: e.amount,
+        payer_name: e.payer_name,
+        participants: e.participants,
+        added_by: e.added_by,
+        expense_date: e.expense_date || null
+      };
+      sb.from('expenses').insert(payload).then(function (res) {
+        delete pendingSyncIds[e.id];
+        if (res.error) {
+          console.warn('Erreur en resynchronisant une dépense en attente :', res.error.message);
+        } else {
+          expenses = expenses.filter(function (x) { return x.id !== e.id; });
+          saveCache();
+        }
+        done();
+      });
+    });
+  }
+
   function loadExpensesFromSupabase() {
     if (!sb) return;
     sb.from('expenses').select('id, created_at, payer_name, amount, motif, participants, added_by, expense_date').order('created_at', { ascending: false }).then(function (res) {
       if (res.error) { console.warn('Erreur en chargeant les dépenses :', res.error.message); return; }
-      expenses = res.data;
+      // Les dépenses encore en attente d'envoi (pas de réponse serveur reçue,
+      // ou tentative de resynchronisation en cours) restent affichées, en plus
+      // de la liste officielle, tant qu'elles n'ont pas été confirmées.
+      var stillPending = expenses.filter(function (e) { return isPendingId(e.id); });
+      expenses = res.data.concat(stillPending);
       saveCache();
       render();
     });
+  }
+
+  function syncExpenses() {
+    pushPendingExpenses(function () { loadExpensesFromSupabase(); });
   }
 
   function addMember(name) {
@@ -636,8 +683,9 @@
   }
 
   function addExpense(payload) {
+    var tmpId = 'tmp-' + Date.now();
     var optimistic = {
-      id: 'tmp-' + Date.now(),
+      id: tmpId,
       created_at: new Date().toISOString(),
       payer_name: payload.payer_name,
       amount: payload.amount,
@@ -650,8 +698,15 @@
     saveCache();
     render();
     if (!sb) return;
+    // Marqué en attente pour que la resynchronisation en tâche de fond
+    // (pushPendingExpenses) n'essaie pas de l'envoyer une deuxième fois
+    // pendant que cet envoi est encore en cours.
+    pendingSyncIds[tmpId] = true;
     sb.from('expenses').insert(payload).select().then(function (res) {
+      delete pendingSyncIds[tmpId];
       if (res.error) { console.warn('Erreur en ajoutant la dépense :', res.error.message); return; }
+      expenses = expenses.filter(function (e) { return e.id !== tmpId; });
+      saveCache();
       loadExpensesFromSupabase();
     });
   }
@@ -661,7 +716,7 @@
     if (idx !== -1) expenses[idx] = Object.assign({}, expenses[idx], payload);
     saveCache();
     render();
-    if (!sb || typeof id !== 'string' || id.indexOf('tmp-') === 0) return;
+    if (!sb || isPendingId(id)) return;
     sb.from('expenses').update(payload).eq('id', id).then(function (res) {
       if (res.error) { console.warn('Erreur en modifiant la dépense :', res.error.message); return; }
       loadExpensesFromSupabase();
@@ -672,7 +727,7 @@
     expenses = expenses.filter(function (e) { return e.id !== id; });
     saveCache();
     render();
-    if (sb && typeof id === 'string' && id.indexOf('tmp-') !== 0) {
+    if (sb && !isPendingId(id)) {
       sb.from('expenses').delete().eq('id', id).then(function (res) {
         if (res.error) console.warn('Erreur en supprimant la dépense :', res.error.message);
       });
@@ -862,7 +917,9 @@
       var dateLabel = e.expense_date
         ? '📅 ' + parseDateOnly(e.expense_date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })
         : 'ajouté le ' + new Date(e.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
-      meta.textContent = 'Payé par ' + e.payer_name + ' · partagé entre ' + parts.join(', ') + ' · ' + dateLabel;
+      var metaText = 'Payé par ' + e.payer_name + ' · partagé entre ' + parts.join(', ') + ' · ' + dateLabel;
+      if (isPendingId(e.id)) metaText += ' · ⏳ en attente de synchronisation';
+      meta.textContent = metaText;
       row.appendChild(meta);
 
       var actions = document.createElement('div');
@@ -984,10 +1041,10 @@
     render();
     if (getVoterName()) addMember(getVoterName());
     loadMembersFromSupabase();
-    loadExpensesFromSupabase();
+    syncExpenses();
     setInterval(function () {
       loadMembersFromSupabase();
-      loadExpensesFromSupabase();
+      syncExpenses();
     }, 10000);
   }
 

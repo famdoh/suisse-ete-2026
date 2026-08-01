@@ -15,7 +15,12 @@ Les dépenses et la liste des participants sont
 ci-dessous) ; un cache localStorage permet un premier affichage instantané
 et un usage hors-ligne dégradé. Le front repolle toutes les 10 secondes
 pour refléter les ajouts faits par les autres voyageurs sans recharger la
-page.
+page. Si l'enregistrement d'une dépense en base échoue (ex. connexion
+coupée, incident serveur), elle reste visible localement avec le repère
+« ⏳ en attente de synchronisation » et chaque repoll retente d'abord de
+l'envoyer vers Supabase avant de rafraîchir la liste depuis le serveur —
+pour ne jamais écraser une dépense saisie mais pas encore confirmée par le
+serveur.
 
 ## Identification
 L'identité de chacun est un simple prénom saisi une fois et mémorisé sur
