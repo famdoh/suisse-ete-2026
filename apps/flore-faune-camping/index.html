@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Flore & Faune - Suisse Été 2026</title>
-<meta name="description" content="Guide des essences et espèces visibles l'été aux abords du Camping Bella-Tola (Susten, Valais) : arbres, arbustes et papillons, avec leur habitat et la nature du sol qu'ils préfèrent.">
+<meta name="description" content="Guide des essences et espèces visibles l'été aux abords du Camping Bella-Tola (Susten, Valais) et lors des randonnées en altitude : arbres, arbustes, plantes et papillons, avec leur habitat et la nature du sol qu'ils préfèrent.">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -28,6 +29,9 @@
     --badge-butterfly-bg: rgba(217, 93, 57, 0.1);
     --badge-butterfly-text: #b54221;
     --badge-butterfly-border: rgba(217, 93, 57, 0.18);
+    --badge-herb-bg: rgba(155, 89, 182, 0.1);
+    --badge-herb-text: #6c3f8a;
+    --badge-herb-border: rgba(155, 89, 182, 0.2);
     --soil-bg: rgba(148, 111, 40, 0.08);
     --soil-border: rgba(148, 111, 40, 0.18);
     --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -50,6 +54,9 @@
       --badge-butterfly-bg: rgba(226, 133, 92, 0.14);
       --badge-butterfly-text: #e2855c;
       --badge-butterfly-border: rgba(226, 133, 92, 0.28);
+      --badge-herb-bg: rgba(198, 140, 226, 0.14);
+      --badge-herb-text: #c68ce2;
+      --badge-herb-border: rgba(198, 140, 226, 0.28);
       --soil-bg: rgba(216, 172, 98, 0.08);
       --soil-border: rgba(216, 172, 98, 0.2);
     }
@@ -225,6 +232,7 @@
   .badge-tree { background: var(--badge-tree-bg); color: var(--badge-tree-text); border: 1px solid var(--badge-tree-border); }
   .badge-shrub { background: var(--badge-shrub-bg); color: var(--badge-shrub-text); border: 1px solid var(--badge-shrub-border); }
   .badge-butterfly { background: var(--badge-butterfly-bg); color: var(--badge-butterfly-text); border: 1px solid var(--badge-butterfly-border); }
+  .badge-herb { background: var(--badge-herb-bg); color: var(--badge-herb-text); border: 1px solid var(--badge-herb-border); }
   .species-section { margin-bottom: 12px; }
   .species-section:last-child { margin-bottom: 0; }
   .species-section h3 {
@@ -246,6 +254,15 @@
   }
   .soil-box h3 { color: var(--badge-shrub-text); }
   .soil-box p { font-size: 0.88rem; }
+  .section-divider {
+    grid-column: 1 / -1;
+    margin-top: 16px;
+    padding-top: 32px;
+    border-top: 1px solid var(--card-border);
+  }
+  .section-divider:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+  .section-divider h2 { font-size: 1.5rem; margin-bottom: 8px; }
+  .section-divider p { font-size: 0.95rem; max-width: 720px; opacity: 0.9; }
   footer {
     text-align: center;
     margin-top: 50px;
@@ -274,13 +291,14 @@
     </nav>
     <div class="swiss-badge">🇨🇭 Suisse 2026</div>
     <h1>🌿 Flore & Faune du camping</h1>
-    <p>Essences et espèces visibles l'été aux abords du Camping Bella-Tola (Susten, Valais), à la lisière de la forêt de Finges (Pfynwald) — avec leur habitat et la nature du sol qu'elles préfèrent.</p>
+    <p>Essences et espèces visibles l'été aux abords du Camping Bella-Tola (Susten, Valais), à la lisière de la forêt de Finges (Pfynwald), ainsi que lors des randonnées en altitude dans les étages montagneux élevés — avec leur habitat et la nature du sol qu'elles préfèrent.</p>
   </header>
 
   <div class="filter-bar" id="filterBar">
     <button type="button" class="filter-btn active" data-filter="all">🌍 Tout</button>
     <button type="button" class="filter-btn" data-filter="tree">🌳 Arbres</button>
     <button type="button" class="filter-btn" data-filter="shrub">🌿 Arbustes</button>
+    <button type="button" class="filter-btn" data-filter="herb">🌸 Plantes</button>
     <button type="button" class="filter-btn" data-filter="butterfly">🦋 Papillons</button>
   </div>
 
@@ -472,6 +490,228 @@
       <div class="species-section">
         <h3>📍 Où le voir</h3>
         <p>Dans les prairies sèches et les clairières ensoleillées de la forêt de Finges, en lisière des zones steppiques.</p>
+      </div>
+    </div>
+
+    <!-- Section : espèces des étages montagneux élevés -->
+    <div class="section-divider">
+      <h2>🏔️ Espèces des étages montagneux élevés</h2>
+      <p>Plantes et arbustes typiques de l'étage subalpin à alpin, au-dessus de la forêt de Finges — rencontrés lors des randonnées en altitude dans le Val d'Anniviers ou autour de Loèche-les-Bains (alpages, combes à neige, éboulis et bords de torrents).</p>
+    </div>
+
+    <!-- Airelle des marais -->
+    <div class="species-card" id="act-airelle-marais" data-category="shrub">
+      <div class="species-header">
+        <span class="species-icon" aria-hidden="true">🌿</span>
+        <div class="species-titles">
+          <div class="species-title">Airelle des marais</div>
+          <div class="species-latin">Vaccinium uliginosum · Éricacées</div>
+        </div>
+        <button type="button" class="copy-link-btn" data-copy-id="airelle-marais" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+      </div>
+      <div class="species-meta">
+        <span class="badge-type badge-shrub">Arbuste</span>
+      </div>
+      <div class="soil-box">
+        <h3>🌱 Habitat &amp; sol préférés</h3>
+        <p>Landes et tourbières d'altitude (étage subalpin à alpin, env. 1500-2800 m), sur <strong>sols acides, tourbeux et humides</strong>, pauvres en nutriments.</p>
+      </div>
+      <div class="species-section">
+        <h3>🔎 Le reconnaître en été</h3>
+        <p>Petit arbuste nain (20-60 cm), feuilles ovales bleu-vert, glauques dessous, caduques. Baies bleu-noir couvertes de pruine, à <strong>chair blanchâtre</strong> — contrairement à la myrtille, dont la chair est rouge violacé.</p>
+      </div>
+      <div class="species-section">
+        <h3>📍 Où le voir</h3>
+        <p>Dans les landes tourbeuses et pentes humides des alpages d'altitude, par exemple en montant vers les combes du Val d'Anniviers.</p>
+      </div>
+    </div>
+
+    <!-- Rhododendron ferrugineux -->
+    <div class="species-card" id="act-rhododendron-ferrugineux" data-category="shrub">
+      <div class="species-header">
+        <span class="species-icon" aria-hidden="true">🌿</span>
+        <div class="species-titles">
+          <div class="species-title">Rhododendron ferrugineux</div>
+          <div class="species-latin">Rhododendron ferrugineum · Éricacées</div>
+        </div>
+        <button type="button" class="copy-link-btn" data-copy-id="rhododendron-ferrugineux" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+      </div>
+      <div class="species-meta">
+        <span class="badge-type badge-shrub">Arbuste</span>
+      </div>
+      <div class="soil-box">
+        <h3>🌱 Habitat &amp; sol préférés</h3>
+        <p>Étage subalpin, pentes fraîches et humides sur <strong>sols acides</strong> (granite, schiste) ; ne pousse jamais sur calcaire. Souvent en sous-bois clair de mélézins ou en combes à neige.</p>
+      </div>
+      <div class="species-section">
+        <h3>🔎 Le reconnaître en été</h3>
+        <p>Feuilles persistantes coriaces, vert foncé luisant dessus, <strong>brun rouille (« ferrugineux »)</strong> et écailleuses dessous. Fleurs rose-rouge en clochettes groupées, formant de grands tapis en juin-juillet — la fameuse « rose des Alpes ».</p>
+      </div>
+      <div class="species-section">
+        <h3>📍 Où le voir</h3>
+        <p>Sur les pentes acides d'altitude, souvent sous le couvert clair des mélèzes, dans les alpages du Val d'Anniviers.</p>
+      </div>
+    </div>
+
+    <!-- Tussilage -->
+    <div class="species-card" id="act-tussilage" data-category="herb">
+      <div class="species-header">
+        <span class="species-icon" aria-hidden="true">🌸</span>
+        <div class="species-titles">
+          <div class="species-title">Tussilage</div>
+          <div class="species-latin">Tussilago farfara · Astéracées</div>
+        </div>
+        <button type="button" class="copy-link-btn" data-copy-id="tussilage" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+      </div>
+      <div class="species-meta">
+        <span class="badge-type badge-herb">Plante</span>
+      </div>
+      <div class="soil-box">
+        <h3>🌱 Habitat &amp; sol préférés</h3>
+        <p>Talus, éboulis et bords de chemins remaniés, sur <strong>sols argileux, humides et compacts</strong> ; plante pionnière des terrains perturbés, fréquente en montée vers les alpages.</p>
+      </div>
+      <div class="species-section">
+        <h3>🔎 Le reconnaître en été</h3>
+        <p>Floraison jaune précoce au printemps, disparue en été : on reconnaît alors la plante à ses <strong>grandes feuilles en cœur</strong>, vert foncé dessus, blanches et cotonneuses dessous — d'où son surnom de « pas-d'âne ».</p>
+      </div>
+      <div class="species-section">
+        <h3>📍 Où le voir</h3>
+        <p>Sur les talus et bords de sentiers remaniés lors des randonnées vers les alpages d'altitude.</p>
+      </div>
+    </div>
+
+    <!-- Saule de Suisse -->
+    <div class="species-card" id="act-saule-suisse" data-category="shrub">
+      <div class="species-header">
+        <span class="species-icon" aria-hidden="true">🌿</span>
+        <div class="species-titles">
+          <div class="species-title">Saule de Suisse</div>
+          <div class="species-latin">Salix helvetica · Salicacées</div>
+        </div>
+        <button type="button" class="copy-link-btn" data-copy-id="saule-suisse" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+      </div>
+      <div class="species-meta">
+        <span class="badge-type badge-shrub">Arbuste</span>
+      </div>
+      <div class="soil-box">
+        <h3>🌱 Habitat &amp; sol préférés</h3>
+        <p>Endémique des Alpes : éboulis, moraines et rocailles humides de l'étage subalpin à alpin, sur <strong>sols siliceux frais</strong>.</p>
+      </div>
+      <div class="species-section">
+        <h3>🔎 Le reconnaître en été</h3>
+        <p>Petit arbuste (30-100 cm), feuilles ovales gris-vert dessus, <strong>densément soyeuses et blanchâtres dessous</strong>. Chatons dressés, visibles après la floraison.</p>
+      </div>
+      <div class="species-section">
+        <h3>📍 Où le voir</h3>
+        <p>Le long des torrents et dans les éboulis humides en altitude, au-dessus de la limite des mélèzes.</p>
+      </div>
+    </div>
+
+    <!-- Épilobe à feuilles de romarin -->
+    <div class="species-card" id="act-epilobe-feuilles-romarin" data-category="herb">
+      <div class="species-header">
+        <span class="species-icon" aria-hidden="true">🌸</span>
+        <div class="species-titles">
+          <div class="species-title">Épilobe à feuilles de romarin</div>
+          <div class="species-latin">Epilobium dodonaei · Onagracées</div>
+        </div>
+        <button type="button" class="copy-link-btn" data-copy-id="epilobe-feuilles-romarin" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+      </div>
+      <div class="species-meta">
+        <span class="badge-type badge-herb">Plante</span>
+      </div>
+      <div class="soil-box">
+        <h3>🌱 Habitat &amp; sol préférés</h3>
+        <p>Alluvions caillouteuses, graviers et éboulis des lits de torrents d'altitude, sur <strong>sols pauvres et bien drainés</strong> ; plante pionnière typique du Valais.</p>
+      </div>
+      <div class="species-section">
+        <h3>🔎 Le reconnaître en été</h3>
+        <p>Feuilles étroites et allongées rappelant celles du romarin. Longs épis de <strong>fleurs rose-violet</strong>, en floraison abondante tout l'été.</p>
+      </div>
+      <div class="species-section">
+        <h3>📍 Où le voir</h3>
+        <p>Sur les bancs de graviers et lits de torrents glaciaires, en remontant les vallées latérales du Valais.</p>
+      </div>
+    </div>
+
+    <!-- Saule herbacé -->
+    <div class="species-card" id="act-saule" data-category="shrub">
+      <div class="species-header">
+        <span class="species-icon" aria-hidden="true">🌿</span>
+        <div class="species-titles">
+          <div class="species-title">Saule (herbacé)</div>
+          <div class="species-latin">Salix herbacea · Salicacées</div>
+        </div>
+        <button type="button" class="copy-link-btn" data-copy-id="saule" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+      </div>
+      <div class="species-meta">
+        <span class="badge-type badge-shrub">Arbuste</span>
+      </div>
+      <div class="soil-box">
+        <h3>🌱 Habitat &amp; sol préférés</h3>
+        <p>Étage alpin à nival, combes à neige et pelouses rases, sur <strong>sols acides</strong>, jusqu'à plus de 3000 m — l'un des points les plus élevés atteints par un arbuste ligneux en Europe.</p>
+      </div>
+      <div class="species-section">
+        <h3>🔎 Le reconnaître en été</h3>
+        <p>Le plus petit arbuste ligneux d'Europe : quelques centimètres de haut, il forme des <strong>tapis rampants</strong> à ras du sol. Petites feuilles arrondies et dentées, luisantes.</p>
+      </div>
+      <div class="species-section">
+        <h3>📍 Où le voir</h3>
+        <p>Dans les combes à neige et pelouses des alpages les plus élevés, souvent près des névés persistants en été.</p>
+      </div>
+    </div>
+
+    <!-- Genévrier commun -->
+    <div class="species-card" id="act-genevrier-commun" data-category="shrub">
+      <div class="species-header">
+        <span class="species-icon" aria-hidden="true">🌲</span>
+        <div class="species-titles">
+          <div class="species-title">Genévrier commun</div>
+          <div class="species-latin">Juniperus communis · Cupressacées</div>
+        </div>
+        <button type="button" class="copy-link-btn" data-copy-id="genevrier-commun" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+      </div>
+      <div class="species-meta">
+        <span class="badge-type badge-shrub">Arbuste</span>
+      </div>
+      <div class="soil-box">
+        <h3>🌱 Habitat &amp; sol préférés</h3>
+        <p>Très large amplitude, du coteau sec au pâturage d'altitude (jusqu'à l'étage subalpin), sur <strong>sols secs et pauvres</strong>, calcaires ou acides. Très résistant au froid et à la sécheresse.</p>
+      </div>
+      <div class="species-section">
+        <h3>🔎 Le reconnaître en été</h3>
+        <p>Arbuste conifère aux <strong>aiguilles piquantes disposées par trois</strong> (verticillées). Baies (cônes charnus) vertes puis bleu-noir à maturité après 2-3 ans, aromatiques — utilisées en cuisine et pour le gin.</p>
+      </div>
+      <div class="species-section">
+        <h3>📍 Où le voir</h3>
+        <p>Sur les alpages secs et rocailleux d'altitude, souvent en compagnie du mélèze.</p>
+      </div>
+    </div>
+
+    <!-- Mélèze d'Europe -->
+    <div class="species-card" id="act-meleze-europe" data-category="tree">
+      <div class="species-header">
+        <span class="species-icon" aria-hidden="true">🌲</span>
+        <div class="species-titles">
+          <div class="species-title">Mélèze d'Europe</div>
+          <div class="species-latin">Larix decidua · Pinacées</div>
+        </div>
+        <button type="button" class="copy-link-btn" data-copy-id="meleze-europe" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+      </div>
+      <div class="species-meta">
+        <span class="badge-type badge-tree">Arbre</span>
+      </div>
+      <div class="soil-box">
+        <h3>🌱 Habitat &amp; sol préférés</h3>
+        <p>Étage subalpin, sols variés mais bien drainés ; très résistant au froid et amateur de lumière. Forme les <strong>mélézins</strong> caractéristiques des alpages valaisans.</p>
+      </div>
+      <div class="species-section">
+        <h3>🔎 Le reconnaître en été</h3>
+        <p>Seul conifère européen à perdre ses aiguilles en automne — mais en été, elles sont <strong>vert tendre et souples</strong>, groupées en petites touffes le long des rameaux. Petits cônes dressés, brun-rougeâtre.</p>
+      </div>
+      <div class="species-section">
+        <h3>📍 Où le voir</h3>
+        <p>Dans les mélézins et alpages d'altitude, typiques du Val d'Anniviers et des vallées valaisannes environnantes.</p>
       </div>
     </div>
 
