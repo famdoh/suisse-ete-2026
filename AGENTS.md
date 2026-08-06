@@ -93,7 +93,7 @@ ses choix de conception, ses dépendances) doit être documenté dans le
 
 Chaque page de mini-app (y compris les pages secondaires comme
 `classement.html`) inclut, en haut de son `<header>`, un menu
-déroulant « 🔀 Mini-apps » listant les 4 mini-apps de `./apps` ainsi
+déroulant « 🔀 Mini-apps » listant toutes les mini-apps de `./apps` ainsi
 qu'un lien de retour à l'accueil (`../../`). La page courante y est
 marquée (`class="is-current"`, `aria-current="page"`). Ce menu est un
 bloc HTML/CSS/JS auto-suffisant dupliqué dans chaque app (pas de
