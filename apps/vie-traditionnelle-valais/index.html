@@ -1,0 +1,1752 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vie traditionnelle en Valais central - Suisse Été 2026</title>
+<meta name="description" content="Mini-app pédagogique sur le mode de vie traditionnel des villages et villes autour de Loèche, Susten et Sierre : géologie et climat, cultures et élevages, calendrier des travaux, organisation du village et 2000 ans d'histoire, avant l'économie de marché du 20e siècle.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: light dark;
+    --primary: #96622a;
+    --primary-hover: #6d4519;
+    --swiss-red: #D52B1E;
+    --bg-gradient: linear-gradient(135deg, #fbf6ec 0%, #f0e4cf 100%);
+    --card-bg: rgba(255, 255, 255, 0.78);
+    --card-border: rgba(150, 98, 42, 0.16);
+    --text-heading: #33260f;
+    --text-body: #5c5041;
+    --box-bg: rgba(150, 98, 42, 0.08);
+    --box-border: rgba(150, 98, 42, 0.2);
+    --accent-stone: #6b7280;
+    --accent-water: #2f7fa5;
+    --accent-crop: #7a8f2e;
+    --accent-herd: #a8542a;
+    --accent-village: #7a5aa0;
+    --accent-time: #b0862b;
+    --ok: #2f7a4f;
+    --ko: #c0392b;
+    --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --primary: #d3a05f;
+      --primary-hover: #e8bc80;
+      --bg-gradient: linear-gradient(135deg, #17130c 0%, #1e1911 100%);
+      --card-bg: rgba(255, 255, 255, 0.045);
+      --card-border: rgba(211, 160, 95, 0.2);
+      --text-heading: #f4ede1;
+      --text-body: #bcb0a0;
+      --box-bg: rgba(211, 160, 95, 0.09);
+      --box-border: rgba(211, 160, 95, 0.22);
+      --accent-stone: #a7b0bb;
+      --accent-water: #6fb6d8;
+      --accent-crop: #b6cc63;
+      --accent-herd: #e08a5c;
+      --accent-village: #bda1e0;
+      --accent-time: #e0bb6a;
+      --ok: #6fbf8f;
+      --ko: #ef8175;
+    }
+  }
+  :root[data-theme="light"] {
+    color-scheme: light dark;
+    --primary: #96622a;
+    --primary-hover: #6d4519;
+    --swiss-red: #D52B1E;
+    --bg-gradient: linear-gradient(135deg, #fbf6ec 0%, #f0e4cf 100%);
+    --card-bg: rgba(255, 255, 255, 0.78);
+    --card-border: rgba(150, 98, 42, 0.16);
+    --text-heading: #33260f;
+    --text-body: #5c5041;
+    --box-bg: rgba(150, 98, 42, 0.08);
+    --box-border: rgba(150, 98, 42, 0.2);
+    --accent-stone: #6b7280;
+    --accent-water: #2f7fa5;
+    --accent-crop: #7a8f2e;
+    --accent-herd: #a8542a;
+    --accent-village: #7a5aa0;
+    --accent-time: #b0862b;
+    --ok: #2f7a4f;
+    --ko: #c0392b;
+    --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  :root[data-theme="dark"] {
+    --primary: #d3a05f;
+    --primary-hover: #e8bc80;
+    --bg-gradient: linear-gradient(135deg, #17130c 0%, #1e1911 100%);
+    --card-bg: rgba(255, 255, 255, 0.045);
+    --card-border: rgba(211, 160, 95, 0.2);
+    --text-heading: #f4ede1;
+    --text-body: #bcb0a0;
+    --box-bg: rgba(211, 160, 95, 0.09);
+    --box-border: rgba(211, 160, 95, 0.22);
+    --accent-stone: #a7b0bb;
+    --accent-water: #6fb6d8;
+    --accent-crop: #b6cc63;
+    --accent-herd: #e08a5c;
+    --accent-village: #bda1e0;
+    --accent-time: #e0bb6a;
+    --ok: #6fbf8f;
+    --ko: #ef8175;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg-gradient);
+    background-attachment: fixed;
+    color: var(--text-body);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+  h1, h2, h3 { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: var(--text-heading); font-weight: 700; }
+  .container { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+  header { text-align: center; padding: 52px 0 32px; }
+  .swiss-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--swiss-red);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 8px 20px rgba(213, 43, 30, 0.3);
+  }
+  header h1 { font-size: 2.5rem; letter-spacing: -0.5px; margin-bottom: 12px; text-wrap: balance; }
+  header p.lead { font-size: 1.03rem; max-width: 760px; margin: 0 auto; opacity: 0.92; }
+
+  /* App switcher */
+  .app-switcher { position: relative; display: inline-block; margin-bottom: 14px; }
+  .app-switcher-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text-heading);
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  .app-switcher-toggle:hover { border-color: var(--primary); }
+  .app-switcher-chevron { font-size: 0.7rem; color: var(--text-body); transition: transform 0.15s ease; }
+  .app-switcher.open .app-switcher-chevron { transform: rotate(180deg); }
+  .app-switcher-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    min-width: 250px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 80;
+    text-align: left;
+  }
+  .app-switcher.open .app-switcher-menu { display: flex; }
+  .app-switcher-menu a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    color: var(--text-heading);
+    text-decoration: none;
+  }
+  .app-switcher-menu a:hover { background: rgba(127, 127, 127, 0.1); }
+  .app-switcher-menu a.is-current { color: var(--primary); font-weight: 700; }
+  .app-switcher-menu a.app-switcher-home { border-top: 1px solid var(--card-border); color: var(--text-body); }
+
+  /* Tabs */
+  .tab-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .tab-btn {
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text-heading);
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 9px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .tab-btn:hover { border-color: var(--primary); }
+  .tab-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .panel-intro {
+    max-width: 820px;
+    margin: 28px auto 30px;
+    text-align: center;
+    font-size: 0.97rem;
+    opacity: 0.92;
+  }
+  .panel-intro h2 { font-size: 1.5rem; margin-bottom: 8px; }
+
+  /* Cards grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    gap: 22px;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+    scroll-margin-top: 20px;
+  }
+  .card:hover { transform: translateY(-4px); border-color: var(--primary); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12); }
+  .card:target { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary); }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 4px;
+    background: var(--card-accent, var(--primary));
+    opacity: 0.85;
+  }
+  .card-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 4px; }
+  .card-icon { font-size: 1.9rem; flex-shrink: 0; line-height: 1.2; }
+  .card-titles { flex: 1; }
+  .card-title { font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 1.13rem; font-weight: 700; line-height: 1.3; color: var(--text-heading); }
+  .card-sub { font-size: 0.8rem; font-style: italic; color: var(--text-body); opacity: 0.85; }
+  .copy-link-btn {
+    flex-shrink: 0;
+    border: 1px solid var(--card-border);
+    background: transparent;
+    color: var(--text-body);
+    font-size: 0.85rem;
+    line-height: 1;
+    padding: 6px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .copy-link-btn:hover { border-color: var(--primary); color: var(--primary); }
+  .copy-link-btn.copied { border-color: var(--primary); color: var(--primary); }
+  .card-meta { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 12px 0; }
+  .badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--box-bg);
+    color: var(--card-accent, var(--primary));
+    border: 1px solid var(--box-border);
+  }
+  .card-section { margin-bottom: 11px; }
+  .card-section:last-child { margin-bottom: 0; }
+  .card-section h3 {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--card-accent, var(--primary));
+    margin-bottom: 3px;
+    font-weight: 700;
+  }
+  .card-section p { font-size: 0.9rem; color: var(--text-body); }
+  .highlight-box {
+    background: var(--box-bg);
+    border: 1px solid var(--box-border);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+  }
+  .highlight-box h3 { color: var(--card-accent, var(--primary)); }
+  .highlight-box p { font-size: 0.88rem; }
+
+  /* Card accent per family */
+  .acc-stone { --card-accent: var(--accent-stone); }
+  .acc-water { --card-accent: var(--accent-water); }
+  .acc-crop { --card-accent: var(--accent-crop); }
+  .acc-herd { --card-accent: var(--accent-herd); }
+  .acc-village { --card-accent: var(--accent-village); }
+  .acc-time { --card-accent: var(--accent-time); }
+
+  /* Filter bar (inside a panel) */
+  .filter-bar { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 26px; }
+  .filter-btn {
+    border: 1px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text-heading);
+    font-family: inherit;
+    font-size: 0.84rem;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .filter-btn:hover { border-color: var(--primary); }
+  .filter-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+  /* Timeline */
+  .timeline { position: relative; max-width: 900px; margin: 0 auto; padding-left: 34px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 11px; top: 8px; bottom: 8px;
+    width: 2px;
+    background: var(--box-border);
+  }
+  .tl-item {
+    position: relative;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin-bottom: 18px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    scroll-margin-top: 20px;
+    transition: var(--transition);
+  }
+  .tl-item:hover { border-color: var(--primary); }
+  .tl-item:target { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary); }
+  .tl-item::before {
+    content: attr(data-emoji);
+    position: absolute;
+    left: -34px; top: 18px;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    border: 2px solid var(--card-accent, var(--primary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+  }
+  .tl-period {
+    display: inline-block;
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--card-accent, var(--primary));
+    margin-bottom: 3px;
+  }
+  .tl-item h3 { font-size: 1.1rem; margin-bottom: 7px; }
+  .tl-item p { font-size: 0.91rem; margin-bottom: 8px; }
+  .tl-item p:last-child { margin-bottom: 0; }
+  .tl-note {
+    background: var(--box-bg);
+    border-left: 3px solid var(--card-accent, var(--primary));
+    border-radius: 0 8px 8px 0;
+    padding: 8px 12px;
+    font-size: 0.86rem;
+  }
+  .tl-note strong { color: var(--text-heading); }
+
+  /* Quiz */
+  .quiz { max-width: 800px; margin: 0 auto; }
+  .quiz-q {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .quiz-q h3 { font-size: 1.02rem; margin-bottom: 12px; }
+  .quiz-q .qnum { color: var(--primary); }
+  .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+  .quiz-opt {
+    text-align: left;
+    border: 1px solid var(--card-border);
+    background: transparent;
+    color: var(--text-body);
+    font-family: inherit;
+    font-size: 0.9rem;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .quiz-opt:hover:not(:disabled) { border-color: var(--primary); color: var(--text-heading); }
+  .quiz-opt:disabled { cursor: default; }
+  .quiz-opt.is-good { border-color: var(--ok); color: var(--ok); font-weight: 700; }
+  .quiz-opt.is-bad { border-color: var(--ko); color: var(--ko); text-decoration: line-through; }
+  .quiz-answer {
+    display: none;
+    margin-top: 12px;
+    background: var(--box-bg);
+    border: 1px solid var(--box-border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 0.88rem;
+  }
+  .quiz-answer.show { display: block; }
+  .quiz-score {
+    text-align: center;
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-heading);
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 12px 18px;
+    margin-bottom: 22px;
+    position: sticky;
+    top: 10px;
+    z-index: 20;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .quiz-reset {
+    display: block;
+    margin: 4px auto 0;
+    border: 1px solid var(--card-border);
+    background: transparent;
+    color: var(--text-body);
+    font-family: inherit;
+    font-size: 0.82rem;
+    padding: 7px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .quiz-reset:hover { border-color: var(--primary); color: var(--primary); }
+
+  .sources {
+    max-width: 900px;
+    margin: 40px auto 0;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 18px 22px;
+    font-size: 0.85rem;
+  }
+  .sources h3 { font-size: 0.95rem; margin-bottom: 8px; }
+  .sources p { margin-bottom: 6px; }
+
+  footer {
+    text-align: center;
+    margin-top: 46px;
+    font-size: 0.85rem;
+    color: var(--text-body);
+    opacity: 0.75;
+  }
+  @media (max-width: 600px) {
+    header { padding: 36px 0 24px; }
+    header h1 { font-size: 1.9rem; }
+    .grid { grid-template-columns: 1fr; }
+    .timeline { padding-left: 28px; }
+    .timeline::before { left: 8px; }
+    .tl-item::before { left: -28px; width: 20px; height: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <nav class="app-switcher" id="appSwitcher">
+      <button type="button" class="app-switcher-toggle" id="appSwitcherToggle" aria-haspopup="true" aria-expanded="false">
+        <span aria-hidden="true">🔀</span> Mini-apps <span class="app-switcher-chevron" aria-hidden="true">▾</span>
+      </button>
+      <div class="app-switcher-menu" id="appSwitcherMenu" role="menu">
+        <a role="menuitem" href="../repas-en-suisse/">🍽️ Repas en Suisse</a>
+        <a role="menuitem" href="../planning-activites-semaine/">🗓️ Planning des activités</a>
+        <a role="menuitem" href="../activites-loisirs/">🧭 Activités &amp; Loisirs</a>
+        <a role="menuitem" href="../depenses-partagees/">💰 Dépenses partagées</a>
+        <a role="menuitem" href="../flore-faune-camping/">🌿 Flore &amp; Faune</a>
+        <a role="menuitem" href="../festivals-concerts/">🎉 Festivals &amp; Concerts</a>
+        <a role="menuitem" href="./" class="is-current" aria-current="page">🌾 Vie traditionnelle</a>
+        <a role="menuitem" href="../../" class="app-switcher-home">🏠 Accueil</a>
+      </div>
+    </nav>
+    <div class="swiss-badge">🇨🇭 Suisse 2026</div>
+    <h1>🌾 La vie d'avant, autour du camping</h1>
+    <p class="lead">Comment vivaient les habitants des villages et des bourgs entre Loèche, Susten et Sierre pendant près de 2000 ans ? Une histoire commandée par la roche, la pente et la sécheresse — jusqu'à ce que le 20<sup>e</sup> siècle fasse tout basculer.</p>
+  </header>
+
+  <div class="tab-bar" id="tabBar" role="tablist">
+    <button type="button" class="tab-btn active" role="tab" data-tab="socle">🏔️ Le socle</button>
+    <button type="button" class="tab-btn" role="tab" data-tab="cultures">🌾 Cultures &amp; élevages</button>
+    <button type="button" class="tab-btn" role="tab" data-tab="calendrier">🗓️ Le calendrier</button>
+    <button type="button" class="tab-btn" role="tab" data-tab="village">🏠 Le village</button>
+    <button type="button" class="tab-btn" role="tab" data-tab="histoire">📜 2000 ans</button>
+    <button type="button" class="tab-btn" role="tab" data-tab="quiz">🎯 Quiz</button>
+  </div>
+
+  <!-- ================= PANEL 1 : LE SOCLE ================= -->
+  <section class="tab-panel active" id="panel-socle" role="tabpanel">
+    <div class="panel-intro">
+      <h2>🏔️ Le socle : la roche, la pente et la sécheresse</h2>
+      <p>Ici, presque tout ce que faisaient les habitants s'explique par trois choses : il ne pleut presque pas, la vallée est en pente, et le fond de la vallée était inhabitable. Le reste — les bisses, le seigle, la vigne, les alpages — en découle.</p>
+    </div>
+
+    <div class="grid">
+
+      <div class="card acc-water" id="act-climat-sec">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">☀️</span>
+          <div class="card-titles">
+            <div class="card-title">Le coin le plus sec de Suisse</div>
+            <div class="card-sub">Un climat de steppe au cœur des Alpes</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="climat-sec" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Climat</span></div>
+        <div class="highlight-box">
+          <h3>🌡️ Le fait de base</h3>
+          <p>Encadrée par les Alpes bernoises au nord et les Alpes valaisannes au sud, la vallée du Rhône est <strong>à l'abri de la pluie</strong> : les nuages se vident sur les sommets avant d'arriver. Autour de Sierre et de Loèche, il tombe souvent moins de 600 mm d'eau par an, deux fois moins que sur le Plateau suisse.</p>
+        </div>
+        <div class="card-section">
+          <h3>🌾 Ce que ça change pour les gens</h3>
+          <p>Un pré non arrosé grille en juillet. Sans eau amenée artificiellement : pas de foin, donc pas de bétail l'hiver, donc pas de village. <strong>Toute l'agriculture traditionnelle du secteur repose sur l'irrigation.</strong></p>
+        </div>
+        <div class="card-section">
+          <h3>👀 À observer sur place</h3>
+          <p>Les coteaux « steppiques » de la forêt de Finges, avec leurs pins, leurs herbes sèches et leurs criquets, ressemblent davantage à la Provence qu'à la Suisse.</p>
+        </div>
+      </div>
+
+      <div class="card acc-water" id="act-bisses">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">💧</span>
+          <div class="card-titles">
+            <div class="card-title">Les bisses (Suonen)</div>
+            <div class="card-sub">L'invention qui a rendu la vallée habitable</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="bisses" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Eau</span><span class="badge">Communauté</span></div>
+        <div class="highlight-box">
+          <h3>💧 Comment ça marche</h3>
+          <p>De longs canaux à faible pente captent l'eau d'un torrent glaciaire et la conduisent, parfois sur 5 à 10 km, jusqu'aux prés, aux champs et aux vignes. Certains passages sont taillés dans la falaise ou portés par des chéneaux de bois accrochés au rocher.</p>
+        </div>
+        <div class="card-section">
+          <h3>📜 Depuis quand ?</h3>
+          <p>Les premières mentions écrites datent du <strong>milieu du 13<sup>e</sup> siècle</strong>, et l'essentiel du réseau valaisan est creusé entre le 13<sup>e</sup> et le 20<sup>e</sup> siècle — un chantier collectif étalé sur des siècles, à la pioche.</p>
+        </div>
+        <div class="card-section">
+          <h3>⚖️ Qui commande l'eau</h3>
+          <p>Le bisse appartient à un <strong>consortage</strong> : les familles usagères. Chacune possède un droit d'eau compté en heures — le « tour d'eau » — parfois de nuit, à la lueur d'une lanterne. Un garde du bisse parcourt le canal chaque jour ; détourner l'eau de son voisin était l'une des fautes les plus graves du village.</p>
+        </div>
+      </div>
+
+      <div class="card acc-stone" id="act-eboulement-sierre">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🪨</span>
+          <div class="card-titles">
+            <div class="card-title">L'éboulement de Sierre</div>
+            <div class="card-sub">Le paysage de Finges, né d'une catastrophe</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="eboulement-sierre" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Géologie</span></div>
+        <div class="highlight-box">
+          <h3>💥 Ce qui s'est passé</h3>
+          <p>À la fin de la dernière glaciation, un pan entier de montagne — environ <strong>1 km³ de roche</strong> — s'est détaché au-dessus de Salquenen et s'est répandu dans la vallée, la barrant peut-être jusque vers 780 m d'altitude. La datation est discutée : entre 13 000 et 10 000 ans avant nous.</p>
+        </div>
+        <div class="card-section">
+          <h3>🌲 Le résultat visible</h3>
+          <p>Les <strong>collines bosselées de la forêt de Finges</strong> (Pfynwald), celles de Géronde et du vieux Sierre, ainsi que les petits lacs coincés entre elles, sont les débris de cet éboulement.</p>
+        </div>
+        <div class="card-section">
+          <h3>🍇 Ce que les habitants en ont fait</h3>
+          <p>Ces buttes caillouteuses, bien drainées et gorgées de soleil, se sont révélées un <strong>terroir viticole idéal</strong> (Salquenen, Varone, Sierre). Le bourrelet de Finges a aussi servi de frontière naturelle : la limite entre Valais francophone et germanophone passe encore par là.</p>
+        </div>
+      </div>
+
+      <div class="card acc-stone" id="act-plaine-rhone">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🏞️</span>
+          <div class="card-titles">
+            <div class="card-title">La plaine du Rhône, un désert humide</div>
+            <div class="card-sub">Pourquoi les villages sont perchés</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="plaine-rhone" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Géographie</span></div>
+        <div class="highlight-box">
+          <h3>🌊 Avant les corrections</h3>
+          <p>Le Rhône divaguait en bras multiples, débordait chaque été à la fonte des neiges et laissait derrière lui marais, graviers et moustiques — la malaria a sévi dans la plaine valaisanne jusqu'au 19<sup>e</sup> siècle. <strong>Personne n'y habitait.</strong></p>
+        </div>
+        <div class="card-section">
+          <h3>⛰️ Où l'on vivait alors</h3>
+          <p>Sur les pentes, entre 600 et 1400 m, hors de portée des crues et au soleil : Varone, Salquenen, Loèche-Ville, Albinen, Guttet, Feschel, Erschmatt, Inden. La plaine ne servait qu'au <strong>pâturage d'appoint, à l'osier, au bois et au gravier</strong>.</p>
+        </div>
+        <div class="card-section">
+          <h3>⛺ Et le camping ?</h3>
+          <p>Le camping Bella-Tola est justement <em>dans</em> cette plaine. Susten, agglomération basse de la commune de Loèche, ne s'est vraiment développée qu'après l'assainissement de la plaine, l'arrivée de la route et du chemin de fer — c'est un lieu récent à l'échelle de cette histoire.</p>
+        </div>
+      </div>
+
+      <div class="card acc-stone" id="act-adret-ubac">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🌗</span>
+          <div class="card-titles">
+            <div class="card-title">Adret et ubac</div>
+            <div class="card-sub">Deux versants, deux métiers</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="adret-ubac" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Géographie</span></div>
+        <div class="highlight-box">
+          <h3>☀️ Le côté au soleil</h3>
+          <p>Le versant exposé au sud (l'adret, rive droite du Rhône ici) reçoit le soleil toute l'année : c'est là que sont la <strong>vigne, le seigle, les villages et les prés secs</strong>. La neige y fond tôt, on y travaille plus longtemps dans l'année.</p>
+        </div>
+        <div class="card-section">
+          <h3>🌲 Le côté à l'ombre</h3>
+          <p>Le versant nord (l'ubac) reste froid et humide : on y laisse la <strong>forêt</strong>, réserve de bois de chauffage et de construction, et quelques prés de fauche tardive.</p>
+        </div>
+        <div class="card-section">
+          <h3>🧩 Une famille, des parcelles partout</h3>
+          <p>Chaque famille possédait de minuscules parcelles dispersées à toutes les altitudes et sur les deux versants : un peu de vigne en bas, un champ de seigle au village, un pré au mayen, un droit à l'alpage. Une assurance contre le gel, la grêle et la sécheresse — et une source infinie de marches à pied.</p>
+        </div>
+      </div>
+
+      <div class="card acc-stone" id="act-illgraben">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🌋</span>
+          <div class="card-titles">
+            <div class="card-title">L'Illgraben, la montagne qui se vide</div>
+            <div class="card-sub">Le torrent le plus actif des Alpes, à 2 km du camping</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="illgraben" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Géologie</span><span class="badge">Risque</span></div>
+        <div class="highlight-box">
+          <h3>⚠️ Le phénomène</h3>
+          <p>Les roches friables du cirque de l'Illgraben s'effondrent en permanence. Plusieurs fois par été, un orage déclenche une <strong>lave torrentielle</strong> : un mélange de boue, de blocs et d'eau qui dévale jusqu'au Rhône à grande vitesse.</p>
+        </div>
+        <div class="card-section">
+          <h3>🏔️ Ce qu'il a construit</h3>
+          <p>Son énorme cône de déjection a repoussé le Rhône vers le nord et façonné une partie du terrain de Finges. Il représente aussi une bonne part des graviers de la plaine.</p>
+        </div>
+        <div class="card-section">
+          <h3>👨‍🌾 Pour les villageois</h3>
+          <p>Une zone à éviter absolument : ni maison, ni champ, ni chemin durable. On y prenait du bois flotté et des pierres, et on écoutait le grondement — un savoir transmis de génération en génération, avant les systèmes d'alerte modernes.</p>
+        </div>
+      </div>
+
+      <div class="card acc-water" id="act-eau-chaude">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">♨️</span>
+          <div class="card-titles">
+            <div class="card-title">L'eau chaude de la Gemmi</div>
+            <div class="card-sub">Une ressource géologique devenue métier</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="eau-chaude" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Géologie</span><span class="badge">Économie</span></div>
+        <div class="highlight-box">
+          <h3>🔥 D'où vient la chaleur</h3>
+          <p>La pluie et la neige s'infiltrent dans le massif calcaire de la Gemmi, descendent en profondeur, se réchauffent, puis ressurgissent à Loèche-les-Bains à <strong>jusqu'à 51 °C</strong>, à raison de plusieurs millions de litres par jour.</p>
+        </div>
+        <div class="card-section">
+          <h3>📜 Une longue histoire</h3>
+          <p>Des objets romains retrouvés sur place montrent que les sources étaient déjà fréquentées dans l'Antiquité ; les bains apparaissent dans les documents dès le 14<sup>e</sup> siècle. En <strong>1501</strong>, le cardinal Matthäus Schiner achète les droits sur les sources, aménage les bains et fait construire une auberge : c'est la naissance d'une véritable économie thermale.</p>
+        </div>
+        <div class="card-section">
+          <h3>💰 Un revenu pour les villages</h3>
+          <p>Loger les curistes, les porter, les guider par le sentier de la Gemmi taillé dans la falaise, leur vendre du vin et du fromage : bien avant le ski, c'était <strong>la seule « industrie » du secteur</strong> capable de faire entrer de l'argent frais dans la vallée.</p>
+        </div>
+      </div>
+
+      <div class="card acc-stone" id="act-pierres-bois">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🪵</span>
+          <div class="card-titles">
+            <div class="card-title">Bâtir avec ce qu'il y a sous les pieds</div>
+            <div class="card-sub">Mélèze, gneiss, chaux et pierre ollaire</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="pierres-bois" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Matériaux</span></div>
+        <div class="highlight-box">
+          <h3>🧱 Le catalogue local</h3>
+          <p>Le <strong>mélèze</strong>, imputrescible, pour les poutres, les bardeaux et les raccards ; les <strong>dalles de gneiss ou de quartzite</strong> pour les toits ; le calcaire cuit dans des fours à chaux pour le mortier ; la <strong>pierre ollaire</strong> des vallées latérales, taillée en fourneaux qui gardent la chaleur toute la nuit.</p>
+        </div>
+        <div class="card-section">
+          <h3>🚫 Ce qui manquait</h3>
+          <p>Presque rien n'était importé, sauf deux choses vitales : le <strong>fer</strong> pour les outils et le <strong>sel</strong> pour conserver. Tout le reste sortait de la montagne d'à côté.</p>
+        </div>
+        <div class="card-section">
+          <h3>👀 À observer sur place</h3>
+          <p>Dans les vieux villages au-dessus de Loèche, on lit encore le sol dans les murs : socle de pierre sèche, étage de mélèze noirci par le soleil, toit de dalles ou d'ardoises.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= PANEL 2 : CULTURES & ÉLEVAGES ================= -->
+  <section class="tab-panel" id="panel-cultures" role="tabpanel">
+    <div class="panel-intro">
+      <h2>🌾 Ce qu'on cultivait, ce qu'on élevait</h2>
+      <p>Rien n'était choisi au hasard : chaque plante et chaque animal du secteur correspond à un sol, une altitude et un manque d'eau précis. Le tout devait nourrir la famille toute l'année, sans supermarché ni camion.</p>
+    </div>
+
+    <div class="filter-bar" id="filterBar">
+      <button type="button" class="filter-btn active" data-filter="all">🌍 Tout</button>
+      <button type="button" class="filter-btn" data-filter="crop">🌾 Cultures</button>
+      <button type="button" class="filter-btn" data-filter="herd">🐄 Élevages</button>
+    </div>
+
+    <div class="grid" id="culturesGrid">
+
+      <div class="card acc-crop" data-category="crop" id="act-seigle">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🌾</span>
+          <div class="card-titles">
+            <div class="card-title">Le seigle</div>
+            <div class="card-sub">Roggen · la céréale du pain valaisan</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="seigle" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Culture</span><span class="badge">Base alimentaire</span></div>
+        <div class="highlight-box">
+          <h3>🪨 Pourquoi ici</h3>
+          <p>Le seigle se contente de <strong>sols pauvres, caillouteux et secs</strong>, supporte le froid et monte jusque vers 1500-1600 m — là où le blé renonce. Semé en automne, il passe l'hiver sous la neige et se récolte fin juillet-août.</p>
+        </div>
+        <div class="card-section">
+          <h3>🍞 Le pain de l'année</h3>
+          <p>Farine noire, mie dense : le pain de seigle se conserve des mois. On le cuisait au four banal deux ou trois fois par an seulement, puis on le stockait au grenier — il durcissait tellement qu'il fallait un <strong>coupe-pain à levier</strong> pour le trancher.</p>
+        </div>
+        <div class="card-section">
+          <h3>📍 Encore visible aujourd'hui</h3>
+          <p>À <strong>Erschmatt</strong>, juste au-dessus de Loèche, les terrasses à seigle sont toujours cultivées et un jardin conservatoire fondé en 1985 (le <em>Sortengarten</em>) préserve les anciennes variétés valaisannes de céréales — collection reconnue en 2020 comme patrimoine culturel vivant cantonal.</p>
+        </div>
+      </div>
+
+      <div class="card acc-crop" data-category="crop" id="act-vigne">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🍇</span>
+          <div class="card-titles">
+            <div class="card-title">La vigne</div>
+            <div class="card-sub">Varone, Salquenen, Sierre · la culture qui rapporte</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="vigne" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Culture</span><span class="badge">Argent</span></div>
+        <div class="highlight-box">
+          <h3>🪨 Pourquoi ici</h3>
+          <p>Les éboulis calcaires et les débris de l'éboulement de Sierre offrent exactement ce qu'aime la vigne : un <strong>sol maigre, chaud et drainant</strong>, plein sud, avec très peu de pluie. Les terrasses sont retenues par des kilomètres de murs en pierres sèches, et arrosées au bisse.</p>
+        </div>
+        <div class="card-section">
+          <h3>💰 Un rôle à part</h3>
+          <p>Le vin est l'un des <strong>rares produits vendables hors de la vallée</strong>. Là où le seigle nourrit, la vigne fait entrer de l'argent — d'où l'acharnement à monter des murs sur des pentes impossibles.</p>
+        </div>
+        <div class="card-section">
+          <h3>🍷 Cépages historiques</h3>
+          <p>Rèze, Humagne, Amigne, Petite Arvine, Cornalin, Heida (Païen) — des variétés propres au Valais. La rèze du Val d'Anniviers donne le fameux <strong>« vin des Glaciers »</strong>, élevé pendant des décennies en fûts de mélèze que l'on ne vide jamais complètement.</p>
+        </div>
+      </div>
+
+      <div class="card acc-crop" data-category="crop" id="act-prairies-foin">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🌱</span>
+          <div class="card-titles">
+            <div class="card-title">Les prés de fauche</div>
+            <div class="card-sub">Le foin, vraie richesse de la famille</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="prairies-foin" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Culture</span></div>
+        <div class="highlight-box">
+          <h3>🪨 Pourquoi ici</h3>
+          <p>Sans irrigation, pas de foin : les prés de fauche sont <strong>les parcelles qui ont un droit d'eau</strong>. Leur valeur se mesurait en nombre de vaches qu'ils permettaient de passer l'hiver.</p>
+        </div>
+        <div class="card-section">
+          <h3>🪓 Le travail</h3>
+          <p>Fauche à la faux, de nuit ou à l'aube quand l'herbe est humide ; séchage sur le pré, parfois sur des perches ; puis rentrée à dos d'homme, à dos de mulet ou tirée en luge sur la neige depuis les prés les plus raides.</p>
+        </div>
+        <div class="card-section">
+          <h3>🐄 Pas de foin, pas de bétail</h3>
+          <p>Un hiver mal préparé obligeait à vendre ou abattre des bêtes — c'était le principal risque économique d'un ménage.</p>
+        </div>
+      </div>
+
+      <div class="card acc-crop" data-category="crop" id="act-jardin">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🥕</span>
+          <div class="card-titles">
+            <div class="card-title">Le jardin et la pomme de terre</div>
+            <div class="card-sub">Fèves, choux, raves… puis une révolution tardive</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="jardin" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Culture</span></div>
+        <div class="highlight-box">
+          <h3>🥬 Le jardin d'avant</h3>
+          <p>Fèves, pois, choux, raves, oignons, poireaux, courges : des légumes qui se conservent en cave ou se sèchent. Le potager est irrigué à la main, seau après seau, depuis le bisse.</p>
+        </div>
+        <div class="card-section">
+          <h3>🥔 L'arrivée de la patate</h3>
+          <p>La pomme de terre ne s'impose qu'à la <strong>fin du 18<sup>e</sup> et au 19<sup>e</sup> siècle</strong>. Elle pousse sur des sols médiocres, rend beaucoup de calories à la surface et se stocke : elle réduit fortement le risque de disette.</p>
+        </div>
+        <div class="card-section">
+          <h3>🍽️ Dans l'assiette</h3>
+          <p>Soupes, purées, et plus tard le fromage fondu au feu qu'on racle sur les pommes de terre — l'ancêtre direct de la raclette servie aujourd'hui aux touristes.</p>
+        </div>
+      </div>
+
+      <div class="card acc-crop" data-category="crop" id="act-chanvre-lin">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🧵</span>
+          <div class="card-titles">
+            <div class="card-title">Le chanvre et le lin</div>
+            <div class="card-sub">S'habiller sans rien acheter</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="chanvre-lin" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Culture</span><span class="badge">Textile</span></div>
+        <div class="highlight-box">
+          <h3>🪨 Pourquoi ici</h3>
+          <p>Sur les rares parcelles fraîches et bien arrosées près du village. Les tiges sont rouies (mises à pourrir dans l'eau), broyées, peignées, puis filées.</p>
+        </div>
+        <div class="card-section">
+          <h3>🕯️ Le travail d'hiver</h3>
+          <p>Filer et tisser occupait les longues soirées de <strong>veillée</strong>, quand les travaux des champs s'arrêtaient. La laine des moutons complétait le chanvre pour les vêtements chauds.</p>
+        </div>
+        <div class="card-section">
+          <h3>👕 Résultat</h3>
+          <p>Des toiles rêches, solides, réparées à l'infini, transmises d'un enfant à l'autre. Une garde-robe complète tenait dans un coffre.</p>
+        </div>
+      </div>
+
+      <div class="card acc-crop" data-category="crop" id="act-fruitiers">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🌰</span>
+          <div class="card-titles">
+            <div class="card-title">Noyers et arbres fruitiers</div>
+            <div class="card-sub">L'huile, le sucre et les réserves sèches</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="fruitiers" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Culture</span></div>
+        <div class="highlight-box">
+          <h3>🫒 Le noyer, arbre à huile</h3>
+          <p>Avant l'huile achetée, la matière grasse venait des <strong>noix pressées au pressoir communal</strong> — et du beurre, rare et précieux. Un gros noyer au bord du champ était un capital familial.</p>
+        </div>
+        <div class="card-section">
+          <h3>🍐 Sécher pour l'hiver</h3>
+          <p>Poires et pommes coupées en rondelles, séchées au soleil ou dans le four encore chaud après la cuisson du pain : le seul « sucre » disponible avec le miel.</p>
+        </div>
+        <div class="card-section">
+          <h3>🍑 L'abricot est récent</h3>
+          <p>Les vergers d'abricotiers qui font aujourd'hui la réputation du Valais sont une culture <strong>du 19<sup>e</sup> et surtout du 20<sup>e</sup> siècle</strong>, développée dans la plaine assainie — pas une tradition ancienne du secteur.</p>
+        </div>
+      </div>
+
+      <div class="card acc-crop" data-category="crop" id="act-safran">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🌸</span>
+          <div class="card-titles">
+            <div class="card-title">La curiosité : le safran de Mund</div>
+            <div class="card-sub">Le seul village safranier de Suisse</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="safran" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Culture</span><span class="badge">Curiosité</span></div>
+        <div class="highlight-box">
+          <h3>🪨 Pourquoi ici</h3>
+          <p>À Mund, au-dessus de Naters (une trentaine de kilomètres en amont), des terrasses sèches et chaudes en plein sud permettent depuis des siècles la culture du <strong>crocus à safran</strong>, récolté fleur par fleur en octobre.</p>
+        </div>
+        <div class="card-section">
+          <h3>💰 Une épice-monnaie</h3>
+          <p>Le safran valait très cher : quelques mètres carrés pouvaient représenter l'équivalent d'une part de récolte. Il servait aussi de teinture et de remède.</p>
+        </div>
+        <div class="card-section">
+          <h3>🧠 Ce que ça montre</h3>
+          <p>La sécheresse du Valais, catastrophique pour les prés, devient un <strong>avantage</strong> pour les cultures méditerranéennes : vigne, safran, noyer, abricot. Le même climat pénalise et privilégie.</p>
+        </div>
+      </div>
+
+      <div class="card acc-herd" data-category="herd" id="act-vache-herens">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🐄</span>
+          <div class="card-titles">
+            <div class="card-title">La vache d'Hérens</div>
+            <div class="card-sub">Petite, noire, têtue — et reine</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="vache-herens" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Élevage</span><span class="badge">Emblème</span></div>
+        <div class="highlight-box">
+          <h3>🪨 Pourquoi ici</h3>
+          <p>Une race locale <strong>petite et musclée</strong>, au pied très sûr, capable de brouter des pentes que les grandes races de plaine ne peuvent pas exploiter. Elle donne peu de lait, mais elle en donne là où il n'y a rien d'autre.</p>
+        </div>
+        <div class="card-section">
+          <h3>👑 Les combats de reines</h3>
+          <p>Ces vaches établissent naturellement une hiérarchie en se poussant front contre front. À l'arrivée à l'alpage, les <strong>combats de reines</strong> (Ringkuhkämpfe) désignent celle qui mènera le troupeau — une fête villageoise devenue aujourd'hui un spectacle valaisan majeur.</p>
+        </div>
+        <div class="card-section">
+          <h3>🧀 Ce qu'on en tire</h3>
+          <p>Lait transformé sur place en fromage à pâte mi-dure (l'ancêtre du fromage à raclette), sérac, beurre — et, en fin de carrière, la viande.</p>
+        </div>
+      </div>
+
+      <div class="card acc-herd" data-category="herd" id="act-chevre-col-noir">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🐐</span>
+          <div class="card-titles">
+            <div class="card-title">La chèvre col noir</div>
+            <div class="card-sub">Walliser Schwarzhalsziege · la vache du pauvre</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="chevre-col-noir" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Élevage</span></div>
+        <div class="highlight-box">
+          <h3>🪨 Pourquoi ici</h3>
+          <p>Mi-noire à l'avant, mi-blanche à l'arrière, elle grimpe dans les <strong>rochers et broussailles inutilisables</strong> pour tout autre animal — exactement le type de terrain que produisent les éboulis et les pentes raides du secteur.</p>
+        </div>
+        <div class="card-section">
+          <h3>🥛 Son rôle social</h3>
+          <p>Deux ou trois chèvres coûtaient bien moins qu'une vache : c'était le lait des familles les plus modestes, et la viande des grandes occasions. Le berger communal ramassait les chèvres de tout le village le matin et les rendait le soir.</p>
+        </div>
+        <div class="card-section">
+          <h3>📉 Aujourd'hui</h3>
+          <p>Presque disparue au milieu du 20<sup>e</sup> siècle, la race a été sauvée et se recroise volontiers sur les chemins de randonnée valaisans.</p>
+        </div>
+      </div>
+
+      <div class="card acc-herd" data-category="herd" id="act-mouton-nez-noir">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🐑</span>
+          <div class="card-titles">
+            <div class="card-title">Le mouton nez noir</div>
+            <div class="card-sub">Walliser Schwarznasenschaf · tondeuse des hauteurs</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="mouton-nez-noir" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Élevage</span></div>
+        <div class="highlight-box">
+          <h3>🪨 Pourquoi ici</h3>
+          <p>Toison épaisse, museau, oreilles et genoux noirs : il pâture les <strong>pelouses rases et pierreuses les plus hautes</strong>, au-dessus de la limite des alpages à vaches, jusque vers 2500-3000 m — par exemple sous la Gemmi.</p>
+        </div>
+        <div class="card-section">
+          <h3>🧶 Trois produits</h3>
+          <p>La <strong>laine</strong> (filée l'hiver), la viande, et un engrais précieux : les troupeaux parqués la nuit fertilisaient les parcelles maigres.</p>
+        </div>
+        <div class="card-section">
+          <h3>🗓️ Le rythme</h3>
+          <p>Confié à un berger commun pour tout l'été, le troupeau du village montait très haut et ne redescendait qu'aux premières neiges.</p>
+        </div>
+      </div>
+
+      <div class="card acc-herd" data-category="herd" id="act-cochon">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🐖</span>
+          <div class="card-titles">
+            <div class="card-title">Le cochon et la viande séchée</div>
+            <div class="card-sub">L'air sec comme technique de conservation</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="cochon" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Élevage</span><span class="badge">Conservation</span></div>
+        <div class="highlight-box">
+          <h3>🐷 Un cochon par ménage</h3>
+          <p>Nourri au petit-lait de la fromagerie et aux déchets de cuisine, tué en novembre-décembre. <strong>Rien ne se perd</strong> : lard, saucisses, boudin, graisse pour cuisiner toute l'année.</p>
+        </div>
+        <div class="card-section">
+          <h3>💨 Pourquoi ça marche ici</h3>
+          <p>L'air froid, sec et venteux de la vallée sèche la viande sans qu'elle pourrisse. La <strong>viande séchée du Valais</strong> n'est pas une recette de chef : c'est une réponse directe au climat, doublée d'un peu de sel — le seul ingrédient qu'il fallait acheter.</p>
+        </div>
+        <div class="card-section">
+          <h3>🍖 À table</h3>
+          <p>De la viande fraîche seulement quelques jours par an, autour de l'abattage. Le reste du temps : séchée, en fines tranches, économisée.</p>
+        </div>
+      </div>
+
+      <div class="card acc-herd" data-category="herd" id="act-mulet-abeilles">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🫏</span>
+          <div class="card-titles">
+            <div class="card-title">Le mulet (et les abeilles)</div>
+            <div class="card-sub">Le moteur et le sucrier du village</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="mulet-abeilles" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Élevage</span><span class="badge">Transport</span></div>
+        <div class="highlight-box">
+          <h3>🧳 Tout se porte</h3>
+          <p>Avant les routes carrossables, le mulet monte le fumier, descend le foin, le bois, le vin et les fromages sur des sentiers à flanc de pente. Une famille sans mulet louait celui du voisin — ou portait elle-même.</p>
+        </div>
+        <div class="card-section">
+          <h3>🍯 Le miel</h3>
+          <p>Quelques ruches par village fournissaient le <strong>seul sucre disponible</strong> avant le sucre industriel, ainsi que la cire des chandelles et des cierges d'église.</p>
+        </div>
+        <div class="card-section">
+          <h3>🚜 La fin</h3>
+          <p>Routes, téléphériques agricoles puis tracteurs font disparaître le mulet en une génération, au milieu du 20<sup>e</sup> siècle.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= PANEL 3 : LE CALENDRIER ================= -->
+  <section class="tab-panel" id="panel-calendrier" role="tabpanel">
+    <div class="panel-intro">
+      <h2>🗓️ Les grandes périodes de l'année</h2>
+      <p>La vie ne se comptait pas en semaines de travail mais en <strong>saisons de travaux</strong>, les mêmes depuis des siècles, annoncées par la cloche de l'église et par la fonte des neiges. Voici l'année d'une famille du secteur, entre 600 et 2400 m d'altitude.</p>
+    </div>
+
+    <div class="timeline">
+
+      <div class="tl-item acc-time" id="act-cal-hiver" data-emoji="❄️">
+        <span class="tl-period">Décembre → février</span>
+        <h3>L'étable et les veillées</h3>
+        <p>Les bêtes sont enfermées à l'écurie, sous ou à côté de la maison : elles la chauffent. Chaque jour, distribuer le foin ; chaque semaine, sortir le fumier. Au raccard, on <strong>bat le seigle au fléau</strong> pour séparer le grain de la paille.</p>
+        <p>Le soir, on se réunit chez l'un ou l'autre pour la <em>veillée</em> : on file le chanvre et la laine, on répare les outils, on raconte. Le carnaval, juste avant le Carême, libère la tension de l'hiver — dans le Lötschental voisin, avec les masques de bois des <em>Tschäggättä</em>.</p>
+        <div class="tl-note"><strong>Ce qu'on mange :</strong> pain de seigle dur, fromage, viande séchée, soupe, légumes de cave.</div>
+      </div>
+
+      <div class="tl-item acc-time" id="act-cal-fin-hiver" data-emoji="✂️">
+        <span class="tl-period">Février → mars</span>
+        <h3>La taille de la vigne et le fumier</h3>
+        <p>On descend tailler la vigne dès que le froid le permet. Puis vient la corvée la plus ingrate de l'année : <strong>monter le fumier</strong> dans les vignes et les champs en terrasse, à dos de mulet ou dans une hotte, seau après seau, sur des sentiers pentus.</p>
+        <div class="tl-note"><strong>Pourquoi c'est vital :</strong> pas d'engrais chimique. La fertilité venait uniquement du bétail — donc du foin, donc de l'eau du bisse. Toute la chaîne tient ensemble.</div>
+      </div>
+
+      <div class="tl-item acc-water" id="act-cal-bisse" data-emoji="💧">
+        <span class="tl-period">Avril</span>
+        <h3>La corvée du bisse et la mise en eau</h3>
+        <p>Avant la première eau, tout le consortage remonte le canal : réparer les éboulements de l'hiver, refaire les chéneaux de bois pourris, curer le lit. Chaque famille doit ses journées de travail, sous peine d'amende.</p>
+        <p>Puis on lâche l'eau, souvent en présence du curé qui la bénit. Le <strong>tour d'eau</strong> commence : chacun arrose à son heure inscrite, de jour comme de nuit, jusqu'en septembre.</p>
+        <div class="tl-note"><strong>Aussi en avril :</strong> semis de printemps (orge, plus tard pommes de terre), premiers travaux du jardin.</div>
+      </div>
+
+      <div class="tl-item acc-time" id="act-cal-mayens" data-emoji="🏡">
+        <span class="tl-period">Mai</span>
+        <h3>La montée aux mayens</h3>
+        <p>Grand déménagement : la famille entière « remue » vers les <strong>mayens</strong>, des chalets d'altitude intermédiaire (1300-1700 m), avec les vaches, les ustensiles et les enfants. On y profite de la première herbe pendant que l'herbe du village pousse pour le foin.</p>
+        <p>Le village se vide à moitié. Certaines familles font trois ou quatre déménagements par an entre la vigne, le village, le mayen et l'alpage — le fameux « nomadisme » des Anniviards, documenté du Moyen Âge au début du 20<sup>e</sup> siècle.</p>
+        <div class="tl-note"><strong>Le principe :</strong> comme l'herbe pousse plus tard en altitude, on suit le printemps en montant. Une même famille exploite ainsi 1800 m de dénivelé.</div>
+      </div>
+
+      <div class="tl-item acc-herd" id="act-cal-inalpe" data-emoji="🐄">
+        <span class="tl-period">Fin juin</span>
+        <h3>L'inalpe (Alpaufzug)</h3>
+        <p>Le grand jour : les troupeaux montent à l'<strong>alpage</strong>, entre 2000 et 2400 m, conduits par le consortage d'alpage. Les vaches d'Hérens s'affrontent pour désigner la reine du troupeau.</p>
+        <p>On <strong>mesure le lait de chaque vache</strong> le jour de la montée : cette pesée fixera la part de fromage que chaque propriétaire recevra à l'automne. Un ou deux fromagers restent tout l'été là-haut avec les bêtes.</p>
+        <div class="tl-note"><strong>Qui possède l'alpage ?</strong> Presque jamais un individu : la bourgeoisie du village ou un consortage, avec un nombre de « droits de vache » strictement réparti.</div>
+      </div>
+
+      <div class="tl-item acc-crop" id="act-cal-ete" data-emoji="🌾">
+        <span class="tl-period">Juillet → août</span>
+        <h3>Fenaison, irrigation, moisson</h3>
+        <p>Le mois le plus chargé de l'année. On fauche successivement les prés, du plus bas au plus haut, au fur et à mesure que l'herbe mûrit. On arrose la nuit quand vient son tour d'eau. À l'alpage, on fabrique du fromage chaque matin.</p>
+        <p>Fin juillet-août, la <strong>moisson du seigle</strong> : coupé à la faucille, lié en gerbes, dressé en tas pour sécher, puis rentré au raccard. Sur les terrasses d'Erschmatt ou d'Albinen, tout se fait à la main, sur des parcelles minuscules.</p>
+        <div class="tl-note"><strong>Les enfants aussi :</strong> garder les chèvres, porter les repas aux faucheurs, glaner les épis tombés. L'école s'arrêtait pour les travaux.</div>
+      </div>
+
+      <div class="tl-item acc-herd" id="act-cal-desalpe" data-emoji="🧀">
+        <span class="tl-period">Septembre</span>
+        <h3>La désalpe et le partage du fromage</h3>
+        <p>Les troupeaux redescendent, fleuris, vers les mayens puis le village. C'est le moment du <strong>partage du fromage</strong> : les meules de l'été sont réparties entre les familles proportionnellement au lait donné par leurs vaches à l'inalpe. Un moment très surveillé, parfois disputé.</p>
+        <p>On récolte aussi les pommes de terre et on coupe le regain, la deuxième herbe de l'année.</p>
+        <div class="tl-note"><strong>Une comptabilité sans banque :</strong> tout le système repose sur des mesures publiques, des témoins et des registres tenus par le consortage.</div>
+      </div>
+
+      <div class="tl-item acc-crop" id="act-cal-vendanges" data-emoji="🍇">
+        <span class="tl-period">Fin septembre → octobre</span>
+        <h3>Les vendanges</h3>
+        <p>Toute la famille descend vers les vignes du coteau et de la plaine (Varone, Salquenen, Sierre). Les Anniviards, eux, déménageaient carrément leur maisonnée vers leurs maisons de vigne à Sierre et à Chippis.</p>
+        <p>Raisin porté en brantes sur le dos jusqu'au pressoir, souvent communal. Le vin nouveau descend à la cave — il servira de boisson quotidienne et de monnaie d'échange.</p>
+        <div class="tl-note"><strong>Après les vendanges :</strong> ramassage des noix, séchage des fruits, dernières coupes de bois avant la neige.</div>
+      </div>
+
+      <div class="tl-item acc-time" id="act-cal-novembre" data-emoji="🍞">
+        <span class="tl-period">Novembre → décembre</span>
+        <h3>La boucherie et le pain de l'année</h3>
+        <p>On tue le cochon et on met la viande à sécher au grenier. Puis le <strong>four banal</strong> est allumé pour plusieurs jours d'affilée : chaque ménage vient cuire sa fournée de pains de seigle, à son tour inscrit sur un rôle. C'est souvent la dernière grande cuisson avant des mois.</p>
+        <p>Les bêtes rentrent à l'écurie, le bois est empilé, les outils rangés. L'année recommence.</p>
+        <div class="tl-note"><strong>À retenir :</strong> il n'y avait pas de « semaine de vacances ». Les vraies pauses étaient les dimanches, les fêtes patronales et les jours de neige.</div>
+      </div>
+
+      <div class="tl-item acc-village" id="act-cal-religieux" data-emoji="⛪">
+        <span class="tl-period">Toute l'année</span>
+        <h3>Le second calendrier : celui de l'église</h3>
+        <p>Par-dessus les travaux, le calendrier religieux ordonne l'année : Carême et carnaval, <strong>Rogations</strong> (processions dans les champs pour demander la pluie et écarter la grêle), Fête-Dieu, fête patronale du village, Toussaint, Noël.</p>
+        <p>Les cloches donnaient l'heure, annonçaient l'orage, appelaient au secours et rythmaient les journées bien avant que quiconque ait une montre.</p>
+        <div class="tl-note"><strong>Détail parlant :</strong> beaucoup de contrats, de baux et de tours d'eau étaient datés non par une date, mais par une fête — « de la Saint-Georges à la Saint-Michel ».</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= PANEL 4 : LE VILLAGE ================= -->
+  <section class="tab-panel" id="panel-village" role="tabpanel">
+    <div class="panel-intro">
+      <h2>🏠 Le village : bâtiments, règles et argent</h2>
+      <p>Une communauté villageoise valaisanne fonctionnait comme une petite entreprise collective : elle possédait ses forêts, ses alpages, son eau, son four et son moulin, et elle écrivait ses propres règles bien avant l'État moderne.</p>
+    </div>
+
+    <div class="grid">
+
+      <div class="card acc-village" id="act-economie-sans-argent">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">⚖️</span>
+          <div class="card-titles">
+            <div class="card-title">Une économie presque sans argent</div>
+            <div class="card-sub">Produire ce qu'on consomme</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="economie-sans-argent" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Économie</span></div>
+        <div class="highlight-box">
+          <h3>🔁 Le principe</h3>
+          <p>La quasi-autarcie : on mange, on s'habille et on se chauffe avec ce qu'on a produit. L'argent liquide est rare et sert surtout à payer <strong>les impôts, la dîme, le sel, le fer et le curé</strong>.</p>
+        </div>
+        <div class="card-section">
+          <h3>💸 D'où venait le peu d'argent</h3>
+          <p>De la vente de vin, de fromage et de bétail ; du service étranger (voir plus bas) ; plus tard des curistes de Loèche-les-Bains et du travail salarié hors du village.</p>
+        </div>
+        <div class="card-section">
+          <h3>🤝 Le troc et l'entraide</h3>
+          <p>Beaucoup d'échanges se réglaient en journées de travail : je te donne trois jours de fenaison, tu me prêtes ton mulet et ton pressoir. Le « compte » se tenait de mémoire et d'honneur.</p>
+        </div>
+      </div>
+
+      <div class="card acc-village" id="act-sel-fer">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🧂</span>
+          <div class="card-titles">
+            <div class="card-title">Le sel et le fer</div>
+            <div class="card-sub">Les deux dépendances de l'extérieur</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="sel-fer" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Économie</span><span class="badge">Commerce</span></div>
+        <div class="highlight-box">
+          <h3>🧂 Le sel, question stratégique</h3>
+          <p>Sans sel, pas de fromage conservable ni de viande séchée : c'est la survie de l'hiver. Il fallait l'acheter — depuis les salines de Bex, exploitées dès le 16<sup>e</sup> siècle, ou par les cols depuis l'Italie. Son commerce était contrôlé et taxé par les autorités.</p>
+        </div>
+        <div class="card-section">
+          <h3>⚒️ Le fer, l'autre importation</h3>
+          <p>Faux, socs, haches, clous, cercles de tonneau : le forgeron du village retravaillait sans cesse un métal cher et rare. On ne jetait jamais un outil, on le reforgeait.</p>
+        </div>
+        <div class="card-section">
+          <h3>🛤️ Les cols</h3>
+          <p>La Gemmi vers l'Oberland bernois, le Lötschberg, le Simplon vers l'Italie : muletiers et colporteurs faisaient circuler sel, épices, tissus et nouvelles à travers la montagne.</p>
+        </div>
+      </div>
+
+      <div class="card acc-village" id="act-consortage">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🤝</span>
+          <div class="card-titles">
+            <div class="card-title">Le consortage</div>
+            <div class="card-sub">Gérer ensemble ce qu'aucun ne peut posséder seul</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="consortage" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Institution</span></div>
+        <div class="highlight-box">
+          <h3>📜 De quoi s'agit-il</h3>
+          <p>Une association des familles usagères d'un même bien : un bisse, un alpage, un four, un moulin, un pressoir. Chacune détient des <strong>parts</strong> qui donnent des droits (heures d'eau, droits de vache) et imposent des devoirs (journées de corvée, cotisations).</p>
+        </div>
+        <div class="card-section">
+          <h3>⚖️ Des règles écrites</h3>
+          <p>Assemblées, comptes, amendes, procureurs élus : les consortages valaisans ont produit des règlements détaillés dès le Moyen Âge — un modèle d'autogestion souvent cité aujourd'hui comme exemple de gestion durable d'une ressource commune.</p>
+        </div>
+        <div class="card-section">
+          <h3>🕰️ Toujours vivants</h3>
+          <p>Beaucoup de consortages de bisses et d'alpages existent encore et entretiennent les canaux devenus sentiers de randonnée.</p>
+        </div>
+      </div>
+
+      <div class="card acc-village" id="act-bourgeoisie">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🌲</span>
+          <div class="card-titles">
+            <div class="card-title">La bourgeoisie du village</div>
+            <div class="card-sub">Burgergemeinde · forêts et alpages en commun</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="bourgeoisie" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Institution</span></div>
+        <div class="highlight-box">
+          <h3>🏛️ Le principe</h3>
+          <p>Les « bourgeois » — les familles anciennes du lieu — possèdent collectivement les forêts, les pâturages communs et souvent l'alpage. On naît bourgeois d'un village ; s'y installer ne suffisait pas.</p>
+        </div>
+        <div class="card-section">
+          <h3>🪵 Concrètement</h3>
+          <p>Le bois nécessaire pour construire une maison ou se chauffer était attribué par lots, parfois tiré au sort. Couper un arbre hors de son lot était sévèrement puni : la forêt protégeait aussi le village des avalanches.</p>
+        </div>
+        <div class="card-section">
+          <h3>🧭 Une leçon d'équilibre</h3>
+          <p>Ces règles très strictes ont permis d'exploiter pendant des siècles des ressources fragiles sans les épuiser — dans un milieu qui ne pardonne aucune erreur.</p>
+        </div>
+      </div>
+
+      <div class="card acc-village" id="act-raccard">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🏚️</span>
+          <div class="card-titles">
+            <div class="card-title">Raccard, grenier, mazot</div>
+            <div class="card-sub">Les bâtiments qu'on voit encore partout</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="raccard" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Habitat</span><span class="badge">À observer</span></div>
+        <div class="highlight-box">
+          <h3>🐭 Les champignons de pierre</h3>
+          <p>Le <strong>raccard</strong> (grange à céréales) et le <strong>grenier</strong> reposent sur des pilotis coiffés de disques de pierre plats : les souris grimpent le pilier… et butent sous la dalle. Un anti-rongeur en pierre, vieux de plusieurs siècles.</p>
+        </div>
+        <div class="card-section">
+          <h3>🏠 Qui sert à quoi</h3>
+          <p>Le <em>raccard</em> stocke les gerbes et sert d'aire de battage ; le <em>grenier</em> abrite le grain, le pain et la viande séchée ; le <em>mazot</em> est la petite maison du mayen. L'écurie-grange, elle, est accolée à l'habitation.</p>
+        </div>
+        <div class="card-section">
+          <h3>👀 À observer sur place</h3>
+          <p>Dans les villages au-dessus de Loèche (Albinen, Erschmatt, Guttet-Feschel) et dans le Val d'Anniviers, ces constructions de mélèze noirci alignées en quartiers forment encore la silhouette des villages.</p>
+        </div>
+      </div>
+
+      <div class="card acc-village" id="act-four-banal">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🔥</span>
+          <div class="card-titles">
+            <div class="card-title">Le four, le moulin, le pressoir</div>
+            <div class="card-sub">Les machines du village</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="four-banal" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Institution</span></div>
+        <div class="highlight-box">
+          <h3>🍞 Le four banal</h3>
+          <p>Un seul four pour tout le village : chauffer un four coûte trop de bois pour le faire par ménage. On cuisait donc <strong>par grandes fournées collectives</strong>, chaque famille à son tour, deux ou trois fois par an. D'où le pain de seigle qui se garde des mois.</p>
+        </div>
+        <div class="card-section">
+          <h3>⚙️ Le moulin et le pressoir</h3>
+          <p>Moulins à eau sur les torrents pour la farine, pressoirs à levier pour le vin et l'huile de noix : eux aussi propriété commune ou seigneuriale, utilisés à tour de rôle contre une redevance.</p>
+        </div>
+        <div class="card-section">
+          <h3>🗣️ Et le lien social</h3>
+          <p>Ces lieux étaient les points de rencontre du village, là où circulaient les nouvelles, les arrangements de mariage et les disputes de bornage.</p>
+        </div>
+      </div>
+
+      <div class="card acc-village" id="act-dizain">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🏰</span>
+          <div class="card-titles">
+            <div class="card-title">Le dizain de Loèche</div>
+            <div class="card-sub">Des paysans qui se gouvernent eux-mêmes</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="dizain" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Politique</span></div>
+        <div class="highlight-box">
+          <h3>🗺️ La carte du pouvoir</h3>
+          <p>Du Moyen Âge à 1798, le Valais d'amont est divisé en <strong>sept dizains</strong> — Sion, Sierre, Loèche, Rarogne, Viège, Brigue, Conches — sous l'autorité théorique du prince-évêque de Sion. Loèche possède son château épiscopal, encore visible aujourd'hui.</p>
+        </div>
+        <div class="card-section">
+          <h3>✊ Une autonomie rare</h3>
+          <p>Les communautés y ont conquis des droits très étendus : elles élisent leurs magistrats, envoient des délégués à la Diète et discutent l'impôt. En cas d'abus, on plantait la <em>Matze</em>, un gourdin sculpté, comme signal de révolte.</p>
+        </div>
+        <div class="card-section">
+          <h3>🧠 Ce que ça explique</h3>
+          <p>Cette habitude de décider en assemblée est la même que celle des consortages : la gestion collective de l'eau et des alpages et la vie politique locale sont deux faces du même monde.</p>
+        </div>
+      </div>
+
+      <div class="card acc-village" id="act-partir">
+        <div class="card-head">
+          <span class="card-icon" aria-hidden="true">🎒</span>
+          <div class="card-titles">
+            <div class="card-title">Partir pour gagner sa vie</div>
+            <div class="card-sub">Mercenaires, saisonniers, émigrants</div>
+          </div>
+          <button type="button" class="copy-link-btn" data-copy-id="partir" aria-label="Copier le lien vers cette fiche" title="Copier le lien vers cette fiche">📋</button>
+        </div>
+        <div class="card-meta"><span class="badge">Économie</span><span class="badge">Société</span></div>
+        <div class="highlight-box">
+          <h3>⚔️ Le service étranger</h3>
+          <p>Pendant des siècles, des milliers de Valaisans se sont engagés dans les régiments suisses au service de la France, de l'Espagne, de Naples ou du pape. Leur solde et leur pension représentaient une <strong>rentrée d'argent majeure</strong> pour des villages sans industrie. La Suisse y met fin au milieu du 19<sup>e</sup> siècle.</p>
+        </div>
+        <div class="card-section">
+          <h3>🚢 L'émigration</h3>
+          <p>Au 19<sup>e</sup> siècle, la population dépasse ce que la montagne peut nourrir : des familles entières partent pour l'Amérique du Sud et du Nord, parfois soutenues financièrement par leur commune, trop heureuse d'alléger la charge.</p>
+        </div>
+        <div class="card-section">
+          <h3>🏭 Puis l'usine</h3>
+          <p>À partir du 20<sup>e</sup> siècle, plus besoin de traverser l'océan : l'usine de la plaine, le chantier de barrage ou l'hôtel de la station offrent un salaire à quelques kilomètres. C'est le début de la fin du système ancien.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= PANEL 5 : 2000 ANS ================= -->
+  <section class="tab-panel" id="panel-histoire" role="tabpanel">
+    <div class="panel-intro">
+      <h2>📜 2000 ans en huit étapes</h2>
+      <p>Le décor géologique n'a pas bougé, mais les maîtres, les techniques et les frontières, oui. Voici les grandes bascules de la vallée entre l'Empire romain et l'arrivée de l'économie de marché.</p>
+    </div>
+
+    <div class="timeline">
+
+      <div class="tl-item acc-time" id="act-hist-romain" data-emoji="🏛️">
+        <span class="tl-period">≈ 15 av. J.-C. → 400</span>
+        <h3>Le Valais romain</h3>
+        <p>Après la soumission des tribus alpines sous Auguste, la vallée devient une province romaine (la <em>Vallis Poenina</em>), avec pour capitale Forum Claudii Vallensium — l'actuelle Martigny. La grande route du col du Grand-Saint-Bernard remonte la vallée du Rhône et fait passer marchandises et légions par ici.</p>
+        <p>Loèche (<em>Leuca</em>) et ses environs sont habités ; des objets romains retrouvés à Loèche-les-Bains montrent que les sources chaudes étaient déjà fréquentées.</p>
+        <div class="tl-note"><strong>Héritage durable :</strong> la vigne, le noyer, de nouveaux outils et le latin, dont sortira le français parlé aujourd'hui à Sierre.</div>
+      </div>
+
+      <div class="tl-item acc-time" id="act-hist-haut-moyen-age" data-emoji="⛪">
+        <span class="tl-period">5<sup>e</sup> → 10<sup>e</sup> siècle</span>
+        <h3>Christianisation et arrivée de l'allemand</h3>
+        <p>L'évêché s'installe à Sion vers le 6<sup>e</sup> siècle ; le christianisme structure le territoire en paroisses. La vallée passe sous domination burgonde, puis appartient au royaume de Bourgogne.</p>
+        <p>À partir du haut Moyen Âge, des populations de langue alémanique progressent depuis l'amont de la vallée et s'arrêtent approximativement… à Finges. <strong>La frontière des langues du canton passe encore par la forêt voisine du camping.</strong></p>
+        <div class="tl-note"><strong>Sur le terrain :</strong> Susten, Leuk, Erschmatt sont germanophones ; Sierre, à 15 km, est francophone.</div>
+      </div>
+
+      <div class="tl-item acc-village" id="act-hist-999" data-emoji="👑">
+        <span class="tl-period">999</span>
+        <h3>L'évêque devient comte</h3>
+        <p>Le roi de Bourgogne Rodolphe III cède au siège épiscopal de Sion les droits comtaux sur le Valais. L'évêque cumule dès lors pouvoir religieux et pouvoir temporel : c'est le cadre politique qui durera, formellement, jusqu'à la Révolution.</p>
+        <div class="tl-note"><strong>Conséquence pour les villages :</strong> face à un seigneur unique et lointain, les communautés s'organisent, négocient des franchises et obtiennent peu à peu une large autonomie.</div>
+      </div>
+
+      <div class="tl-item acc-water" id="act-hist-bisses" data-emoji="💧">
+        <span class="tl-period">13<sup>e</sup> → 15<sup>e</sup> siècle</span>
+        <h3>L'âge des bisses et des communautés</h3>
+        <p>La population augmente, l'agriculture grimpe en altitude, et l'on creuse les grands bisses (premières mentions écrites au milieu du 13<sup>e</sup> siècle). Des colons walser germanophones s'installent dans les hautes vallées.</p>
+        <p>Les dizains se constituent, les communautés rédigent leurs statuts. Les guerres contre la Savoie s'achèvent par la conquête du Bas-Valais après la bataille de la Planta (1475).</p>
+        <div class="tl-note"><strong>C'est la période fondatrice :</strong> le paysage agricole que l'on voit encore — terrasses, bisses, alpages, villages de bois — se met alors en place et bougera peu jusqu'au 20<sup>e</sup> siècle.</div>
+      </div>
+
+      <div class="tl-item acc-time" id="act-hist-republique" data-emoji="🏔️">
+        <span class="tl-period">16<sup>e</sup> → 18<sup>e</sup> siècle</span>
+        <h3>La République des Sept-Dizains</h3>
+        <p>Le Valais fonctionne comme une république paysanne alliée aux cantons suisses. En <strong>1501</strong>, le cardinal Matthäus Schiner achète les droits des sources de Loèche-les-Bains et lance l'économie des bains.</p>
+        <p>Le quotidien, lui, ne change guère : seigle, vigne, bétail, bisses. Les hommes partent au service étranger, les famines, épidémies, avalanches et crues rythment les mauvaises années. La pomme de terre n'apparaît qu'à la toute fin de la période.</p>
+        <div class="tl-note"><strong>Ordre de grandeur :</strong> pendant ces trois siècles, la manière de cultiver un champ de seigle à Erschmatt n'évolue quasiment pas.</div>
+      </div>
+
+      <div class="tl-item acc-village" id="act-hist-revolution" data-emoji="🇫🇷">
+        <span class="tl-period">1798 → 1815</span>
+        <h3>Révolution, Napoléon, entrée dans la Suisse</h3>
+        <p>L'Ancien Régime valaisan s'effondre ; les troupes françaises occupent la vallée et un violent combat a lieu en 1799 dans le bois de Finges même. Le Valais est tour à tour république indépendante (1802), département français du Simplon (1810), puis <strong>canton suisse en 1815</strong>.</p>
+        <p>La route du Simplon, construite sur ordre de Napoléon au début du siècle, ouvre la vallée à un trafic international.</p>
+        <div class="tl-note"><strong>À côté du camping :</strong> la forêt de Finges, verrou naturel de la vallée, a servi de champ de bataille — son nom viendrait du latin <em>finis</em>, la limite.</div>
+      </div>
+
+      <div class="tl-item acc-stone" id="act-hist-19e" data-emoji="🛤️">
+        <span class="tl-period">19<sup>e</sup> siècle</span>
+        <h3>Le siècle des grands travaux</h3>
+        <p>Après la crue catastrophique de 1860, la <strong>première correction du Rhône (1863-1894)</strong> endigue le fleuve et amorce l'assainissement de la plaine. Le chemin de fer du Simplon remonte la vallée dans les années 1870 et atteint Brigue en 1878.</p>
+        <p>Mais dans les villages, on vit encore à l'ancienne : mêmes cultures, mêmes bisses, mêmes déménagements saisonniers. La surpopulation pousse à l'émigration outre-mer.</p>
+        <div class="tl-note"><strong>Le grand basculement se prépare :</strong> le train et la route rendent enfin possible de vendre — et d'acheter — hors de la vallée.</div>
+      </div>
+
+      <div class="tl-item acc-herd" id="act-hist-20e" data-emoji="🏭">
+        <span class="tl-period">20<sup>e</sup> siècle</span>
+        <h3>La rupture : le salaire remplace le champ</h3>
+        <p><strong>1908 :</strong> première coulée d'aluminium à l'usine de Chippis, à quinze kilomètres du camping. Des centaines de paysans deviennent « ouvriers-paysans » : ils gardent leurs vignes et leur bétail, mais touchent désormais un salaire mensuel. C'est la première fois que l'argent, et non la récolte, mesure la vie d'une famille.</p>
+        <p>Suivent les grands barrages hydroélectriques et leurs chantiers, la <strong>deuxième correction du Rhône</strong> qui rend enfin la plaine cultivable — l'agriculture descend alors vers les vergers et les cultures maraîchères — puis le tourisme d'été et d'hiver.</p>
+        <p>Dans les années 1950-1960, le système ancien s'effondre en une génération : les mayens deviennent des chalets de vacances, les bisses des sentiers de promenade, les raccards des remises ou des résidences secondaires, et le pain de seigle un produit de spécialité.</p>
+        <div class="tl-note"><strong>Deux mille ans, puis cinquante :</strong> ce qui avait tenu depuis les Romains a disparu en un demi-siècle — mais reste lisible dans chaque mur de vigne, chaque canal et chaque grenier sur pilotis que vous croiserez.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= PANEL 6 : QUIZ ================= -->
+  <section class="tab-panel" id="panel-quiz" role="tabpanel">
+    <div class="panel-intro">
+      <h2>🎯 Le quiz du village d'autrefois</h2>
+      <p>Dix questions pour vérifier ce qu'on a retenu — à faire en famille, avant ou après une balade dans les villages au-dessus de Loèche.</p>
+    </div>
+
+    <div class="quiz" id="quiz">
+      <div class="quiz-score" id="quizScore">Score : 0 / 0
+        <button type="button" class="quiz-reset" id="quizReset">↻ Recommencer</button>
+      </div>
+      <div id="quizList"></div>
+    </div>
+
+    <div class="sources">
+      <h3>📚 D'où viennent ces informations</h3>
+      <p>Contenu rédigé à partir de sources publiques sur l'histoire et le patrimoine valaisans : Dictionnaire historique de la Suisse, Parc naturel Pfyn-Finges, commune et centre du seigle d'Erschmatt, musée des bisses et documentation sur les consortages, sites de Loèche-les-Bains et de Sierre, travaux de géologie sur l'éboulement de Sierre et l'Illgraben, et documentation sur l'usine d'aluminium de Chippis et les corrections du Rhône.</p>
+      <p>Les dates anciennes (éboulement de Sierre, premiers bisses, débuts de la vigne) restent débattues par les spécialistes : elles sont données ici comme ordres de grandeur.</p>
+    </div>
+  </section>
+
+  <footer>
+    🏔️ Camping Bella-Tola, Waldstrasse 57, 3952 Susten (Valais) — au pied des villages de Loèche et de la forêt de Finges
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- Données du quiz ---------- */
+  var QUIZ = [
+    {
+      q: "Pourquoi les villages anciens sont-ils construits sur les pentes, et presque jamais dans la plaine du Rhône ?",
+      options: [
+        "Parce que la plaine était marécageuse, inondée par le Rhône et malsaine",
+        "Parce qu'il faisait trop chaud dans la plaine",
+        "Parce que la loi interdisait de construire au bord du fleuve",
+        "Parce que la plaine appartenait à l'évêque de Sion"
+      ],
+      good: 0,
+      why: "Avant les corrections du Rhône (dès 1863), le fleuve divaguait, débordait et laissait des marais où sévissait la malaria. On habitait donc les coteaux, au sec et au soleil, entre 600 et 1400 m."
+    },
+    {
+      q: "À quoi sert un bisse (Suone) ?",
+      options: [
+        "À conduire l'eau d'un torrent de montagne jusqu'aux prés, champs et vignes",
+        "À faire tourner les moulins du village",
+        "À évacuer les eaux usées des maisons",
+        "À relier deux villages par un sentier"
+      ],
+      good: 0,
+      why: "Le Valais central est la région la plus sèche de Suisse (souvent moins de 600 mm de pluie par an). Sans ces canaux d'irrigation, pas de foin, donc pas de bétail, donc pas de village."
+    },
+    {
+      q: "Quelle céréale servait à faire le pain de tous les jours dans le secteur ?",
+      options: [
+        "Le seigle",
+        "Le riz",
+        "Le maïs",
+        "Le blé tendre"
+      ],
+      good: 0,
+      why: "Le seigle pousse sur des sols pauvres et caillouteux jusque vers 1500-1600 m d'altitude. À Erschmatt, au-dessus de Loèche, ses terrasses sont encore cultivées aujourd'hui."
+    },
+    {
+      q: "Combien de fois par an cuisait-on le pain au four banal ?",
+      options: [
+        "Deux ou trois fois par an seulement",
+        "Tous les matins",
+        "Une fois par semaine",
+        "Uniquement les jours de fête"
+      ],
+      good: 0,
+      why: "Chauffer un grand four consommait énormément de bois : on cuisait donc par grandes fournées collectives. Le pain de seigle devenait très dur et se coupait avec un coupe-pain à levier."
+    },
+    {
+      q: "Que se passe-t-il lors de l'« inalpe », à la fin du mois de juin ?",
+      options: [
+        "Les troupeaux montent à l'alpage et les vaches d'Hérens désignent leur reine",
+        "On récolte le seigle sur les terrasses",
+        "On vendange les vignes du coteau",
+        "On répare les bisses avant de mettre l'eau"
+      ],
+      good: 0,
+      why: "L'inalpe (Alpaufzug) est la montée des troupeaux vers 2000-2400 m. On y mesure aussi le lait de chaque vache : cette pesée fixe la part de fromage que chaque famille recevra à l'automne."
+    },
+    {
+      q: "Pourquoi la viande séchée est-elle une spécialité valaisanne ?",
+      options: [
+        "Parce que l'air froid et sec de la vallée permet de sécher la viande sans qu'elle pourrisse",
+        "Parce que les Romains avaient apporté la recette",
+        "Parce qu'il y avait beaucoup de sel dans la région",
+        "Parce que les vaches d'Hérens donnent une viande particulière"
+      ],
+      good: 0,
+      why: "C'est une réponse directe au climat : on sèche la viande dans l'air vif des greniers. Le sel, lui, devait être acheté à l'extérieur — c'était l'une des rares dépenses obligatoires du ménage."
+    },
+    {
+      q: "Pourquoi les raccards et greniers sont-ils posés sur des piliers coiffés de disques de pierre plats ?",
+      options: [
+        "Pour empêcher les souris et les rats d'atteindre les réserves",
+        "Pour résister aux tremblements de terre",
+        "Pour laisser passer l'eau du bisse en dessous",
+        "Pour pouvoir déplacer le bâtiment"
+      ],
+      good: 0,
+      why: "La souris grimpe le pilier de bois, puis bute sous la dalle de pierre en surplomb et ne peut pas continuer. Un système anti-rongeurs entièrement mécanique, vieux de plusieurs siècles."
+    },
+    {
+      q: "D'où vient le paysage de collines bosselées de la forêt de Finges ?",
+      options: [
+        "D'un gigantesque éboulement d'environ 1 km³ de roche, il y a plus de 10 000 ans",
+        "D'anciennes dunes de sable",
+        "De terrils creusés par des mineurs au Moyen Âge",
+        "De la moraine d'un volcan éteint"
+      ],
+      good: 0,
+      why: "Un pan de montagne s'est détaché au-dessus de Salquenen à la fin de la dernière glaciation et a barré la vallée. Ses débris, bien drainés et ensoleillés, sont devenus un excellent terroir à vigne."
+    },
+    {
+      q: "Quel animal permettait d'exploiter les rochers et broussailles où la vache ne peut pas aller ?",
+      options: [
+        "La chèvre col noir du Valais",
+        "Le cheval de trait",
+        "Le lama",
+        "La poule"
+      ],
+      good: 0,
+      why: "Mi-noire, mi-blanche, la chèvre col noir grimpe partout. Moins chère qu'une vache, elle était le lait des familles modestes — on l'appelait parfois « la vache du pauvre »."
+    },
+    {
+      q: "Quel événement du 20e siècle a fait entrer les paysans du secteur dans l'économie du salaire ?",
+      options: [
+        "L'ouverture de l'usine d'aluminium de Chippis, dont la première coulée a lieu en 1908",
+        "La construction du premier téléphérique de Loèche-les-Bains",
+        "L'arrivée de la télévision dans les villages",
+        "L'ouverture du tunnel du Gothard"
+      ],
+      good: 0,
+      why: "Des centaines d'« ouvriers-paysans » ont travaillé à l'usine tout en gardant vignes et bétail. Avec les barrages, la deuxième correction du Rhône et le tourisme, le système autarcique s'effondre dans les années 1950-1960."
+    }
+  ];
+
+  /* ---------- Utilitaires ---------- */
+  function shuffleWithAnswer(item) {
+    var indexed = item.options.map(function (text, i) { return { text: text, isGood: i === item.good }; });
+    for (var i = indexed.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = indexed[i]; indexed[i] = indexed[j]; indexed[j] = tmp;
+    }
+    return indexed;
+  }
+
+  function fallbackCopyText(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) { /* copie impossible */ }
+    document.body.removeChild(ta);
+  }
+
+  /* ---------- Boutons « copier le lien » ---------- */
+  function initCopyLinkButtons() {
+    Array.prototype.slice.call(document.querySelectorAll('.copy-link-btn')).forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var url = location.origin + location.pathname + '#act-' + btn.getAttribute('data-copy-id');
+        var showCopied = function () {
+          var original = btn.textContent;
+          btn.textContent = '✅';
+          btn.classList.add('copied');
+          setTimeout(function () { btn.textContent = original; btn.classList.remove('copied'); }, 1500);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(showCopied, function () { fallbackCopyText(url); showCopied(); });
+        } else {
+          fallbackCopyText(url);
+          showCopied();
+        }
+      });
+    });
+  }
+
+  /* ---------- Menu mini-apps ---------- */
+  function initAppSwitcher() {
+    var appSwitcher = document.getElementById('appSwitcher');
+    var appSwitcherToggle = document.getElementById('appSwitcherToggle');
+    if (!appSwitcher || !appSwitcherToggle) return;
+    appSwitcherToggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var willOpen = !appSwitcher.classList.contains('open');
+      appSwitcher.classList.toggle('open', willOpen);
+      appSwitcherToggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+    });
+    document.addEventListener('click', function (e) {
+      if (appSwitcher.classList.contains('open') && !appSwitcher.contains(e.target)) {
+        appSwitcher.classList.remove('open');
+        appSwitcherToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  /* ---------- Onglets ---------- */
+  function showTab(name) {
+    var found = false;
+    Array.prototype.slice.call(document.querySelectorAll('.tab-btn')).forEach(function (b) {
+      var isIt = b.getAttribute('data-tab') === name;
+      if (isIt) found = true;
+      b.classList.toggle('active', isIt);
+    });
+    if (!found) return false;
+    Array.prototype.slice.call(document.querySelectorAll('.tab-panel')).forEach(function (p) {
+      p.classList.toggle('active', p.id === 'panel-' + name);
+    });
+    return true;
+  }
+
+  function initTabs() {
+    var tabBar = document.getElementById('tabBar');
+    if (!tabBar) return;
+    tabBar.addEventListener('click', function (e) {
+      var btn = e.target.closest('.tab-btn');
+      if (!btn) return;
+      showTab(btn.getAttribute('data-tab'));
+    });
+  }
+
+  /* ---------- Filtre cultures / élevages ---------- */
+  function initFilterBar() {
+    var filterBar = document.getElementById('filterBar');
+    var grid = document.getElementById('culturesGrid');
+    if (!filterBar || !grid) return;
+    var cards = Array.prototype.slice.call(grid.querySelectorAll('.card'));
+    filterBar.addEventListener('click', function (e) {
+      var btn = e.target.closest('.filter-btn');
+      if (!btn) return;
+      Array.prototype.slice.call(filterBar.querySelectorAll('.filter-btn')).forEach(function (b) {
+        b.classList.toggle('active', b === btn);
+      });
+      var filter = btn.getAttribute('data-filter');
+      cards.forEach(function (card) {
+        var show = filter === 'all' || card.getAttribute('data-category') === filter;
+        card.style.display = show ? '' : 'none';
+      });
+    });
+  }
+
+  /* ---------- Quiz ---------- */
+  var answered = 0;
+  var correct = 0;
+
+  function updateScore() {
+    var el = document.getElementById('quizScore');
+    if (!el) return;
+    var msg = 'Score : ' + correct + ' / ' + answered;
+    if (answered === QUIZ.length) {
+      if (correct === QUIZ.length) msg += ' — sans faute, bravo ! 🏆';
+      else if (correct >= 7) msg += ' — très bien ! 🌾';
+      else if (correct >= 4) msg += ' — pas mal, relis les fiches 📖';
+      else msg += ' — un petit tour dans les onglets s\'impose 🙂';
+    }
+    el.childNodes[0].nodeValue = msg + ' ';
+  }
+
+  function buildQuiz() {
+    var list = document.getElementById('quizList');
+    if (!list) return;
+    list.innerHTML = '';
+    answered = 0;
+    correct = 0;
+
+    QUIZ.forEach(function (item, idx) {
+      var wrap = document.createElement('div');
+      wrap.className = 'quiz-q';
+
+      var h = document.createElement('h3');
+      h.innerHTML = '<span class="qnum">' + (idx + 1) + '.</span> ';
+      h.appendChild(document.createTextNode(item.q));
+      wrap.appendChild(h);
+
+      var opts = document.createElement('div');
+      opts.className = 'quiz-options';
+
+      var answer = document.createElement('div');
+      answer.className = 'quiz-answer';
+      answer.textContent = '💡 ' + item.why;
+
+      shuffleWithAnswer(item).forEach(function (opt) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'quiz-opt';
+        b.textContent = opt.text;
+        b.addEventListener('click', function () {
+          if (wrap.getAttribute('data-done')) return;
+          wrap.setAttribute('data-done', '1');
+          answered++;
+          if (opt.isGood) correct++;
+          Array.prototype.slice.call(opts.children).forEach(function (other) {
+            other.disabled = true;
+            if (other.getAttribute('data-good') === '1') other.classList.add('is-good');
+          });
+          if (!opt.isGood) b.classList.add('is-bad');
+          answer.classList.add('show');
+          updateScore();
+        });
+        b.setAttribute('data-good', opt.isGood ? '1' : '0');
+        opts.appendChild(b);
+      });
+
+      wrap.appendChild(opts);
+      wrap.appendChild(answer);
+      list.appendChild(wrap);
+    });
+
+    updateScore();
+  }
+
+  function initQuiz() {
+    var reset = document.getElementById('quizReset');
+    if (reset) {
+      reset.addEventListener('click', function () {
+        buildQuiz();
+        document.getElementById('quiz').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+    buildQuiz();
+  }
+
+  /* ---------- Ouvrir le bon onglet depuis l'URL ---------- */
+  function openFromHash() {
+    if (!location.hash) return;
+    var hash = location.hash.slice(1);
+
+    // Lien direct vers un onglet : #tab-histoire
+    if (hash.indexOf('tab-') === 0) {
+      showTab(hash.slice(4));
+      return;
+    }
+
+    // Lien direct vers une fiche : ouvrir l'onglet qui la contient
+    var target = document.getElementById(hash);
+    if (!target) return;
+    var panel = target.closest('.tab-panel');
+    if (panel) showTab(panel.id.replace('panel-', ''));
+    setTimeout(function () { target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 120);
+  }
+
+  initCopyLinkButtons();
+  initAppSwitcher();
+  initTabs();
+  initFilterBar();
+  initQuiz();
+  openFromHash();
+  window.addEventListener('hashchange', openFromHash);
+})();
+</script>
+</body>
+</html>
