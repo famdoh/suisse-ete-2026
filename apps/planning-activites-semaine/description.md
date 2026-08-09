@@ -13,7 +13,7 @@ Une deuxième page, `classement.html`, accessible via le lien « 🏆 Classement
 
 ## Dépendance externe : Supabase
 Les notes et le planning partagé sont stockés dans des tables Postgres d'un même projet Supabase, interrogées directement depuis le navigateur via le client `@supabase/supabase-js` (CDN) et la clé publique `anon`/`publishable`, avec des policies RLS. L'app reste statique : aucun backend ni build n'est nécessaire.
-- `activity_ratings` : notes 1-3 étoiles par activité/voyageur.
-- `activity_plan` : affectation des activités aux jours (`day_date`, `activity_id`, `position`), partagée par tous les voyageurs — c'est la source de vérité du planning, lue au chargement puis toutes les 10s, et écrite à chaque ajout/retrait/réordonnancement.
-- Schéma SQL à exécuter dans le SQL Editor Supabase : `apps/planning-activites-semaine/supabase-schema.sql`
+- `activity_ratings` : notes 1-3 étoiles par activité/voyageur. **Table globale**, partagée avec l'app `activites-loisirs` — définie dans le schéma global `datasource/supabase-schema.sql`, pas dans celui de cette app.
+- `activity_plan` : affectation des activités aux jours (`day_date`, `activity_id`, `position`), partagée par tous les voyageurs — c'est la source de vérité du planning, lue au chargement puis toutes les 10s, et écrite à chaque ajout/retrait/réordonnancement. Propre à cette app.
+- Schémas SQL à exécuter dans le SQL Editor Supabase, dans cet ordre : `datasource/supabase-schema.sql` (global), puis `apps/planning-activites-semaine/supabase-schema.sql`
 - Projet Supabase : `hmpiluotdcympkihvnlt` (URL : `https://hmpiluotdcympkihvnlt.supabase.co`)

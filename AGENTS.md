@@ -49,6 +49,9 @@ ses choix de conception, ses dépendances) doit être documenté dans le
     géographique pour la durée du séjour, régénérées par le skill
     `.claude/skills/meteo-update` (voir son `SKILL.md`). Toute app
     affichant la météo d'une activité doit s'appuyer sur ce fichier.
+  - `datasource/supabase-schema.sql` — schéma Supabase global : les
+    tables partagées par plusieurs mini-apps (voir « Convention
+    Supabase » ci-dessous).
 - `.github/workflows/pages.yml` — workflow GitHub Actions qui déploie
   l'ensemble du dépôt comme site Pages à chaque push sur `main`.
 - `.nojekyll` — désactive le traitement Jekyll pour que les
@@ -117,11 +120,33 @@ après le premier rendu si l'URL contient déjà ce hash.
 
 ## Convention Supabase
 
-Toute mini-app qui stocke des données partagées dans Supabase fournit un
-fichier `apps/<nom-app>/supabase-schema.sql` à exécuter dans le SQL
-Editor Supabase. Ce script doit toujours pouvoir être rejoué sans erreur,
-que les tables/colonnes/policies qu'il crée existent déjà ou non (schéma
-initial ou évolution d'un schéma existant) :
+Le schéma Supabase du séjour est réparti sur deux niveaux :
+
+- `datasource/supabase-schema.sql` — **schéma global** : les tables
+  partagées par plusieurs mini-apps, qui n'appartiennent donc à aucune
+  app en particulier (ex. `activity_ratings`, les notes d'activités
+  utilisées à la fois par `planning-activites-semaine` et
+  `activites-loisirs`).
+- `apps/<nom-app>/supabase-schema.sql` — **schéma d'app** : les tables
+  utilisées par cette seule app (ex. `activity_plan`, `expenses`).
+
+Règle d'arbitrage : une table naît dans le schéma de l'app qui la crée,
+et **migre vers le schéma global dès qu'une deuxième app la lit ou
+l'écrit**. Dans ce cas, déplacer le bloc SQL complet (table, colonnes,
+index, policies) d'un fichier à l'autre plutôt que de le dupliquer, et
+mettre à jour le `description.md` de chaque app concernée. Une table
+globale reste sans propriétaire : ne jamais la redéclarer dans un
+schéma d'app.
+
+Pour (re)créer un environnement complet, exécuter d'abord le schéma
+global, puis chaque schéma d'app. Le fichier d'app qui dépend d'une
+table globale le rappelle en en-tête.
+
+Chaque fichier est à exécuter dans le SQL Editor Supabase (ou
+directement via le MCP, voir ci-dessous) et doit toujours pouvoir être
+rejoué sans erreur, que les tables/colonnes/policies qu'il crée
+existent déjà ou non (schéma initial ou évolution d'un schéma
+existant) :
 
 - `create table if not exists ...` pour les tables.
 - `alter table ... add column if not exists ...` pour ajouter une colonne
@@ -160,15 +185,17 @@ En conséquence, dès qu'une tâche nécessite une opération sur la base :
 ### Reporter les évolutions dans le fichier de schéma
 
 Une évolution appliquée sur l'environnement distant n'est **jamais**
-terminée tant qu'elle n'est pas reportée dans le fichier
-`apps/<nom-app>/supabase-schema.sql` correspondant, dans le même
-commit. Le dépôt reste la source de vérité du schéma : ce fichier doit
-permettre à la fois de rejouer les évolutions sur un environnement déjà
-en place et de recréer un environnement neuf à partir de zéro.
+terminée tant qu'elle n'est pas reportée dans le fichier de schéma
+correspondant — `datasource/supabase-schema.sql` si la table est
+globale, `apps/<nom-app>/supabase-schema.sql` sinon — dans le même
+commit. Le dépôt reste la source de vérité du schéma : ces fichiers
+doivent permettre à la fois de rejouer les évolutions sur un
+environnement déjà en place et de recréer un environnement neuf à
+partir de zéro.
 
 Concrètement, pour chaque changement appliqué à distance :
 
-1. Ajouter au `supabase-schema.sql` de l'app les instructions
+1. Ajouter au fichier de schéma concerné les instructions
    idempotentes équivalentes (voir les règles ci-dessus), de sorte que
    le script complet, rejoué sur une base vide comme sur la base
    existante, aboutisse au même état que l'environnement distant.

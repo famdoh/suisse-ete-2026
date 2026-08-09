@@ -57,6 +57,11 @@ que l'app `planning-activites-semaine`, interrogée directement depuis
 le navigateur via le client `@supabase/supabase-js` (CDN) et la clé
 publique `anon`/`publishable`. L'app reste statique : aucun backend ni
 build n'est nécessaire.
+- `activity_ratings` est une **table globale** (partagée avec
+  `planning-activites-semaine`) : son schéma vit dans
+  `datasource/supabase-schema.sql` et non dans un
+  `supabase-schema.sql` propre à cette app, qui n'a donc pas de table
+  qui lui soit spécifique.
 - Projet Supabase : `hmpiluotdcympkihvnlt` (URL : `https://hmpiluotdcympkihvnlt.supabase.co`)
 
 ## Dépendance externe : Leaflet / OpenStreetMap
