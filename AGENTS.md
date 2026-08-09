@@ -132,6 +132,51 @@ initial ou évolution d'un schéma existant) :
   (`if not exists`, `or replace`, etc.) plutôt qu'une instruction qui
   échoue si l'objet visé existe déjà.
 
+### MCP Supabase : exécuter directement sur l'environnement distant
+
+Le serveur MCP Supabase est connecté à ce projet : toute opération
+Supabase (inspection des tables, requête SQL, migration, création ou
+modification de table/colonne/policy) peut être exécutée directement
+sur l'environnement distant, sous réserve de l'approbation de
+l'utilisateur au moment de l'appel d'outil.
+
+En conséquence, dès qu'une tâche nécessite une opération sur la base :
+
+- **Proposer systématiquement de la lancer directement** via le MCP
+  Supabase (`execute_sql`, `apply_migration`, `list_tables`,
+  `get_advisors`, `get_logs`…), plutôt que de se contenter de livrer un
+  script SQL à copier-coller dans le SQL Editor. Ne pas demander à
+  l'utilisateur d'exécuter à la main ce qui peut être exécuté par
+  l'agent.
+- Avant toute modification de schéma, inspecter l'existant avec
+  `list_tables` (et `list_migrations` si utile) pour ne pas travailler
+  à l'aveugle.
+- Utiliser `execute_sql` pour les lectures et les requêtes ponctuelles,
+  et `apply_migration` pour les changements de schéma persistants.
+- L'utilisateur reste maître : chaque appel d'outil passe par son
+  approbation, donc annoncer clairement ce que la requête va faire
+  avant de la lancer.
+
+### Reporter les évolutions dans le fichier de schéma
+
+Une évolution appliquée sur l'environnement distant n'est **jamais**
+terminée tant qu'elle n'est pas reportée dans le fichier
+`apps/<nom-app>/supabase-schema.sql` correspondant, dans le même
+commit. Le dépôt reste la source de vérité du schéma : ce fichier doit
+permettre à la fois de rejouer les évolutions sur un environnement déjà
+en place et de recréer un environnement neuf à partir de zéro.
+
+Concrètement, pour chaque changement appliqué à distance :
+
+1. Ajouter au `supabase-schema.sql` de l'app les instructions
+   idempotentes équivalentes (voir les règles ci-dessus), de sorte que
+   le script complet, rejoué sur une base vide comme sur la base
+   existante, aboutisse au même état que l'environnement distant.
+2. Placer les ajouts dans l'ordre logique du script (table, colonnes,
+   index, policies) plutôt que de les empiler en fin de fichier.
+3. Si l'évolution change les données consommées par l'app, mettre aussi
+   à jour son `description.md`.
+
 ## Faire évoluer une mini-app existante
 
 Toute demande d'évolution/mise à jour et de régénération d'une app
