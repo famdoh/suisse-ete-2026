@@ -10,6 +10,27 @@ une erreur de saisie. Une date (optionnelle, entre le 22 juillet et le
 1er août 2026) peut être associée manuellement à une dépense pour noter
 le jour réel où elle a eu lieu, indépendamment de la date de saisie dans
 l'app ; sans date renseignée, la date d'ajout est affichée à la place.
+
+## Devise d'affichage (CHF / EUR)
+Les montants sont toujours **saisis et stockés en CHF**. Un sélecteur
+CHF/EUR en haut de la carte « Résumé » permet de choisir la devise
+d'affichage pour le total, les soldes, les remboursements suggérés et
+la liste des dépenses ; le choix est mémorisé sur l'appareil
+(localStorage, clé `depenses_partagees_currency_suisse_2026`). La
+conversion utilise un **taux fixe et approximatif** (1 CHF ≈ 1,06 EUR),
+représentatif de la période du séjour plutôt qu'un taux du jour précis
+ou dynamique — conformément au besoin, aucun appel à un service de
+change externe n'est fait.
+
+## Export CSV
+Le bouton « ⬇️ Exporter en CSV » (sous la liste des dépenses) télécharge
+l'ensemble des dépenses (motif, montant en CHF, montant converti en EUR
+avec le même taux fixe, payeur, participants, date de la dépense,
+prénom de la personne qui l'a saisie), triées de la plus ancienne à la
+plus récente, dans un fichier `depenses-suisse-2026-<date>.csv`
+(séparateur `;`, encodage UTF-8 avec BOM pour une ouverture correcte
+dans Excel).
+
 Les dépenses et la liste des participants sont
 **partagées entre tous les voyageurs** (stockées dans Supabase, voir
 ci-dessous) ; un cache localStorage permet un premier affichage instantané

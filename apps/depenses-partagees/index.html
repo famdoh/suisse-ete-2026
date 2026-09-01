@@ -102,6 +102,22 @@
   .total-row .label { color: var(--muted); }
   .total-row .value { font-weight: 700; }
 
+  .currency-switch { display: flex; gap: 0.4rem; margin-bottom: 0.75rem; }
+  .currency-btn {
+    flex: 1;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text);
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.4rem 0.6rem;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .currency-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .currency-note { font-size: 0.72rem; color: var(--muted); margin: -0.35rem 0 0.75rem; }
+  .export-btn { margin-top: 0.75rem; }
+
   .balance-list { display: flex; flex-direction: column; gap: 0.5rem; }
   .balance-row {
     display: flex;
@@ -388,6 +404,11 @@
 
   <div class="card">
     <h2>Résumé</h2>
+    <div class="currency-switch" id="currencySwitch">
+      <button type="button" class="currency-btn" data-currency="CHF">CHF</button>
+      <button type="button" class="currency-btn" data-currency="EUR">EUR</button>
+    </div>
+    <p class="currency-note">Les dépenses sont saisies en CHF ; l'affichage en EUR utilise un taux fixe approximatif (1 CHF ≈ 1,06 EUR), pas un taux du jour.</p>
     <div class="total-row"><span class="label">Total des dépenses du séjour</span><span class="value" id="totalAmount">0,00 CHF</span></div>
     <div class="total-row"><span class="label">Nombre de dépenses</span><span class="value" id="totalCount">0</span></div>
   </div>
@@ -415,6 +436,7 @@
     <h2>Dépenses<span class="sub">Les plus récentes en premier</span></h2>
     <div class="expense-list" id="expenseList"></div>
     <button class="btn btn-primary" id="openAddExpenseBtn" type="button">+ Ajouter une dépense</button>
+    <button class="btn btn-secondary export-btn" id="exportCsvBtn" type="button">⬇️ Exporter en CSV</button>
   </div>
 </main>
 
@@ -457,6 +479,11 @@
   var GATE_PASSWORD = 'biere';
   var VOTER_KEY = 'planning_activites_voter_suisse_2026';
   var CACHE_KEY = 'depenses_partagees_cache_suisse_2026';
+  var CURRENCY_KEY = 'depenses_partagees_currency_suisse_2026';
+  // Taux fixe, approximatif, représentatif de l'été 2026 : pas besoin d'être
+  // précis ni de suivre un taux du jour, les dépenses restent saisies et
+  // stockées en CHF (voir description.md).
+  var CHF_TO_EUR = 1.06;
   var SUPABASE_URL = 'https://hmpiluotdcympkihvnlt.supabase.co';
   var SUPABASE_KEY = 'sb_publishable_osU_bo7QNJVg3yjxJObUSg_Y7So1lZZ';
   var sb = (window.supabase && window.supabase.createClient)
@@ -501,6 +528,22 @@
 
   function fmtCHF(n) {
     return n.toLocaleString('fr-CH', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' CHF';
+  }
+  function fmtEUR(n) {
+    return (n * CHF_TO_EUR).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+  }
+
+  // --- Devise d'affichage (CHF/EUR) ---
+  // Les montants restent toujours saisis et stockés en CHF ; seule
+  // l'affichage change, via un taux fixe (voir CHF_TO_EUR ci-dessus).
+  function getCurrency() {
+    try { return localStorage.getItem(CURRENCY_KEY) === 'EUR' ? 'EUR' : 'CHF'; } catch (e) { return 'CHF'; }
+  }
+  function setCurrency(cur) {
+    try { localStorage.setItem(CURRENCY_KEY, cur); } catch (e) { /* stockage indisponible */ }
+  }
+  function fmtAmount(n) {
+    return getCurrency() === 'EUR' ? fmtEUR(n) : fmtCHF(n);
   }
 
   function parseDateOnly(s) {
@@ -738,6 +781,7 @@
   // --- Rendering ---
   var totalAmount = document.getElementById('totalAmount');
   var totalCount = document.getElementById('totalCount');
+  var currencySwitch = document.getElementById('currencySwitch');
   var balanceList = document.getElementById('balanceList');
   var settleList = document.getElementById('settleList');
   var membersChips = document.getElementById('membersChips');
@@ -745,6 +789,7 @@
   var addMemberBtn = document.getElementById('addMemberBtn');
   var expenseList = document.getElementById('expenseList');
   var openAddExpenseBtn = document.getElementById('openAddExpenseBtn');
+  var exportCsvBtn = document.getElementById('exportCsvBtn');
 
   var expenseModalOverlay = document.getElementById('expenseModalOverlay');
   var expenseModalTitle = document.getElementById('expenseModalTitle');
@@ -800,6 +845,7 @@
 
   function render() {
     renderVoterBanner();
+    renderCurrencySwitch();
     renderSummary();
     renderBalances();
     renderSettlements();
@@ -808,9 +854,16 @@
     if (expenseModalOverlay.classList.contains('open')) renderExpenseForm();
   }
 
+  function renderCurrencySwitch() {
+    var current = getCurrency();
+    Array.prototype.forEach.call(currencySwitch.querySelectorAll('.currency-btn'), function (btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-currency') === current);
+    });
+  }
+
   function renderSummary() {
     var total = expenses.reduce(function (sum, e) { return sum + Number(e.amount); }, 0);
-    totalAmount.textContent = fmtCHF(total);
+    totalAmount.textContent = fmtAmount(total);
     totalCount.textContent = expenses.length;
   }
 
@@ -834,7 +887,7 @@
       nameEl.textContent = name;
       var amountEl = document.createElement('span');
       amountEl.className = 'amount ' + (v > 0.005 ? 'positive' : (v < -0.005 ? 'negative' : 'zero'));
-      amountEl.textContent = (v > 0.005 ? '+' : '') + fmtCHF(v);
+      amountEl.textContent = (v > 0.005 ? '+' : '') + fmtAmount(v);
       row.appendChild(nameEl);
       row.appendChild(amountEl);
       balanceList.appendChild(row);
@@ -855,7 +908,7 @@
     settlements.forEach(function (s) {
       var row = document.createElement('div');
       row.className = 'settle-row';
-      row.innerHTML = s.from + ' doit <strong>' + fmtCHF(s.amount) + '</strong> à ' + s.to;
+      row.innerHTML = s.from + ' doit <strong>' + fmtAmount(s.amount) + '</strong> à ' + s.to;
       settleList.appendChild(row);
     });
   }
@@ -907,7 +960,7 @@
       motif.textContent = e.motif;
       var amount = document.createElement('div');
       amount.className = 'expense-amount';
-      amount.textContent = fmtCHF(Number(e.amount));
+      amount.textContent = fmtAmount(Number(e.amount));
       top.appendChild(motif);
       top.appendChild(amount);
       row.appendChild(top);
@@ -934,7 +987,7 @@
       delBtn.type = 'button';
       delBtn.textContent = 'Supprimer';
       delBtn.addEventListener('click', function () {
-        if (window.confirm('Supprimer cette dépense (' + e.motif + ', ' + fmtCHF(Number(e.amount)) + ') ?')) deleteExpense(e.id);
+        if (window.confirm('Supprimer cette dépense (' + e.motif + ', ' + fmtAmount(Number(e.amount)) + ') ?')) deleteExpense(e.id);
       });
       actions.appendChild(delBtn);
       row.appendChild(actions);
@@ -942,6 +995,55 @@
       expenseList.appendChild(row);
     });
   }
+
+  // --- Devise d'affichage ---
+  Array.prototype.forEach.call(currencySwitch.querySelectorAll('.currency-btn'), function (btn) {
+    btn.addEventListener('click', function () {
+      setCurrency(btn.getAttribute('data-currency'));
+      render();
+    });
+  });
+
+  // --- Export CSV ---
+  function csvField(value) {
+    var s = String(value == null ? '' : value);
+    if (/[";\n]/.test(s)) s = '"' + s.replace(new RegExp('"', 'g'), '""') + '"';
+    return s;
+  }
+
+  function buildCsv() {
+    var rows = [['Motif', 'Montant (CHF)', 'Montant (EUR)', 'Payé par', 'Réparti entre', 'Date de la dépense', 'Ajouté par']];
+    // Du plus ancien au plus récent, plus naturel à relire dans un tableur
+    // qu'un export dans l'ordre d'affichage (le plus récent en premier).
+    var sorted = expenses.slice().sort(function (a, b) { return new Date(a.created_at) - new Date(b.created_at); });
+    sorted.forEach(function (e) {
+      var amount = Number(e.amount);
+      var dateLabel = e.expense_date || new Date(e.created_at).toISOString().slice(0, 10);
+      rows.push([
+        e.motif,
+        amount.toFixed(2).replace('.', ','),
+        (amount * CHF_TO_EUR).toFixed(2).replace('.', ','),
+        e.payer_name,
+        (e.participants || []).join(', '),
+        dateLabel,
+        e.added_by || ''
+      ]);
+    });
+    return rows.map(function (row) { return row.map(csvField).join(';'); }).join('\r\n');
+  }
+
+  exportCsvBtn.addEventListener('click', function () {
+    var csv = '﻿' + buildCsv();
+    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = 'depenses-suisse-2026-' + new Date().toISOString().slice(0, 10) + '.csv';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  });
 
   // --- Add member ---
   addMemberBtn.addEventListener('click', function () {
