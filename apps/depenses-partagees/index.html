@@ -575,7 +575,9 @@
     var name = voterNameInput.value.trim();
     if (!name) { voterNameInput.focus(); return; }
     setVoterName(name);
-    addMember(name);
+    // Le prénom de connexion n'est jamais ajouté automatiquement à la liste
+    // des payeurs (expense_members) : ajouter un payeur est une opération
+    // manuelle distincte (bouton "Ajouter un prénom" ci-dessous).
     nameModalOverlay.classList.remove('open');
     renderVoterBanner();
     var action = pendingAction;
@@ -1053,7 +1055,6 @@
   function init() {
     loadCache();
     render();
-    if (getVoterName()) addMember(getVoterName());
     loadMembersFromSupabase();
     syncExpenses();
     setInterval(function () {
