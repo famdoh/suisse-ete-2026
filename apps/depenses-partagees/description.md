@@ -92,12 +92,10 @@ En bas de page, une carte « RIB pour les remboursements » (ancre
 code banque, code guichet, n° de compte, clé RIB, BIC, domiciliation),
 à utiliser par les autres participants pour régler les remboursements
 suggérés par « Qui doit combien à qui ». Coordonnées statiques
-inscrites en dur dans le HTML, non stockées en base. Un bouton
-« 📋 Copier le lien vers le RIB » copie dans le presse-papiers l'URL de
-la page suivie de `#rib`, pour partager un lien direct vers cette
-carte ; comme le reste de la page est masqué tant que le mot de passe
-n'est pas saisi, l'ouverture d'un tel lien déclenche un défilement
-automatique vers la carte une fois l'accès déverrouillé.
+inscrites en dur dans le HTML, non stockées en base. Comme le reste de
+la page est masqué tant que le mot de passe n'est pas saisi, l'ouverture
+d'un lien contenant `#rib` déclenche un défilement automatique vers la
+carte une fois l'accès déverrouillé.
 
 ## Dépendances datasource
 Aucune — cette app ne consomme aucun fichier de `datasource/`.

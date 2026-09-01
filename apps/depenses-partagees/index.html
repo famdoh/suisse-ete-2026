@@ -221,11 +221,9 @@
     color: var(--accent);
     width: 100%;
   }
-  .btn-secondary.copied { border-style: solid; border-color: var(--positive); color: var(--positive); }
 
   #rib { scroll-margin-top: 16px; }
   #rib:target { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .rib-copy-btn { margin: 0 0 0.75rem; }
 
   .expense-list { display: flex; flex-direction: column; gap: 0.6rem; }
   .expense-row {
@@ -450,7 +448,6 @@
 
   <div class="card" id="rib">
     <h2>RIB pour les remboursements<span class="sub">Nathalie &amp; Romain</span></h2>
-    <button class="btn btn-secondary rib-copy-btn" id="copyRibLinkBtn" type="button">📋 Copier le lien vers le RIB</button>
     <div class="total-row"><span class="label">IBAN</span><span class="value">FR76 1080 7004 0972 4191 9237 181</span></div>
     <div class="total-row"><span class="label">Code Banque</span><span class="value">10807</span></div>
     <div class="total-row"><span class="label">Code Guichet</span><span class="value">00409</span></div>
@@ -645,35 +642,6 @@
     hashScrollDone = true;
     setTimeout(function () { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60);
   }
-
-  function fallbackCopyText(text) {
-    var ta = document.createElement('textarea');
-    ta.value = text;
-    ta.setAttribute('readonly', '');
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    try { document.execCommand('copy'); } catch (e) { /* copie impossible */ }
-    document.body.removeChild(ta);
-  }
-
-  var copyRibLinkBtn = document.getElementById('copyRibLinkBtn');
-  copyRibLinkBtn.addEventListener('click', function () {
-    var url = location.origin + location.pathname + '#rib';
-    var showCopied = function () {
-      var original = copyRibLinkBtn.textContent;
-      copyRibLinkBtn.textContent = '✅ Lien copié';
-      copyRibLinkBtn.classList.add('copied');
-      setTimeout(function () { copyRibLinkBtn.textContent = original; copyRibLinkBtn.classList.remove('copied'); }, 1500);
-    };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(url).then(showCopied, function () { fallbackCopyText(url); showCopied(); });
-    } else {
-      fallbackCopyText(url);
-      showCopied();
-    }
-  });
 
   // --- Voter identity (identique aux autres mini-apps du voyage) ---
   var voterBanner = document.getElementById('voterBanner');
