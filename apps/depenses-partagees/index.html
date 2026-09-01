@@ -187,6 +187,9 @@
     color: var(--muted);
     margin: 0.75rem 0 0.3rem;
   }
+  .amount-currency-row { display: flex; gap: 0.5rem; }
+  .amount-currency-row input { flex: 2; }
+  .amount-currency-row select { flex: 1; }
   .checkbox-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.3rem; }
   .checkbox-pill {
     display: flex;
@@ -210,6 +213,7 @@
     cursor: pointer;
   }
   .btn-primary { background: var(--accent); color: #fff; width: 100%; margin-top: 1rem; }
+  .btn-primary.add-expense-btn { margin-top: 0; margin-bottom: 0.75rem; }
   .btn-primary:active { background: var(--accent-hover); }
   .btn-secondary {
     background: transparent;
@@ -433,9 +437,9 @@
   </div>
 
   <div class="card">
-    <h2>Dépenses<span class="sub">Les plus récentes en premier</span></h2>
+    <h2>Dépenses<span class="sub">Par date croissante</span></h2>
+    <button class="btn btn-primary add-expense-btn" id="openAddExpenseBtn" type="button">+ Ajouter une dépense</button>
     <div class="expense-list" id="expenseList"></div>
-    <button class="btn btn-primary" id="openAddExpenseBtn" type="button">+ Ajouter une dépense</button>
     <button class="btn btn-secondary export-btn" id="exportCsvBtn" type="button">⬇️ Exporter en CSV</button>
   </div>
 </main>
@@ -448,8 +452,14 @@
     </div>
     <label class="field-label" for="expenseMotifInput">Motif</label>
     <input type="text" id="expenseMotifInput" placeholder="Ex : Courses Migros, essence, piscine...">
-    <label class="field-label" for="expenseAmountInput">Montant (CHF)</label>
-    <input type="number" id="expenseAmountInput" placeholder="0.00" step="0.05" min="0.01" inputmode="decimal">
+    <label class="field-label" for="expenseAmountInput">Montant</label>
+    <div class="amount-currency-row">
+      <input type="number" id="expenseAmountInput" placeholder="0.00" step="0.05" min="0.01" inputmode="decimal">
+      <select id="expenseCurrencySelect">
+        <option value="CHF">CHF</option>
+        <option value="EUR">EUR</option>
+      </select>
+    </div>
     <label class="field-label" for="expenseDateInput">Date (optionnelle)</label>
     <input type="date" id="expenseDateInput" min="2026-07-22" max="2026-08-01">
     <label class="field-label" for="expensePayerSelect">Payé par</label>
@@ -534,8 +544,9 @@
   }
 
   // --- Devise d'affichage (CHF/EUR) ---
-  // Les montants restent toujours saisis et stockés en CHF ; seule
-  // l'affichage change, via un taux fixe (voir CHF_TO_EUR ci-dessus).
+  // Toutes les valeurs manipulées en interne (soldes, totaux, remboursements)
+  // sont en CHF ; seul l'affichage change, via un taux fixe (voir
+  // CHF_TO_EUR ci-dessus).
   function getCurrency() {
     try { return localStorage.getItem(CURRENCY_KEY) === 'EUR' ? 'EUR' : 'CHF'; } catch (e) { return 'CHF'; }
   }
@@ -546,9 +557,36 @@
     return getCurrency() === 'EUR' ? fmtEUR(n) : fmtCHF(n);
   }
 
+  // --- Devise de saisie d'une dépense (CHF/EUR) ---
+  // Chaque dépense garde la devise dans laquelle elle a été saisie
+  // (colonne `currency`, absente ou 'CHF' pour les dépenses enregistrées
+  // avant cette évolution : elles restent donc interprétées en CHF, sans
+  // conversion rétroactive). `toCHF` ramène une dépense à son équivalent
+  // CHF, seule unité utilisée pour les calculs de soldes/totaux.
+  function toCHF(e) {
+    var amount = Number(e.amount);
+    return e.currency === 'EUR' ? amount / CHF_TO_EUR : amount;
+  }
+  // Formate le montant tel que réellement saisi, dans sa devise d'origine
+  // (indépendamment de la devise d'affichage choisie pour le reste de l'app).
+  function fmtEntered(e) {
+    var amount = Number(e.amount);
+    return e.currency === 'EUR'
+      ? amount.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €'
+      : fmtCHF(amount);
+  }
+
   function parseDateOnly(s) {
     var parts = s.split('-');
     return new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+  }
+
+  // Date utilisée pour trier/afficher une dépense dans l'ordre chronologique
+  // du séjour : la date manuelle si elle a été renseignée, sinon la date
+  // d'ajout dans l'app (voir renderExpenses/dateLabel, cohérent avec l'export
+  // CSV).
+  function expenseSortDate(e) {
+    return e.expense_date ? parseDateOnly(e.expense_date) : new Date(e.created_at);
   }
 
   // --- Gate password ---
@@ -666,6 +704,7 @@
       var payload = {
         motif: e.motif,
         amount: e.amount,
+        currency: e.currency || 'CHF',
         payer_name: e.payer_name,
         participants: e.participants,
         added_by: e.added_by,
@@ -686,7 +725,7 @@
 
   function loadExpensesFromSupabase() {
     if (!sb) return;
-    sb.from('expenses').select('id, created_at, payer_name, amount, motif, participants, added_by, expense_date').order('created_at', { ascending: false }).then(function (res) {
+    sb.from('expenses').select('id, created_at, payer_name, amount, currency, motif, participants, added_by, expense_date').order('created_at', { ascending: false }).then(function (res) {
       if (res.error) { console.warn('Erreur en chargeant les dépenses :', res.error.message); return; }
       // Les dépenses encore en attente d'envoi (pas de réponse serveur reçue,
       // ou tentative de resynchronisation en cours) restent affichées, en plus
@@ -735,6 +774,7 @@
       created_at: new Date().toISOString(),
       payer_name: payload.payer_name,
       amount: payload.amount,
+      currency: payload.currency,
       motif: payload.motif,
       participants: payload.participants,
       added_by: payload.added_by,
@@ -798,6 +838,7 @@
   var expenseModalCloseBtn = document.getElementById('expenseModalCloseBtn');
   var expenseMotifInput = document.getElementById('expenseMotifInput');
   var expenseAmountInput = document.getElementById('expenseAmountInput');
+  var expenseCurrencySelect = document.getElementById('expenseCurrencySelect');
   var expenseDateInput = document.getElementById('expenseDateInput');
   var expensePayerSelect = document.getElementById('expensePayerSelect');
   var expenseParticipantsList = document.getElementById('expenseParticipantsList');
@@ -809,10 +850,11 @@
     members.forEach(function (m) { balance[m] = 0; });
     expenses.forEach(function (e) {
       if (!(e.payer_name in balance)) balance[e.payer_name] = 0;
-      balance[e.payer_name] += Number(e.amount);
+      var amountCHF = toCHF(e);
+      balance[e.payer_name] += amountCHF;
       var parts = e.participants || [];
       if (parts.length === 0) return;
-      var share = Number(e.amount) / parts.length;
+      var share = amountCHF / parts.length;
       parts.forEach(function (p) {
         if (!(p in balance)) balance[p] = 0;
         balance[p] -= share;
@@ -864,7 +906,7 @@
   }
 
   function renderSummary() {
-    var total = expenses.reduce(function (sum, e) { return sum + Number(e.amount); }, 0);
+    var total = expenses.reduce(function (sum, e) { return sum + toCHF(e); }, 0);
     totalAmount.textContent = fmtAmount(total);
     totalCount.textContent = expenses.length;
   }
@@ -951,7 +993,8 @@
       expenseList.appendChild(empty);
       return;
     }
-    expenses.forEach(function (e) {
+    var sorted = expenses.slice().sort(function (a, b) { return expenseSortDate(a) - expenseSortDate(b); });
+    sorted.forEach(function (e) {
       var row = document.createElement('div');
       row.className = 'expense-row';
 
@@ -962,7 +1005,7 @@
       motif.textContent = e.motif;
       var amount = document.createElement('div');
       amount.className = 'expense-amount';
-      amount.textContent = fmtAmount(Number(e.amount));
+      amount.textContent = fmtAmount(toCHF(e));
       top.appendChild(motif);
       top.appendChild(amount);
       row.appendChild(top);
@@ -974,6 +1017,9 @@
         ? '📅 ' + parseDateOnly(e.expense_date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })
         : 'ajouté le ' + new Date(e.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' });
       var metaText = 'Payé par ' + e.payer_name + ' · partagé entre ' + parts.join(', ') + ' · ' + dateLabel;
+      // Rappel de la devise réellement saisie uniquement quand elle diffère
+      // du CHF (dépenses converties pour l'affichage sinon identiques).
+      if (e.currency === 'EUR') metaText += ' · ' + fmtEntered(e) + ' saisis';
       if (isPendingId(e.id)) metaText += ' · ⏳ en attente de synchronisation';
       meta.textContent = metaText;
       row.appendChild(meta);
@@ -989,7 +1035,7 @@
       delBtn.type = 'button';
       delBtn.textContent = 'Supprimer';
       delBtn.addEventListener('click', function () {
-        if (window.confirm('Supprimer cette dépense (' + e.motif + ', ' + fmtAmount(Number(e.amount)) + ') ?')) deleteExpense(e.id);
+        if (window.confirm('Supprimer cette dépense (' + e.motif + ', ' + fmtEntered(e) + ') ?')) deleteExpense(e.id);
       });
       actions.appendChild(delBtn);
       row.appendChild(actions);
@@ -1014,17 +1060,19 @@
   }
 
   function buildCsv() {
-    var rows = [['Motif', 'Montant (CHF)', 'Montant (EUR)', 'Payé par', 'Réparti entre', 'Date de la dépense', 'Ajouté par']];
-    // Du plus ancien au plus récent, plus naturel à relire dans un tableur
-    // qu'un export dans l'ordre d'affichage (le plus récent en premier).
-    var sorted = expenses.slice().sort(function (a, b) { return new Date(a.created_at) - new Date(b.created_at); });
+    var rows = [['Motif', 'Montant saisi', 'Devise saisie', 'Montant (CHF)', 'Montant (EUR)', 'Payé par', 'Réparti entre', 'Date de la dépense', 'Ajouté par']];
+    // Même ordre (date croissante) que la liste affichée à l'écran.
+    var sorted = expenses.slice().sort(function (a, b) { return expenseSortDate(a) - expenseSortDate(b); });
     sorted.forEach(function (e) {
-      var amount = Number(e.amount);
+      var currency = e.currency === 'EUR' ? 'EUR' : 'CHF';
+      var amountCHF = toCHF(e);
       var dateLabel = e.expense_date || new Date(e.created_at).toISOString().slice(0, 10);
       rows.push([
         e.motif,
-        amount.toFixed(2).replace('.', ','),
-        (amount * CHF_TO_EUR).toFixed(2).replace('.', ','),
+        Number(e.amount).toFixed(2).replace('.', ','),
+        currency,
+        amountCHF.toFixed(2).replace('.', ','),
+        (amountCHF * CHF_TO_EUR).toFixed(2).replace('.', ','),
         e.payer_name,
         (e.participants || []).join(', '),
         dateLabel,
@@ -1068,6 +1116,7 @@
       submitExpenseBtn.textContent = expense ? 'Enregistrer les modifications' : 'Ajouter la dépense';
       expenseMotifInput.value = expense ? expense.motif : '';
       expenseAmountInput.value = expense ? Number(expense.amount) : '';
+      expenseCurrencySelect.value = expense && expense.currency === 'EUR' ? 'EUR' : 'CHF';
       expenseDateInput.value = expense && expense.expense_date ? expense.expense_date : '';
       expenseFormError.textContent = '';
       expenseModalOverlay.classList.add('open');
@@ -1140,6 +1189,7 @@
     var basePayload = {
       motif: motif,
       amount: Math.round(amount * 100) / 100,
+      currency: expenseCurrencySelect.value,
       payer_name: payer,
       participants: participants,
       expense_date: expenseDateInput.value || null

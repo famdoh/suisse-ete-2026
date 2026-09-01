@@ -48,12 +48,19 @@ create table if not exists public.expenses (
   motif text not null,
   participants jsonb not null default '[]'::jsonb,
   added_by text,
-  expense_date date
+  expense_date date,
+  currency text not null default 'CHF'
 );
 
 -- Ajout rétroactif pour les bases créées avant l'introduction de la date
 -- manuelle optionnelle (sans effet si la colonne existe déjà).
 alter table public.expenses add column if not exists expense_date date;
+
+-- Ajout rétroactif pour les bases créées avant l'introduction de la devise
+-- de saisie par dépense (CHF/EUR, voir description.md). Le défaut 'CHF'
+-- s'applique automatiquement aux dépenses déjà enregistrées : elles
+-- restent interprétées en CHF, comme avant cette évolution.
+alter table public.expenses add column if not exists currency text not null default 'CHF';
 
 alter table public.expenses enable row level security;
 
