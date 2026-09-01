@@ -86,6 +86,19 @@ avec le reste du dépôt qui est un site statique public — elle évite
 seulement qu'un visiteur tombant sur le lien par hasard consulte ou modifie
 les dépenses du groupe.
 
+## RIB pour les remboursements
+En bas de page, une carte « RIB pour les remboursements » (ancre
+`#rib`) affiche les coordonnées bancaires de Nathalie & Romain (IBAN,
+code banque, code guichet, n° de compte, clé RIB, BIC, domiciliation),
+à utiliser par les autres participants pour régler les remboursements
+suggérés par « Qui doit combien à qui ». Coordonnées statiques
+inscrites en dur dans le HTML, non stockées en base. Un bouton
+« 📋 Copier le lien vers le RIB » copie dans le presse-papiers l'URL de
+la page suivie de `#rib`, pour partager un lien direct vers cette
+carte ; comme le reste de la page est masqué tant que le mot de passe
+n'est pas saisi, l'ouverture d'un tel lien déclenche un défilement
+automatique vers la carte une fois l'accès déverrouillé.
+
 ## Dépendances datasource
 Aucune — cette app ne consomme aucun fichier de `datasource/`.
 
