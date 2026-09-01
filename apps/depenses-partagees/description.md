@@ -9,7 +9,10 @@ coup (bouton « Modifier »/« Supprimer » sur chaque ligne), pour corriger
 une erreur de saisie. Une date (optionnelle, entre le 22 juillet et le
 1er août 2026) peut être associée manuellement à une dépense pour noter
 le jour réel où elle a eu lieu, indépendamment de la date de saisie dans
-l'app ; sans date renseignée, la date d'ajout est affichée à la place.
+l'app ; sans date renseignée, la date d'ajout est affichée à la place. La
+liste des dépenses est triée par **date croissante** (cette même date —
+manuelle si renseignée, sinon date d'ajout —, du plus ancien au plus
+récent), dans le même ordre que l'export CSV.
 
 ## Devise de saisie et devise d'affichage (CHF / EUR)
 Chaque dépense peut être **saisie en CHF ou en EUR** (sélecteur à côté du

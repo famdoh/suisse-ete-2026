@@ -437,7 +437,7 @@
   </div>
 
   <div class="card">
-    <h2>Dépenses<span class="sub">Les plus récentes en premier</span></h2>
+    <h2>Dépenses<span class="sub">Par date croissante</span></h2>
     <button class="btn btn-primary add-expense-btn" id="openAddExpenseBtn" type="button">+ Ajouter une dépense</button>
     <div class="expense-list" id="expenseList"></div>
     <button class="btn btn-secondary export-btn" id="exportCsvBtn" type="button">⬇️ Exporter en CSV</button>
@@ -579,6 +579,14 @@
   function parseDateOnly(s) {
     var parts = s.split('-');
     return new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+  }
+
+  // Date utilisée pour trier/afficher une dépense dans l'ordre chronologique
+  // du séjour : la date manuelle si elle a été renseignée, sinon la date
+  // d'ajout dans l'app (voir renderExpenses/dateLabel, cohérent avec l'export
+  // CSV).
+  function expenseSortDate(e) {
+    return e.expense_date ? parseDateOnly(e.expense_date) : new Date(e.created_at);
   }
 
   // --- Gate password ---
@@ -983,7 +991,8 @@
       expenseList.appendChild(empty);
       return;
     }
-    expenses.forEach(function (e) {
+    var sorted = expenses.slice().sort(function (a, b) { return expenseSortDate(a) - expenseSortDate(b); });
+    sorted.forEach(function (e) {
       var row = document.createElement('div');
       row.className = 'expense-row';
 
@@ -1050,9 +1059,8 @@
 
   function buildCsv() {
     var rows = [['Motif', 'Montant saisi', 'Devise saisie', 'Montant (CHF)', 'Montant (EUR)', 'Payé par', 'Réparti entre', 'Date de la dépense', 'Ajouté par']];
-    // Du plus ancien au plus récent, plus naturel à relire dans un tableur
-    // qu'un export dans l'ordre d'affichage (le plus récent en premier).
-    var sorted = expenses.slice().sort(function (a, b) { return new Date(a.created_at) - new Date(b.created_at); });
+    // Même ordre (date croissante) que la liste affichée à l'écran.
+    var sorted = expenses.slice().sort(function (a, b) { return expenseSortDate(a) - expenseSortDate(b); });
     sorted.forEach(function (e) {
       var currency = e.currency === 'EUR' ? 'EUR' : 'CHF';
       var amountCHF = toCHF(e);
