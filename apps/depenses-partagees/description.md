@@ -28,9 +28,15 @@ l'appareil (pas d'authentification), avec la **même clé de stockage local**
 que les apps `planning-activites-semaine` et `activites-loisirs`
 (`planning_activites_voter_suisse_2026`) : sur GitHub Pages, où les apps
 partagent la même origine, le prénom choisi dans l'une est donc reconnu
-dans les autres. Ce prénom est utilisé pour pré-remplir le payeur d'une
-nouvelle dépense et est automatiquement ajouté à la liste des
-participants du séjour.
+dans les autres. Il sert à identifier qui ajoute une dépense (champ
+`added_by`, débloque le formulaire d'ajout) et est automatiquement ajouté
+à la liste des participants du séjour. En revanche, il ne pré-remplit
+**jamais** le payeur d'une dépense : associer une dépense à un nom est
+toujours une action manuelle, faite en choisissant explicitement le
+payeur dans la liste déroulante (aucune option n'est sélectionnée par
+défaut à l'ouverture du formulaire d'ajout) — ceci pour éviter que des
+variantes du prénom de connexion (fautes de frappe, casse différente)
+ne se retrouvent associées à des dépenses.
 
 ## Protection par mot de passe
 Un mot de passe unique, valable pour tous les voyageurs, protège l'accès à

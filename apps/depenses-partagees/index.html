@@ -977,16 +977,24 @@
     editingExpenseData = null;
   }
   function renderExpenseForm() {
-    var voter = getVoterName();
-    var preselectedPayer = editingExpenseData ? editingExpenseData.payer_name : voter;
+    // L'association d'une dépense à un nom est une opération manuelle : on ne
+    // pré-remplit jamais le payeur avec le prénom de connexion (voir
+    // description.md). Seule une dépense en cours de modification garde son
+    // payeur existant présélectionné.
+    var preselectedPayer = editingExpenseData ? editingExpenseData.payer_name : null;
     expensePayerSelect.innerHTML = '';
+    var placeholderOpt = document.createElement('option');
+    placeholderOpt.value = '';
+    placeholderOpt.textContent = '— Choisir qui a payé —';
+    placeholderOpt.disabled = true;
+    expensePayerSelect.appendChild(placeholderOpt);
     members.forEach(function (m) {
       var opt = document.createElement('option');
       opt.value = m;
       opt.textContent = m;
       expensePayerSelect.appendChild(opt);
     });
-    if (preselectedPayer && members.indexOf(preselectedPayer) !== -1) expensePayerSelect.value = preselectedPayer;
+    expensePayerSelect.value = (preselectedPayer && members.indexOf(preselectedPayer) !== -1) ? preselectedPayer : '';
 
     var preselectedParticipants = editingExpenseData ? editingExpenseData.participants : null;
     expenseParticipantsList.innerHTML = '';
@@ -1017,7 +1025,12 @@
 
     if (!motif) { expenseFormError.textContent = 'Indique un motif.'; expenseMotifInput.focus(); return; }
     if (!amount || amount <= 0) { expenseFormError.textContent = 'Indique un montant valide.'; expenseAmountInput.focus(); return; }
-    if (!payer) { expenseFormError.textContent = 'Aucun participant disponible : ajoute-en un d\'abord.'; return; }
+    if (!payer) {
+      expenseFormError.textContent = members.length === 0
+        ? 'Aucun participant disponible : ajoute-en un d\'abord.'
+        : 'Choisis qui a payé.';
+      return;
+    }
     if (participants.length === 0) { expenseFormError.textContent = 'Sélectionne au moins un participant.'; return; }
 
     var basePayload = {
