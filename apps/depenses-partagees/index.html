@@ -213,6 +213,7 @@
     cursor: pointer;
   }
   .btn-primary { background: var(--accent); color: #fff; width: 100%; margin-top: 1rem; }
+  .btn-primary.add-expense-btn { margin-top: 0; margin-bottom: 0.75rem; }
   .btn-primary:active { background: var(--accent-hover); }
   .btn-secondary {
     background: transparent;
@@ -437,8 +438,8 @@
 
   <div class="card">
     <h2>Dépenses<span class="sub">Les plus récentes en premier</span></h2>
+    <button class="btn btn-primary add-expense-btn" id="openAddExpenseBtn" type="button">+ Ajouter une dépense</button>
     <div class="expense-list" id="expenseList"></div>
-    <button class="btn btn-primary" id="openAddExpenseBtn" type="button">+ Ajouter une dépense</button>
     <button class="btn btn-secondary export-btn" id="exportCsvBtn" type="button">⬇️ Exporter en CSV</button>
   </div>
 </main>
