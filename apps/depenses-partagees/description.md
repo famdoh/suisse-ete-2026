@@ -11,25 +11,37 @@ une erreur de saisie. Une date (optionnelle, entre le 22 juillet et le
 le jour réel où elle a eu lieu, indépendamment de la date de saisie dans
 l'app ; sans date renseignée, la date d'ajout est affichée à la place.
 
-## Devise d'affichage (CHF / EUR)
-Les montants sont toujours **saisis et stockés en CHF**. Un sélecteur
-CHF/EUR en haut de la carte « Résumé » permet de choisir la devise
-d'affichage pour le total, les soldes, les remboursements suggérés et
-la liste des dépenses ; le choix est mémorisé sur l'appareil
-(localStorage, clé `depenses_partagees_currency_suisse_2026`). La
-conversion utilise un **taux fixe et approximatif** (1 CHF ≈ 1,06 EUR),
-représentatif de la période du séjour plutôt qu'un taux du jour précis
-ou dynamique — conformément au besoin, aucun appel à un service de
-change externe n'est fait.
+## Devise de saisie et devise d'affichage (CHF / EUR)
+Chaque dépense peut être **saisie en CHF ou en EUR** (sélecteur à côté du
+champ montant, dans le formulaire d'ajout/modification) : c'est la devise
+dans laquelle la dépense a réellement été payée qui est enregistrée
+(colonne `currency` de la table `expenses`, `CHF` par défaut). Les
+dépenses enregistrées avant l'introduction de ce champ restent donc
+interprétées en CHF, sans conversion rétroactive.
+
+Indépendamment de cette devise de saisie, un sélecteur CHF/EUR en haut de
+la carte « Résumé » choisit la devise d'**affichage** pour le total, les
+soldes, les remboursements suggérés et la liste des dépenses ; le choix
+est mémorisé sur l'appareil (localStorage, clé
+`depenses_partagees_currency_suisse_2026`). Quand la devise d'affichage
+diffère de la devise de saisie d'une dépense, le montant réellement saisi
+reste rappelé dans le détail de la ligne. En interne, tous les calculs de
+soldes/totaux ramènent chaque dépense à son équivalent CHF, seule unité
+commune du grand livre.
+
+La conversion CHF ↔ EUR (affichage comme saisie) utilise un **taux fixe et
+approximatif** (1 CHF ≈ 1,06 EUR), représentatif de la période du séjour
+plutôt qu'un taux du jour précis ou dynamique — conformément au besoin,
+aucun appel à un service de change externe n'est fait.
 
 ## Export CSV
 Le bouton « ⬇️ Exporter en CSV » (sous la liste des dépenses) télécharge
-l'ensemble des dépenses (motif, montant en CHF, montant converti en EUR
-avec le même taux fixe, payeur, participants, date de la dépense,
-prénom de la personne qui l'a saisie), triées de la plus ancienne à la
-plus récente, dans un fichier `depenses-suisse-2026-<date>.csv`
-(séparateur `;`, encodage UTF-8 avec BOM pour une ouverture correcte
-dans Excel).
+l'ensemble des dépenses (motif, montant et devise tels que saisis,
+montant en CHF, montant converti en EUR avec le même taux fixe, payeur,
+participants, date de la dépense, prénom de la personne qui l'a saisie),
+triées de la plus ancienne à la plus récente, dans un fichier
+`depenses-suisse-2026-<date>.csv` (séparateur `;`, encodage UTF-8 avec
+BOM pour une ouverture correcte dans Excel).
 
 Les dépenses et la liste des participants sont
 **partagées entre tous les voyageurs** (stockées dans Supabase, voir
@@ -80,9 +92,10 @@ directement depuis le navigateur via le client `@supabase/supabase-js`
 L'app reste statique : aucun backend ni build n'est nécessaire.
 - `expense_members` : liste partagée des prénoms pouvant payer ou
   partager une dépense.
-- `expenses` : chaque dépense (`payer_name`, `amount`, `motif`,
-  `participants` en jsonb, `added_by`), source de vérité utilisée pour
-  calculer les soldes et les remboursements.
+- `expenses` : chaque dépense (`payer_name`, `amount`, `currency`
+  — `CHF` ou `EUR`, défaut `CHF` —, `motif`, `participants` en jsonb,
+  `added_by`), source de vérité utilisée pour calculer les soldes et les
+  remboursements.
 - Schéma SQL à exécuter dans le SQL Editor Supabase :
   `apps/depenses-partagees/supabase-schema.sql`
 - Projet Supabase : `hmpiluotdcympkihvnlt`
